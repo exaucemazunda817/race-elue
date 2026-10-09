@@ -4,17 +4,15 @@ import Icon from '../../components/Icon.astro';
 import Photo from '../../components/Photo.astro';
 import PenseeCard from '../../components/PenseeCard.astro';
 import NewsletterBand from '../../components/NewsletterBand.astro';
-import { PENSEES, THEMES } from '../../data/pensees';
+import { PENSEES, THEMES, themesUtilises } from '../../data/pensees';
 
 const une = PENSEES.find((p) => p.alaune) ?? PENSEES[0];
 const autres = PENSEES.filter((p) => p !== une);
-const filtres = [
+// Seuls les thèmes qui ont au moins une pensée ont un filtre (jamais de filtre vide).
+const filtres: { key: string; label: string; court: string; icon?: boolean }[] = [
   { key: 'tout', label: 'Tout', court: 'Tout' },
-  { key: 'guerison', label: 'Guérison intérieure', court: 'Guérison' },
-  { key: 'identite', label: 'Identité', court: 'Identité' },
-  { key: 'priere', label: 'Prière', court: 'Prière' },
-  { key: 'creativite', label: 'Créativité', court: 'Créativité' },
-  { key: 'video', label: 'Vidéos', court: 'Vidéos', icon: true },
+  ...themesUtilises().map((t) => ({ key: t, label: THEMES[t], court: THEMES[t] })),
+  ...(PENSEES.some((x) => x.video) ? [{ key: 'video', label: 'Vidéos', court: 'Vidéos', icon: true }] : []),
 ];
 const PAR_PAGE = 6;
 ---

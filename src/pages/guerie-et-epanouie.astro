@@ -6,7 +6,7 @@ import QuoteBand from '../components/QuoteBand.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import StickyBar from '../components/StickyBar.astro';
 import { wa, MSG } from '../data/site';
-import { byIndex, hasExamples } from '../data/temoignages';
+import { premiers } from '../data/temoignages';
 
 const activites = [
   { icon: 'chats-circle', titre: 'Partages', texte: 'Un groupe WhatsApp bienveillant pour parler librement, en toute confidentialité.' },
@@ -32,7 +32,7 @@ const faq = [
   { q: 'Dois-je raconter mon histoire ?', r: "Non. Personne n'est obligée de parler : tu peux simplement lire, prier, et partager seulement quand tu te sens prête." },
   { q: 'Peux-tu intervenir dans mon église ?', r: 'Oui, en présentiel ou en ligne.', lien: { href: '/contact?onglet=invitation', label: "Envoyer une demande d'intervention" } },
 ];
-const temoignages = byIndex(1, 4, 5);
+const temoignages = premiers(3);
 ---
 <Base
   title="Guérie et Épanouie"
@@ -117,13 +117,14 @@ const temoignages = byIndex(1, 4, 5);
 
   <QuoteBand texte="Je suis guérie et épanouie !" note="La déclaration que chaque membre est invitée à faire sienne, un jour après l'autre." size={64} />
 
+  {temoignages.length > 0 && (
   <section class="wrap sec-2 bg-sable elles">
     <h2 class="h2 only-desktop" style="--h2-d:46px">Elles en parlent</h2>
     <div class="t-grid">
       {temoignages.map((t, i) => <div class:list={{ 'only-desktop': i > 0 }}><TestimonialCard t={t} /></div>)}
     </div>
-    {hasExamples(temoignages) && <span class="small">Textes d'exemple, à remplacer par de vrais témoignages publiés avec accord.</span>}
   </section>
+  )}
 
   <section class="wrap sec-2 faq">
     <h2 class="h2" style="--h2-d:46px;--h2-m:30px">Tes questions</h2>

@@ -32,7 +32,7 @@ export const EBOOK = {
   pdf: '/publications/comment-dieu-guerit-les-coeurs-brises.pdf',
   pages: 18,
   poids: 'PDF · 0,6 Mo',
-  lecture: '45 min de lecture', // à confirmer
+  lecture: '12 min de lecture', // calculé : 2 414 mots à 200 mots/min (la maquette annonçait 45 min, à tort)
 };
 
 export const MAGAZINE = {

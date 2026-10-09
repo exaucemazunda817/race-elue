@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
-import { TEMOIGNAGES, hasExamples } from '../data/temoignages';
+import { PUBLIES } from '../data/temoignages';
 import { wa, MSG } from '../data/site';
 
 // Variation des cartes comme dans la maquette : 1re en arche verte, 4e sur vert pâle, les autres sur sable.
@@ -21,14 +21,17 @@ const tone = (i: number) => (i === 0 ? 'arche' : i === 3 ? 'pale' : 'sable') as 
   </section>
 
   <section class="wrap mur-sec">
+    {PUBLIES.length === 0 ? (
+      <p class="vide">Les premiers témoignages seront publiés ici, chacun avec l'accord de la personne qui l'a confié.</p>
+    ) : (
     <div class="mur">
-      {TEMOIGNAGES.map((t, i) => (
+      {PUBLIES.map((t, i) => (
         <div class:list={['brique', { 'mobile-hide': i >= 3 }]}>
           <TestimonialCard t={t} tone={tone(i)} showSource short />
         </div>
       ))}
     </div>
-    {hasExamples(TEMOIGNAGES) && <p class="small">Textes d'exemple, à remplacer par de vrais témoignages publiés avec accord écrit.</p>}
+    )}
   </section>
 
   <section class="wrap partage-sec">
@@ -56,6 +59,8 @@ const tone = (i: number) => (i === 0 ? 'arche' : i === 3 ? 'pale' : 'sable') as 
     .hero h1 { max-width: 900px; }
   }
   .mur-sec { padding-top: 36px; padding-bottom: 36px; }
+  .vide { font: italic 500 22px/1.4 var(--serif); color: var(--cacao); text-align: center; margin-inline: auto; }
+  @media (min-width: 960px) { .vide { font-size: 28px; } }
   .mur { display: flex; flex-direction: column; gap: 16px; }
   .small { margin-top: 16px; }
   @media (max-width: 959.98px) {

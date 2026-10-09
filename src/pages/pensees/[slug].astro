@@ -5,8 +5,8 @@ import Photo from '../../components/Photo.astro';
 import Cover from '../../components/Cover.astro';
 import StickyBar from '../../components/StickyBar.astro';
 import YouTubeFacade from '../../components/YouTubeFacade.astro';
-import { PENSEES, THEMES, dateFr, kickerCarte, titreComplet, type Pensee } from '../../data/pensees';
-import { EBOOK, SITE } from '../../data/site';
+import { PENSEES, THEMES, kickerCarte, titreComplet, type Pensee } from '../../data/pensees';
+import { EBOOK, MAGAZINE, SITE } from '../../data/site';
 
 export function getStaticPaths() {
   return PENSEES.map((p) => ({ params: { slug: p.slug }, props: { p } }));
@@ -24,14 +24,15 @@ const jsonLd = {
   headline: titre,
   author: { '@type': 'Person', name: SITE.nom },
   publisher: { '@type': 'Organization', name: SITE.editeur },
-  ...(p.date ? { datePublished: p.date } : {}),
+  datePublished: '2026-02',
+  isPartOf: { '@type': 'PublicationIssue', name: `${MAGAZINE.titre} ${MAGAZINE.numero}` },
   inLanguage: 'fr',
   mainEntityOfPage: url,
 };
 ---
 <Base
   title={titre}
-  description={p.resume ?? `Une pensée de Race Élue Disanka (${THEMES[p.theme]}), à lire en ${p.duree}, suivie d'une prière.`}
+  description={p.resume}
   ogType="article"
   active="/pensees"
   headerVariant="article"
@@ -57,7 +58,7 @@ const jsonLd = {
       <h1 class="h1" style="--h1-d:72px;--h1-m:42px;--h1-vw:5vw">{p.titre}{p.titreEm && <> <em>{p.titreEm}</em></>}</h1>
       <div class="byline">
         <span class="avatar only-desktop"><Photo src="portrait-arches.jpg" alt="" position="center 18%" sizes="44px" /></span>
-        <span><strong>Race Élue</strong>{p.date && <> · <time datetime={p.date}>{dateFr(p.date)}</time></>}<span class="only-desktop"> · {p.duree} de lecture</span></span>
+        <span><strong>Race Élue</strong> · <time datetime="2026-02">{p.date}</time><span class="only-desktop"> · {p.duree} de lecture</span></span>
       </div>
       <div class="hero-img">
         <Photo src={p.photo} alt="Race Élue Disanka" position={p.position} priority sizes="(min-width: 960px) 720px, 100vw" />
@@ -86,7 +87,7 @@ const jsonLd = {
             <p>{p.priere}</p>
           </div>
         )}
-        {p.exemple && <p class="small">Texte d'exemple pour la mise en page, à remplacer par la pensée réelle.</p>}
+        <p class="source">Extrait du magazine <a href={`/publications/${MAGAZINE.slug}#page-${p.page}`}>« {MAGAZINE.titre} », {MAGAZINE.numero}</a>, rubrique « {p.rubrique} ».</p>
       </div>
 
       <div class="share-row only-desktop">
@@ -162,7 +163,7 @@ const jsonLd = {
   .hero-img :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .corps { display: flex; flex-direction: column; gap: 18px; }
   .corps > p { font-size: 17px; line-height: 1.75; }
-  .corps > p.small { font-size: 13px; line-height: 1.5; }
+  .corps > p.source { font-size: 14px; line-height: 1.55; color: var(--secondaire); }
   .corps .drop::first-letter { font-size: 76px; margin: 8px 10px 0 0; line-height: 0.8; }
   .corps h2 { font-size: 28px; line-height: 1.1; margin-top: 8px; }
   .verset { margin: 0; background: var(--vert); border-radius: 999px 999px 10px 10px; padding: 72px 36px 32px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
@@ -181,7 +182,7 @@ const jsonLd = {
     .hero-img { height: 420px; border-radius: 999px 999px 12px 12px; margin: 12px 0; }
     .corps { gap: 28px; }
     .corps > p { font-size: 20px; line-height: 1.8; }
-    .corps > p.small { font-size: 13px; }
+    .corps > p.source { font-size: 15px; }
     .corps .drop::first-letter { font-size: 104px; margin: 10px 14px 0 0; }
     .corps h2 { font-size: 38px; margin-top: 16px; }
     .verset { margin: 16px 0; padding: 40px 48px; border-radius: 999px 999px 12px 12px; gap: 12px; }

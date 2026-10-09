@@ -7,9 +7,9 @@ import QuoteBand from '../components/QuoteBand.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import NewsletterBand from '../components/NewsletterBand.astro';
 import { RESEAUX, EBOOK, MAGAZINE, SITE, wa, MSG } from '../data/site';
-import { byIndex, hasExamples } from '../data/temoignages';
+import { premiers } from '../data/temoignages';
 
-const temoignages = byIndex(0, 1, 2);
+const temoignages = premiers(3);
 const portes = [
   { icon: 'heart', titre: 'Guérir', texte: 'Mettre des mots sur tes blessures et laisser Dieu les soigner.', court: 'Laisser Dieu soigner tes blessures', href: `/publications/${EBOOK.slug}` },
   { icon: 'sun-horizon', titre: 'Croire', texte: 'Des histoires bibliques et des témoignages pour fortifier ta foi.', court: 'Fortifier ta foi', href: `/publications/${MAGAZINE.slug}` },
@@ -99,6 +99,7 @@ const jsonLd = {
   </section>
 
   <!-- Témoignages -->
+  {temoignages.length > 0 && (
   <section class="sec bg-sable temoignages">
     <div class="wrap stack gap14">
       <span class="kicker only-desktop">Témoignages</span>
@@ -111,13 +112,13 @@ const jsonLd = {
       {temoignages.map((_, i) => <span class:list={{ on: i === 0 }}></span>)}
     </div>
     <div class="wrap t-foot">
-      {hasExamples(temoignages) && <span class="small">Textes d'exemple, à remplacer par de vrais témoignages publiés avec l'accord écrit de chaque personne.</span>}
       <a class="link" href="/temoignages">Tous les témoignages <Icon name="arrow-right" /></a>
     </div>
   </section>
+  )}
 
   <!-- Ministère -->
-  <section class="wrap sec ministere">
+  <section class:list={['wrap sec ministere', { 'bg-sable': temoignages.length === 0 }]}>
     <div class="stack ministere-txt">
       <span class="kicker vert">Le ministère</span>
       <h2 class="h2" style="--h2-d:56px;--h2-m:34px;--h2-vw:3.9vw">Guérie <em>et</em> Épanouie</h2>

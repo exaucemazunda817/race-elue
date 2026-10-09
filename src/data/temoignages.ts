@@ -1,6 +1,6 @@
 // Témoignages. ATTENTION : ceux-ci sont les textes d'exemple des maquettes.
 // À remplacer par de vrais témoignages, publiés uniquement avec l'accord écrit de chaque personne
-// (accord: true). Tant que `exemple` est vrai, une mention « Textes d'exemple » s'affiche sous la liste.
+// (accord: true, exemple: false). Les textes d'exemple ne s'affichent jamais (règle commune aux sites de Mazunda).
 
 export type Temoignage = {
   texte: string;
@@ -40,5 +40,6 @@ export const TEMOIGNAGES: Temoignage[] = [
   },
 ];
 
-export const byIndex = (...i: number[]) => i.map((n) => TEMOIGNAGES[n]);
-export const hasExamples = (list: Temoignage[]) => list.some((t) => t.exemple);
+/** Témoignages affichables : réels ET publiés avec accord. Tant qu'il n'y en a aucun, les sections témoignages sont masquées. */
+export const PUBLIES = TEMOIGNAGES.filter((t) => t.accord && !t.exemple);
+export const premiers = (n: number) => PUBLIES.slice(0, n);

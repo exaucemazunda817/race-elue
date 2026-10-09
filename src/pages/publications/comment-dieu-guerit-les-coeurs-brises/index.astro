@@ -7,7 +7,7 @@ import TestimonialCard from '../../../components/TestimonialCard.astro';
 import SubscribeForm from '../../../components/SubscribeForm.astro';
 import StickyBar from '../../../components/StickyBar.astro';
 import { EBOOK, MAGAZINE, SITE } from '../../../data/site';
-import { byIndex, hasExamples } from '../../../data/temoignages';
+import { premiers } from '../../../data/temoignages';
 
 // Sommaire réel de l'ebook (page 2 du PDF)
 const sommaire = [
@@ -21,7 +21,7 @@ const sommaire = [
   { num: '5', titre: 'Dieu guérit par le présent', page: '15' },
   { num: '', titre: 'Conclusion', page: '17', simple: true },
 ];
-const temoignages = byIndex(0, 3);
+const temoignages = premiers(2);
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Book',
@@ -74,7 +74,7 @@ const jsonLd = {
           <SubscribeForm id="ebook" button="Recevoir l'ebook" source="ebook" after="merci" />
           <p class="small only-desktop">Tu le reçois dans ta boîte mail en quelques minutes, avec une pensée par semaine. Désinscription en un clic.</p>
         </div>
-        <span class="small only-desktop">Publié par RED Éditions · 2025</span>
+        <span class="small only-desktop">Publié par RED Éditions</span>
       </div>
     </div>
   </section>
@@ -122,13 +122,14 @@ const jsonLd = {
     </div>
   </section>
 
+  {temoignages.length > 0 && (
   <section class="wrap sec-2 bg-sable lectrices">
     <h2 class="h2 only-desktop" style="--h2-d:44px">Ce qu'en disent les lectrices</h2>
     <div class="t-grid">
       {temoignages.map((t, i) => <div class:list={{ 'only-desktop': i > 0 }}><TestimonialCard t={t} size="lg" /></div>)}
     </div>
-    {hasExamples(temoignages) && <span class="small">Textes d'exemple, à remplacer par de vrais témoignages publiés avec accord.</span>}
   </section>
+  )}
 
   <section class="wrap sec-2 aussi only-desktop">
     <h2 class="h2" style="--h2-d:40px">À lire aussi</h2>
