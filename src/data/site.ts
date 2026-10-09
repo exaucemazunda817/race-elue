@@ -6,7 +6,7 @@ export const SITE = {
   editeur: 'RED Éditions',
   description:
     "Foi, créativité et guérison des blessures intérieures. Ebook gratuit, magazine de la foi, pensées et méditations, et la communauté Guérie et Épanouie.",
-  // Numéro WhatsApp au format international, sans + ni espaces (à confirmer par l'autrice).
+  // Numéro WhatsApp au format international, sans + ni espaces (confirmé par Mazunda le 09/10/2026 : 0996891371).
   whatsapp: '243996891371',
   whatsappAffiche: '+243 996 891 371',
   email: '', // à confirmer : laisser vide tant que l'adresse n'est pas connue
