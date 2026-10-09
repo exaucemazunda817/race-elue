@@ -1,0 +1,206 @@
+---
+// Lecteur en ligne léger : pages du PDF exportées en WebP (≈60 Ko), chargées une à une à la demande.
+// Double page sur ordinateur, une page sur mobile ; boutons, glisser, flèches du clavier, plein écran, sommaire.
+import Icon from './Icon.astro';
+import { MAGAZINE } from '../data/site';
+import { SOMMAIRE_N01 } from '../data/magazine';
+
+const base = '/magazine/n01/';
+const total = MAGAZINE.pages;
+---
+<div class="reader on-vert" id="lecteur-app" data-reader data-base={base} data-total={total} tabindex="-1" aria-roledescription="lecteur de magazine" aria-label={`Magazine ${MAGAZINE.titre} ${MAGAZINE.numero}`}>
+  <div class="toolbar">
+    <button type="button" class="tool sommaire-btn" data-toggle-toc aria-expanded="false" aria-controls="reader-toc">
+      <Icon name="list-bullets" size={22} /><span>Sommaire</span>
+    </button>
+    <button type="button" class="tool close-btn" data-close hidden><Icon name="x" size={22} /><span>Fermer</span></button>
+    <span class="counter" aria-live="polite" data-counter>Page 1 sur {total}</span>
+    <span class="tools-right">
+      <a class="tool icon-only only-desktop" data-zoom href={`${base}p01.webp`} target="_blank" rel="noopener" aria-label="Agrandir la page (nouvel onglet)"><Icon name="magnifying-glass-plus" size={22} /></a>
+      <button type="button" class="tool icon-only only-desktop" data-full aria-label="Plein écran"><Icon name="arrows-out" size={22} /></button>
+      <a class="tool icon-only" href={MAGAZINE.pdf} download aria-label={`Télécharger le PDF (${MAGAZINE.poids})`}><Icon name="download-simple" size={22} /></a>
+    </span>
+  </div>
+
+  <ol class="toc" id="reader-toc" hidden data-toc>
+    {SOMMAIRE_N01.map((s) => (
+      <li><button type="button" data-goto={s.page}><span class="rub">{s.rubrique}</span><span class="tt">{s.titre}</span><span class="pg">p. {s.page}</span></button></li>
+    ))}
+  </ol>
+
+  <div class="stage">
+    <button type="button" class="nav prev" data-prev aria-label="Page précédente"><Icon name="caret-left" size={22} /></button>
+    <div class="pages" data-pages>
+      <img class="page" data-slot="0" src={`${base}p01.webp`} width="1000" height="1414" alt={`Page 1 sur ${total}`} decoding="async" />
+      <img class="page" data-slot="1" hidden width="1000" height="1414" alt="" decoding="async" />
+    </div>
+    <button type="button" class="nav next" data-next aria-label="Page suivante"><Icon name="caret-right" size={22} /></button>
+  </div>
+  <div class="foot">
+    <button type="button" class="nav prev only-mobile-r" data-prev aria-label="Page précédente"><Icon name="caret-left" size={22} /></button>
+    <span class="hint only-mobile-r">Glisse pour tourner la page</span>
+    <div class="progress only-desktop" aria-hidden="true"><span data-bar></span></div>
+    <button type="button" class="nav next only-mobile-r" data-next aria-label="Page suivante"><Icon name="caret-right" size={22} /></button>
+  </div>
+  <noscript><p class="noscript">Le lecteur en ligne a besoin de JavaScript. <a href={MAGAZINE.pdf}>Télécharge le PDF</a> pour lire le magazine.</p></noscript>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-reader]').forEach((root) => {
+    const base = root.dataset.base!;
+    const total = Number(root.dataset.total);
+    const imgs = Array.from(root.querySelectorAll<HTMLImageElement>('[data-pages] img'));
+    const counter = root.querySelector<HTMLElement>('[data-counter]')!;
+    const bar = root.querySelector<HTMLElement>('[data-bar]');
+    const zoom = root.querySelector<HTMLAnchorElement>('[data-zoom]');
+    const toc = root.querySelector<HTMLElement>('[data-toc]')!;
+    const tocBtn = root.querySelector<HTMLButtonElement>('[data-toggle-toc]')!;
+    const closeBtn = root.querySelector<HTMLButtonElement>('[data-close]')!;
+    const mq = matchMedia('(min-width: 960px)');
+    const src = (n: number) => `${base}p${String(n).padStart(2, '0')}.webp`;
+    let page = 1; // première page affichée
+
+    // Sur ordinateur : la couverture seule, puis des doubles pages 2–3, 4–5…
+    const spreadStart = (n: number) => (mq.matches ? (n <= 1 ? 1 : n % 2 === 0 ? n : n - 1) : n);
+    const visible = (start: number) => (mq.matches && start > 1 ? [start, start + 1].filter((x) => x <= total) : [start]);
+
+    function render() {
+      page = spreadStart(page);
+      const pages = visible(page);
+      imgs.forEach((img, i) => {
+        const n = pages[i];
+        if (n) {
+          img.hidden = false;
+          if (img.dataset.n !== String(n)) { img.src = src(n); img.dataset.n = String(n); }
+          img.alt = `Page ${n} sur ${total}`;
+        } else {
+          img.hidden = true;
+        }
+      });
+      root.dataset.spread = String(pages.length);
+      counter.textContent = pages.length > 1 ? `Pages ${pages[0]}–${pages[1]} sur ${total}` : `Page ${pages[0]} sur ${total}`;
+      if (bar) bar.style.width = `${(pages[pages.length - 1] / total) * 100}%`;
+      if (zoom) zoom.href = src(pages[pages.length - 1]);
+      root.querySelectorAll<HTMLButtonElement>('[data-prev]').forEach((b) => (b.disabled = page <= 1));
+      root.querySelectorAll<HTMLButtonElement>('[data-next]').forEach((b) => (b.disabled = pages[pages.length - 1] >= total));
+      // Précharge la page (ou double page) suivante
+      const nextStart = pages[pages.length - 1] + 1;
+      visible(nextStart).forEach((n) => { if (n <= total) new Image().src = src(n); });
+    }
+    const go = (n: number) => { page = Math.min(Math.max(1, n), total); render(); };
+    const step = (dir: 1 | -1) => {
+      const pages = visible(page);
+      if (dir > 0) go(pages[pages.length - 1] + 1);
+      else go(mq.matches ? (page <= 3 ? 1 : page - 2) : page - 1);
+    };
+
+    root.querySelectorAll('[data-prev]').forEach((b) => b.addEventListener('click', () => step(-1)));
+    root.querySelectorAll('[data-next]').forEach((b) => b.addEventListener('click', () => step(1)));
+    root.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+      if (e.key === 'Escape' && root.classList.contains('is-full')) setFull(false);
+    });
+    let x0: number | null = null;
+    const stage = root.querySelector<HTMLElement>('[data-pages]')!;
+    stage.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    stage.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
+      x0 = null;
+    });
+    mq.addEventListener('change', render);
+
+    // Sommaire
+    tocBtn.addEventListener('click', () => {
+      const open = toc.hidden;
+      toc.hidden = !open;
+      tocBtn.setAttribute('aria-expanded', String(open));
+    });
+    root.querySelectorAll<HTMLButtonElement>('[data-goto]').forEach((b) => b.addEventListener('click', () => {
+      go(Number(b.dataset.goto)); toc.hidden = true; tocBtn.setAttribute('aria-expanded', 'false'); root.focus();
+    }));
+
+    // Plein écran (superposition CSS : fonctionne aussi sur iPhone)
+    function setFull(on: boolean) {
+      root.classList.toggle('is-full', on);
+      document.documentElement.style.overflow = on ? 'hidden' : '';
+      closeBtn.hidden = !on;
+      tocBtn.hidden = on && !mq.matches;
+      if (on) root.focus();
+    }
+    root.querySelector('[data-full]')?.addEventListener('click', () => setFull(!root.classList.contains('is-full')));
+    closeBtn.addEventListener('click', () => setFull(false));
+
+    // Liens externes vers une page précise : boutons [data-open-page] ou adresse #page-12
+    document.querySelectorAll<HTMLElement>('[data-open-page]').forEach((el) => el.addEventListener('click', (e) => {
+      e.preventDefault();
+      go(Number(el.dataset.openPage));
+      root.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      if (!mq.matches) setFull(true); else root.focus({ preventScroll: true });
+    }));
+    const m = location.hash.match(/^#page-(\d+)$/);
+    if (m) go(Number(m[1])); else render();
+  });
+</script>
+
+<style>
+  .reader { background: var(--vert); border-radius: 0; padding: 20px 0 24px; display: flex; flex-direction: column; gap: 14px; position: relative; outline: none; }
+  .toolbar { display: flex; justify-content: space-between; align-items: center; padding: 0 16px; color: var(--texte-vert); font: 600 13px var(--sans); }
+  .tool { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; padding: 0; text-decoration: none; }
+  .tool:hover { color: var(--creme); }
+  .tool[hidden] { display: none; }
+  .icon-only { width: 44px; justify-content: center; }
+  .tools-right { display: flex; align-items: center; gap: 4px; }
+  .counter { font-variant-numeric: tabular-nums; }
+  .toc { list-style: none; margin: 0 16px; padding: 8px; background: var(--vert-foret); border-radius: var(--r-carte); max-height: 360px; overflow: auto; }
+  .toc[hidden] { display: none; }
+  .toc button { width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; text-align: left; background: none; border: 0; color: var(--creme); padding: 10px 12px; border-radius: 8px; cursor: pointer; min-height: 44px; }
+  .toc button:hover { background: var(--vert); }
+  .rub { grid-column: 1; font: 800 11px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--or-hover); }
+  .tt { grid-column: 1; font: 500 19px/1.2 var(--serif); }
+  .pg { grid-column: 2; grid-row: 1 / span 2; align-self: center; font: 400 13px var(--sans); color: var(--discret-vert); }
+
+  .stage { display: block; padding: 0 16px; }
+  .stage .nav { display: none; }
+  .pages { display: flex; justify-content: center; touch-action: pan-y; }
+  .page { width: 100%; max-width: 520px; height: auto; aspect-ratio: 1000 / 1414; background: #f6eee3; border-radius: 4px; }
+  .foot { display: flex; justify-content: space-between; align-items: center; padding: 0 16px; }
+  .hint { font: 400 13px var(--sans); color: var(--discret-vert); }
+  .nav {
+    width: 48px; height: 48px; flex: none; border-radius: 999px; border: 0; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; background: var(--vert-foret); color: var(--creme);
+  }
+  .nav.next { background: var(--or); color: var(--vert); }
+  .nav:hover { filter: brightness(1.08); }
+  .nav:disabled { opacity: 0.35; cursor: default; filter: none; }
+  .noscript { padding: 0 16px; color: var(--texte-vert); }
+  .noscript a { color: var(--or); }
+
+  @media (min-width: 960px) {
+    .reader { border-radius: var(--r-bandeau); padding: 20px; gap: 16px; }
+    .toolbar { padding: 0 8px; font-size: 14px; }
+    .toc { margin: 0 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; max-height: none; }
+    .toc[hidden] { display: none; }
+    .stage { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; padding: 0; }
+    .stage .nav { display: flex; }
+    .stage .nav.next { justify-self: end; }
+    .pages { gap: 0; }
+    .page { max-width: none; width: auto; height: min(620px, 70vh); }
+    .reader[data-spread='2'] .page[data-slot='0'] { border-radius: 4px 0 0 4px; box-shadow: inset -18px 0 24px -18px rgba(74, 42, 26, 0.3); }
+    .reader[data-spread='2'] .page[data-slot='1'] { border-radius: 0 4px 4px 0; }
+    .only-mobile-r { display: none; }
+    .foot { justify-content: center; padding: 4px 0 6px; }
+    .progress { width: min(320px, 50%); height: 6px; border-radius: 3px; background: var(--filet-vert-2); overflow: hidden; }
+    .progress span { display: block; height: 100%; width: 0; background: var(--or); border-radius: 3px; transition: width 0.2s ease-out; }
+  }
+
+  /* Plein écran */
+  .reader.is-full { position: fixed; inset: 0; z-index: 100; border-radius: 0; padding: 12px 0 16px; overflow: auto; }
+  .reader.is-full .page { max-width: min(100%, calc((100vh - 140px) * 0.707)); }
+  @media (min-width: 960px) {
+    .reader.is-full { padding: 16px 24px; }
+    .reader.is-full .page { height: calc(100vh - 150px); max-width: none; }
+  }
+</style>

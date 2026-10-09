@@ -1,0 +1,176 @@
+---
+import Icon from './Icon.astro';
+import { NAV, RESEAUX } from '../data/site';
+
+interface Props {
+  active?: string; // chemin de la section active
+  variant?: 'default' | 'article';
+  backHref?: string;
+  backLabel?: string;
+}
+const { active = '', variant = 'default', backHref = '/pensees', backLabel = 'Pensées' } = Astro.props;
+const isActive = (match: string) => active.startsWith(match);
+const contactActive = active.startsWith('/contact');
+---
+<header class="site-header on-vert" data-variant={variant}>
+  <div class="bar wrap">
+    {variant === 'article' && (
+      <a class="icon-btn only-mobile-nav" href={backHref} aria-label={`Retour : ${backLabel}`}>
+        <Icon name="arrow-left" size={22} />
+      </a>
+    )}
+    <a class="logo" href="/" aria-label="Race Élue Disanka, accueil">
+      <span class="logo-txt">Race Élue Disanka</span><span class="star" aria-hidden="true">✦</span>
+    </a>
+    {variant === 'article' && <span class="article-title only-mobile-nav" aria-hidden="true">{backLabel}</span>}
+
+    <nav class="nav-desktop" aria-label="Navigation principale">
+      {NAV.map((item) => (
+        <a href={item.href} class:list={['nav-link', { active: isActive(item.match) }]} aria-current={isActive(item.match) ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))}
+      <a href="/contact" class:list={['nav-pill', { active: contactActive }]} aria-current={contactActive ? 'page' : undefined}>Contact et invitations</a>
+    </nav>
+
+    {variant === 'article' ? (
+      <button type="button" class="icon-btn only-mobile-nav" data-share aria-label="Partager cette pensée">
+        <Icon name="share-network" size={22} />
+      </button>
+    ) : (
+      <button type="button" class="icon-btn menu-btn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-mobile" data-menu-open>
+        <Icon name="list" size={26} />
+      </button>
+    )}
+  </div>
+</header>
+
+<dialog id="menu-mobile" class="menu on-vert" aria-label="Menu">
+  <div class="menu-inner">
+    <div class="menu-top">
+      <span class="logo-txt">Race Élue Disanka</span>
+      <button type="button" class="icon-btn" aria-label="Fermer le menu" data-menu-close>
+        <Icon name="x" size={24} />
+      </button>
+    </div>
+    <nav aria-label="Navigation principale (mobile)">
+      <ul>
+        <li><a href="/">Accueil{active === '/' && <span class="star"> ✦</span>}</a></li>
+        {NAV.map((item) => (
+          <li>
+            <a href={item.href} class:list={{ active: isActive(item.match) }} aria-current={isActive(item.match) ? 'page' : undefined}>
+              {item.labelLong ?? item.label}{isActive(item.match) && <span class="star"> ✦</span>}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href="/contact" class:list={{ active: contactActive }} aria-current={contactActive ? 'page' : undefined}>
+            Contact et invitations{contactActive && <span class="star"> ✦</span>}
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="menu-social">
+      {RESEAUX.map((r) => (
+        <a href={r.url} target="_blank" rel="noopener noreferrer" aria-label={r.nom}><Icon name={r.icon} size={24} /></a>
+      ))}
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('menu-mobile') as HTMLDialogElement | null;
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+  if (dialog && openBtn) {
+    openBtn.addEventListener('click', () => {
+      dialog.showModal();
+      openBtn.setAttribute('aria-expanded', 'true');
+      document.documentElement.style.overflow = 'hidden';
+    });
+    const cleanup = (refocus = true) => {
+      if (openBtn.getAttribute('aria-expanded') === 'false') return;
+      openBtn.setAttribute('aria-expanded', 'false');
+      document.documentElement.style.overflow = '';
+      if (refocus) openBtn.focus();
+    };
+    const close = () => { if (dialog.open) dialog.close(); cleanup(); };
+    closeBtn?.addEventListener('click', close);
+    dialog.addEventListener('cancel', () => cleanup()); // touche Échap
+    dialog.addEventListener('close', () => cleanup());
+    dialog.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { if (dialog.open) dialog.close(); cleanup(false); }));
+  }
+
+  // Bouton « partager » de l'en-tête article (mobile)
+  document.querySelectorAll<HTMLButtonElement>('[data-share]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const data = { title: document.title, url: location.href };
+      if (navigator.share) {
+        try { await navigator.share(data); } catch { /* partage annulé */ }
+      } else {
+        location.href = `https://wa.me/?text=${encodeURIComponent(document.title + ' ' + location.href)}`;
+      }
+    });
+  });
+</script>
+
+<style>
+  .site-header { background: var(--vert); position: relative; z-index: 20; }
+  .bar { height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-right: 12px; }
+  .logo { display: inline-flex; align-items: baseline; gap: 10px; color: var(--creme); text-decoration: none; min-height: 44px; align-items: center; }
+  .logo:hover { color: var(--creme); }
+  .logo-txt { font: italic 600 22px/1 var(--serif); color: var(--creme); white-space: nowrap; }
+  .star { color: var(--or); font-size: 13px; }
+  .logo .star { display: none; }
+  .icon-btn {
+    width: 48px; height: 48px; display: inline-flex; align-items: center; justify-content: center;
+    background: none; border: 0; color: var(--creme); border-radius: 999px; cursor: pointer;
+  }
+  .icon-btn:hover { background: var(--vert-foret); color: var(--creme); }
+  .nav-desktop { display: none; }
+
+  /* Variante article sur mobile : retour · titre · partager */
+  .site-header[data-variant='article'] .bar { padding-left: 8px; }
+  .site-header[data-variant='article'] .logo { display: none; }
+  .article-title { font: italic 600 20px var(--serif); color: var(--creme); }
+
+  @media (min-width: 1100px) {
+    .bar { height: 88px; padding-right: var(--gutter); }
+    .logo .star { display: inline; }
+    .logo-txt { font-size: 28px; }
+    .menu-btn, .only-mobile-nav { display: none !important; }
+    .site-header[data-variant='article'] .logo { display: inline-flex; }
+    .site-header[data-variant='article'] .bar { padding-left: var(--gutter); }
+    .nav-desktop { display: flex; align-items: center; gap: 36px; font: 600 15px var(--sans); white-space: nowrap; }
+    .nav-link { color: var(--texte-vert); padding: 10px 0; text-decoration: none; }
+    .nav-link:hover { color: var(--creme); box-shadow: inset 0 -2px 0 var(--filet-vert-2); }
+    .nav-link.active { color: var(--or); box-shadow: inset 0 -2px 0 var(--or); }
+    .nav-pill {
+      display: inline-flex; align-items: center; height: 44px; padding: 0 20px; border-radius: 999px;
+      box-shadow: inset 0 0 0 1.5px var(--or); color: var(--creme); font-weight: 700; text-decoration: none;
+      transition: background-color 0.18s ease-out;
+    }
+    .nav-pill:hover { background: var(--vert-foret); color: var(--creme); }
+    .nav-pill.active { background: var(--or); color: var(--vert); }
+  }
+
+  /* Menu mobile plein écran */
+  .menu {
+    width: 100%; max-width: none; height: 100%; max-height: none; margin: 0; padding: 0; border: 0;
+    background: var(--vert); color: var(--creme);
+  }
+  .menu::backdrop { background: var(--vert); }
+  .menu-inner { padding: 6px 12px 28px 20px; display: flex; flex-direction: column; min-height: 100%; }
+  .menu-top { display: flex; justify-content: space-between; align-items: center; height: 48px; margin-bottom: 16px; }
+  .menu ul { list-style: none; margin: 0; padding: 0; }
+  .menu li a { display: block; font: 500 26px/2 var(--serif); color: var(--creme); text-decoration: none; }
+  .menu li a.active { color: var(--or); }
+  .menu li a:hover { color: var(--or-hover); }
+  .menu .star { font-size: 14px; }
+  .menu-social { display: flex; gap: 12px; margin-top: 24px; }
+  .menu-social a {
+    width: 48px; height: 48px; display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 999px; box-shadow: inset 0 0 0 1px var(--filet-vert-2); color: var(--texte-vert);
+  }
+  .menu-social a:hover { background: var(--vert-foret); color: var(--creme); }
+</style>

@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../data/site';
+
+// Contenus juridiques : à compléter avec l'autrice (adresse, e-mail de contact) avant la mise en ligne publique.
+const sections = [
+  {
+    id: 'editeur', titre: 'Éditeur du site',
+    html: `Le site est édité par Race Élue Disanka, sous la marque RED Éditions.${SITE.email ? ` Contact : <a href="mailto:${SITE.email}">${SITE.email}</a>.` : ' Contact : par WhatsApp au ' + SITE.whatsappAffiche + ' ou via la page <a href="/contact">Contact</a>.'}`,
+  },
+  {
+    id: 'hebergement', titre: 'Hébergement',
+    html: "Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis (vercel.com).",
+  },
+  {
+    id: 'donnees-personnelles', titre: 'Données personnelles',
+    html: "Les informations envoyées via les formulaires (prénom, e-mail, numéro WhatsApp, message) servent uniquement à te répondre, à t'envoyer l'ebook et la lettre hebdomadaire si tu t'y es inscrite. Elles ne sont ni vendues ni partagées. Tu peux demander leur suppression à tout moment.",
+    encart: true,
+  },
+  {
+    id: 'cookies', titre: 'Cookies',
+    html: "Le site n'utilise aucun cookie publicitaire ni de mesure d'audience. Les vidéos YouTube ne se chargent qu'après ton clic (en mode « sans cookie » de YouTube).",
+  },
+  {
+    id: 'propriete', titre: 'Propriété intellectuelle',
+    html: "Les textes, publications et photographies sont la propriété de Race Élue Disanka et de RED Éditions. Photographies : Ange Photo du Ciel.",
+  },
+  {
+    id: 'avertissement', titre: 'Avertissement',
+    html: "Ce site propose un accompagnement spirituel. Il ne remplace pas un suivi médical ou psychologique. Si tu traverses une détresse, parles-en aussi à un professionnel de santé.",
+  },
+];
+---
+<Base
+  title="Mentions légales et confidentialité"
+  description="Mentions légales, hébergement, données personnelles et cookies du site de Race Élue Disanka (RED Éditions)."
+  active="/mentions-legales"
+  footerMention=""
+>
+  <section class="wrap page">
+    <nav class="toc only-desktop" aria-label="Sur cette page">
+      <span class="toc-k">Sur cette page</span>
+      {sections.map((s, i) => <a href={`#${s.id}`} class:list={{ on: i === 0 }} data-toc-link>{s.titre}</a>)}
+    </nav>
+    <div class="content">
+      <span class="kicker">Informations légales</span>
+      <h1 class="h1" style="--h1-d:64px;--h1-m:38px;--h1-vw:4.4vw">Mentions légales et confidentialité</h1>
+
+      <div class="desktop-sections only-desktop">
+        {sections.map((s) => (
+          <section id={s.id} data-sec>
+            <h2>{s.titre}</h2>
+            <p set:html={s.html} />
+            {s.encart && (
+              <div class="encart"><Icon name="shield-check" size={26} /><span><strong>Les témoignages</strong> ne sont publiés qu'avec un accord écrit, et peuvent être retirés sur simple demande.</span></div>
+            )}
+          </section>
+        ))}
+        <span class="maj">Dernière mise à jour : 9 octobre 2026</span>
+      </div>
+
+      <div class="acc only-mobile">
+        {sections.map((s, i) => (
+          <details open={i === 0} id={`m-${s.id}`}>
+            <summary>{s.titre}<span class="pm" aria-hidden="true"><Icon name="plus" class="plus" /><Icon name="minus" class="minus" /></span></summary>
+            <p set:html={s.html} />
+            {s.encart && <p class="enc-m"><strong>Les témoignages</strong> ne sont publiés qu'avec un accord écrit, et peuvent être retirés sur simple demande.</p>}
+          </details>
+        ))}
+        <div class="encart"><Icon name="first-aid" size={22} /><span>Accompagnement spirituel : ne remplace pas un suivi médical ou psychologique.</span></div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Sommaire latéral : met en évidence la section en cours de lecture
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'));
+  const secs = Array.from(document.querySelectorAll<HTMLElement>('[data-sec]'));
+  if (links.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) links.forEach((l) => l.classList.toggle('on', l.hash === `#${e.target.id}`));
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    secs.forEach((s) => io.observe(s));
+  }
+  // Sur mobile, un lien #section ouvre l'accordéon correspondant
+  const id = location.hash.slice(1);
+  const d = id && document.getElementById(`m-${id}`);
+  if (d instanceof HTMLDetailsElement && matchMedia('(max-width: 959.98px)').matches) { d.open = true; d.scrollIntoView(); }
+</script>
+
+<style>
+  .page { padding-top: 32px; padding-bottom: 48px; }
+  .content { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
+  .content h1 { line-height: 1.02; margin-bottom: 12px; }
+  .acc details { box-shadow: inset 0 -1px 0 var(--filet); }
+  .acc details:first-child { box-shadow: inset 0 -1px 0 var(--filet), inset 0 1px 0 var(--filet); }
+  summary { list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 18px 0; min-height: 44px; font: 700 16px var(--sans); color: var(--encre); cursor: pointer; }
+  summary::-webkit-details-marker { display: none; }
+  .pm { color: var(--cuivre); display: inline-flex; }
+  .pm :global(.minus) { display: none; }
+  details[open] .pm :global(.minus) { display: inline-block; }
+  details[open] .pm :global(.plus) { display: none; }
+  details p { padding: 4px 0 12px; font-size: 15px; line-height: 1.7; }
+  .enc-m { padding-top: 0 !important; }
+  .encart { background: var(--vert-pale); border-radius: var(--r-carte); padding: 18px 20px; margin-top: 16px; display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.55; }
+  .encart :global(.icon) { color: var(--vert); }
+  @media (min-width: 960px) {
+    .page { padding-top: 80px; padding-bottom: var(--sec-2); display: grid; grid-template-columns: 260px minmax(0, 720px); gap: clamp(48px, 6.6vw, 96px); }
+    .toc { display: flex; flex-direction: column; gap: 4px; padding-top: 120px; font: 600 15px var(--sans); color: var(--secondaire); position: sticky; top: 24px; align-self: start; }
+    .toc-k { font: 800 11px var(--sans); letter-spacing: 0.22em; color: var(--cuivre); margin-bottom: 12px; text-transform: uppercase; }
+    .toc a { padding: 10px 0 10px 14px; box-shadow: inset 1px 0 0 var(--filet); color: var(--secondaire); }
+    .toc a:hover { color: var(--encre); }
+    .toc a.on { box-shadow: inset 2px 0 0 var(--cuivre); color: var(--encre); }
+    .content { gap: 22px; }
+    .desktop-sections { display: flex; flex-direction: column; gap: 22px; }
+    section { display: flex; flex-direction: column; gap: 22px; scroll-margin-top: 24px; }
+    section h2 { font-size: 32px; line-height: 1.1; margin-top: 12px; }
+    section p { font-size: 17px; line-height: 1.75; }
+    .encart { padding: 24px 28px; gap: 16px; font-size: 16px; line-height: 1.6; margin-top: 0; }
+    .maj { font-size: 14px; color: var(--secondaire); margin-top: 12px; }
+  }
+</style>

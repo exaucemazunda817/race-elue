@@ -1,0 +1,135 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
+import { SITE, wa } from '../data/site';
+
+interface Props {
+  title: string; // titre de la page (sans le nom du site)
+  description?: string;
+  ogImage?: string; // chemin public d'une image 1200×630
+  ogType?: 'website' | 'article' | 'book';
+  active?: string;
+  footer?: 'full' | 'court' | 'none';
+  footerMention?: string;
+  headerVariant?: 'default' | 'article';
+  stickyBar?: boolean; // la page a une barre d'action collante sur mobile (le bouton WhatsApp y est intégré)
+  noFab?: boolean;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  bodyClass?: string;
+}
+
+const {
+  title, description = SITE.description, ogImage = '/og/race-elue.jpg', ogType = 'website',
+  active = Astro.url.pathname, footer = 'court', footerMention, headerVariant = 'default',
+  stickyBar = false, noFab = false, noindex = false, jsonLd, bodyClass,
+} = Astro.props;
+
+const fullTitle = title === SITE.nom ? `${SITE.nom} · Foi, créativité et guérison intérieure` : `${title} · ${SITE.nom}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogUrl = new URL(ogImage, Astro.site).href;
+const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#1E3B2F" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta property="og:site_name" content={SITE.nom} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:type" content={ogType === 'book' ? 'book' : ogType} />
+    <meta property="og:title" content={title === SITE.nom ? fullTitle : title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {ld.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <div class="offline-banner" role="status" hidden data-offline-banner>
+      <Icon name="wifi-slash" size={22} />
+      <span>Tu es hors connexion.<span class="only-desktop"> Tu peux encore lire les pages déjà ouvertes.</span></span>
+      <button type="button" data-retry>Réessayer</button>
+    </div>
+    <slot name="top" />
+    <Header active={active} variant={headerVariant} />
+    <main id="contenu">
+      <slot />
+    </main>
+    {footer !== 'none' && <Footer variant={footer} mention={footerMention} stickyBar={stickyBar} />}
+
+    {!noFab && (
+      <a class:list={['fab', { 'fab-desktop-only': stickyBar }]} href={wa()} target="_blank" rel="noopener noreferrer" aria-label="M'écrire sur WhatsApp">
+        <Icon name="whatsapp-logo" size={28} />
+        <span class="fab-txt">M'écrire</span>
+      </a>
+    )}
+    <slot name="sticky" />
+
+    <script>
+      // Bandeau hors connexion
+      const banner = document.querySelector<HTMLElement>('[data-offline-banner]');
+      const sync = () => { if (banner) banner.hidden = navigator.onLine; };
+      addEventListener('online', sync);
+      addEventListener('offline', sync);
+      sync();
+      banner?.querySelector('[data-retry]')?.addEventListener('click', () => location.reload());
+
+      // Service worker : lecture hors connexion des pages déjà visitées
+      if ('serviceWorker' in navigator && import.meta.env.PROD) {
+        addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+      }
+    </script>
+
+    <style>
+      .offline-banner {
+        background: var(--cacao); color: var(--creme); padding: 14px var(--gutter);
+        display: flex; gap: 10px; align-items: center; font: 600 14px/1.4 var(--sans);
+      }
+      .offline-banner[hidden] { display: none; }
+      .offline-banner :global(.icon) { color: var(--or); }
+      .offline-banner button {
+        margin-left: auto; background: none; border: 0; color: inherit; font: inherit; cursor: pointer;
+        text-decoration: underline; text-underline-offset: 4px; min-height: 44px;
+      }
+      @media (min-width: 960px) { .offline-banner { font-size: 15px; } }
+
+      .fab {
+        position: fixed; right: 16px; bottom: 20px; z-index: 30;
+        width: 60px; height: 60px; border-radius: 999px; background: var(--whatsapp); color: #fff;
+        display: flex; align-items: center; justify-content: center; text-decoration: none;
+        box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.45);
+        transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
+      }
+      .fab :global(.icon) { width: 32px; height: 32px; }
+      .fab:hover { color: #fff; transform: translateY(-2px); }
+      .fab-txt { display: none; }
+      @media (max-width: 959.98px) { .fab-desktop-only { display: none; } }
+      @media (min-width: 960px) {
+        .fab {
+          right: 32px; bottom: 32px; width: auto; height: 60px; padding: 0 24px 0 18px; gap: 10px;
+          background: var(--creme); color: var(--vert); font: 700 16px var(--sans);
+          box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.4);
+        }
+        .fab:hover { color: var(--vert); }
+        .fab :global(.icon) { width: 28px; height: 28px; color: var(--whatsapp); }
+        .fab-txt { display: inline; }
+      }
+    </style>
+  </body>
+</html>

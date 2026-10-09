@@ -1,0 +1,370 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import FieldError from '../components/FieldError.astro';
+import { ENDPOINTS, RESEAUX, SITE, wa } from '../data/site';
+
+const types = ['Prédication', 'Conférence', 'Atelier ou retraite', 'Interview ou podcast', 'Autre'];
+const typesCourts: Record<string, string> = { 'Atelier ou retraite': 'Retraite', 'Interview ou podcast': 'Interview' };
+const themes = ['Comment Dieu guérit les cœurs brisés', 'Retrouver son identité en Dieu', 'Foi et créativité', 'Tu deviendras aussi une légende'];
+---
+<Base
+  title="Contact et invitations"
+  description="Écris à Race Élue Disanka sur WhatsApp ou par formulaire, ou invite-la à intervenir dans ton église, ta conférence ou ton podcast, en présentiel ou en ligne."
+  active="/contact"
+  footerMention="En cas de détresse, contacte d'abord un professionnel de santé."
+>
+  <section class="hero bg-vert on-vert wrap">
+    <span class="kicker or">Contact et invitations</span>
+    <h1 class="h1" style="--h1-d:72px;--h1-m:42px;--h1-vw:5vw">Écris-moi, <em>je te lis avec attention.</em></h1>
+    <p class="lead only-desktop">Une question, un besoin de prière, une invitation pour ton église ou ton événement : choisis le moyen qui te convient.</p>
+    <a class="btn btn-light btn-md only-mobile" href={wa()} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp-logo" size={24} />Écrire sur WhatsApp</a>
+    <div class="hero-social only-mobile">
+      {SITE.email && <a href={`mailto:${SITE.email}`} aria-label="E-mail"><Icon name="envelope-simple" size={24} /></a>}
+      {RESEAUX.map((r) => <a href={r.url} target="_blank" rel="noopener noreferrer" aria-label={r.nom}><Icon name={r.icon} size={24} /></a>)}
+    </div>
+  </section>
+
+  <section class="wrap main">
+    <div class="side only-desktop">
+      <div class="card wa-card">
+        <div class="wa-head">
+          <span class="wa-ico"><Icon name="whatsapp-logo" size={28} /></span>
+          <span class="stack"><strong>WhatsApp</strong><span>{SITE.whatsappAffiche}</span></span>
+        </div>
+        <p>Le plus rapide. Messages écrits ou vocaux.</p>
+        <a class="btn btn-wa btn-md" href={wa()} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp-logo" />Ouvrir WhatsApp</a>
+      </div>
+      {SITE.email && (
+        <a class="line-card" href={`mailto:${SITE.email}`}>
+          <Icon name="envelope-simple" size={28} />
+          <span class="stack"><strong>E-mail</strong><span>{SITE.email}</span></span>
+        </a>
+      )}
+      <div class="line-card col">
+        <strong>Sur les réseaux</strong>
+        {RESEAUX.map((r) => <a class="soc" href={r.url} target="_blank" rel="noopener noreferrer"><Icon name={r.icon} size={22} />{r.pseudo}</a>)}
+      </div>
+      <p class="urgence"><Icon name="first-aid" size={20} />En cas de détresse ou de danger immédiat, contacte d'abord les services d'urgence ou un professionnel de santé.</p>
+    </div>
+
+    <div class="form-card">
+      <div class="tabs" role="tablist" aria-label="Type de demande">
+        <button type="button" role="tab" id="tab-message" aria-controls="panel-message" aria-selected="true" data-tab="message">
+          <span class="only-desktop">Écrire un message</span><span class="only-mobile">Message</span>
+        </button>
+        <button type="button" role="tab" id="tab-invitation" aria-controls="panel-invitation" aria-selected="false" tabindex="-1" data-tab="invitation">
+          <span class="only-desktop">Inviter Race Élue</span><span class="only-mobile">Invitation</span>
+        </button>
+      </div>
+
+      <!-- Message -->
+      <form class="cform" id="panel-message" role="tabpanel" aria-labelledby="tab-message" data-cform="message" data-endpoint={ENDPOINTS.contact} novalidate>
+        <div class="stack fhead">
+          <h2>Écrire un message</h2>
+          <span class="req">Les champs marqués * sont obligatoires.</span>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="m-nom">Ton nom *</label>
+            <input class="input" id="m-nom" name="nom" autocomplete="name" required aria-describedby="m-nom-err" data-rule="required" data-msg-required="Indique ton nom." />
+            <FieldError id="m-nom" />
+          </div>
+          <div class="field">
+            <label for="m-contact">Ton WhatsApp ou e-mail *</label>
+            <input class="input" id="m-contact" name="contact" autocomplete="email" placeholder="Pour te répondre" required aria-describedby="m-contact-err" data-rule="contact" />
+            <FieldError id="m-contact" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="m-message">Ton message *</label>
+          <textarea class="input" id="m-message" name="message" rows="5" placeholder="Dis-moi ce qui te pèse, ou ce que tu veux me demander…" required aria-describedby="m-message-err" data-rule="required" data-msg-required="Écris ton message."></textarea>
+          <FieldError id="m-message" />
+        </div>
+        <div class="field">
+          <label class="check"><input type="checkbox" name="accord" required aria-describedby="m-accord-err" data-rule="checked" data-msg-required="Coche cette case pour que je puisse te répondre." />J'accepte que ces informations servent uniquement à répondre à ma demande.</label>
+          <FieldError id="m-accord" />
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="btn btn-primary btn-lg">Envoyer le message</button>
+        </div>
+        <div class="status" data-status hidden aria-live="polite"></div>
+      </form>
+
+      <!-- Invitation -->
+      <form class="cform" id="panel-invitation" role="tabpanel" aria-labelledby="tab-invitation" data-cform="invitation" data-endpoint={ENDPOINTS.contact} novalidate hidden>
+        <div class="stack fhead">
+          <h2>Demande d'intervention</h2>
+          <span class="req">Les champs marqués * sont obligatoires.</span>
+        </div>
+        <fieldset class="field">
+          <legend class="label"><span class="only-desktop">Type d'intervention *</span><span class="only-mobile">Type *</span></legend>
+          <div class="chips" data-radio-group aria-describedby="i-type-err">
+            {types.map((t, i) => (
+              <label class="chip">
+                <input type="radio" name="type" value={t} required={i === 0} data-rule={i === 0 ? 'radio' : undefined} data-msg-required="Choisis le type d'intervention." aria-describedby={i === 0 ? 'i-type-err' : undefined} />
+                <Icon name="check" class="chk" />
+                {typesCourts[t] ? <><span class="only-desktop">{t}</span><span class="only-mobile">{typesCourts[t]}</span></> : t}
+              </label>
+            ))}
+          </div>
+          <FieldError id="i-type" />
+        </fieldset>
+        <div class="two">
+          <div class="field">
+            <label for="i-nom">Ton nom *</label>
+            <input class="input" id="i-nom" name="nom" autocomplete="name" required aria-describedby="i-nom-err" data-rule="required" data-msg-required="Indique ton nom." />
+            <FieldError id="i-nom" />
+          </div>
+          <div class="field">
+            <label for="i-org">Église ou organisation *</label>
+            <input class="input" id="i-org" name="organisation" autocomplete="organization" required aria-describedby="i-org-err" data-rule="required" data-msg-required="Indique le nom de ton église ou organisation." />
+            <FieldError id="i-org" />
+          </div>
+          <div class="field">
+            <label for="i-ville">Ville et pays *</label>
+            <input class="input" id="i-ville" name="ville" placeholder="Ex. Kinshasa, RDC" required aria-describedby="i-ville-err" data-rule="required" data-msg-required="Indique la ville et le pays." />
+            <FieldError id="i-ville" />
+          </div>
+          <div class="field">
+            <label for="i-date">Date souhaitée</label>
+            <input class="input" id="i-date" name="date" type="date" />
+          </div>
+        </div>
+        <fieldset class="field">
+          <legend class="label">Format *</legend>
+          <div class="radios">
+            <label class="radio"><input type="radio" name="format" value="En présentiel" required data-rule="radio" data-msg-required="Choisis un format." aria-describedby="i-format-err" />En présentiel</label>
+            <label class="radio"><input type="radio" name="format" value="En ligne" />En ligne</label>
+          </div>
+          <FieldError id="i-format" />
+        </fieldset>
+        <div class="field">
+          <label for="i-contact">Ton WhatsApp ou e-mail *</label>
+          <input class="input" id="i-contact" name="contact" placeholder="Pour te répondre" required aria-describedby="i-contact-err" data-rule="contact" />
+          <FieldError id="i-contact" />
+        </div>
+        <div class="field">
+          <label for="i-desc"><span class="only-desktop">Parle-moi de ton événement</span><span class="only-mobile">Ton événement</span></label>
+          <textarea class="input" id="i-desc" name="description" rows="4" placeholder="Public attendu, thème souhaité, durée…"></textarea>
+        </div>
+        <div class="field">
+          <label class="check"><input type="checkbox" name="accord" required aria-describedby="i-accord-err" data-rule="checked" data-msg-required="Coche cette case pour que je puisse te répondre." />J'accepte que ces informations servent uniquement à répondre à ma demande.</label>
+          <FieldError id="i-accord" />
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="btn btn-primary btn-lg">Envoyer l'invitation</button>
+          <span class="small only-desktop">Je te réponds dès que possible.</span>
+        </div>
+        <div class="status" data-status hidden aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="sec bg-sable themes wrap only-desktop">
+    <div class="themes-photo"><Photo src="stage.jpg" alt="Race Élue au pupitre, micro en main, lors d'un culte" position="40% center" sizes="540px" /></div>
+    <div class="stack themes-txt">
+      <div class="stack gap14">
+        <span class="kicker">Interventions</span>
+        <h2 class="h2">Les thèmes que je porte</h2>
+      </div>
+      <ul>
+        {themes.map((t) => <li><span class="star" aria-hidden="true">✦</span>{t}</li>)}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { emailError, setError, watch, postJSON } from '../scripts/forms';
+  import { SITE } from '../data/site';
+
+  // Onglets
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+  function select(name: string, focus = false) {
+    tabs.forEach((t) => {
+      const on = t.dataset.tab === name;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')!)!.hidden = !on;
+      if (on && focus) t.focus();
+    });
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t.dataset.tab!));
+    t.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+        select(next.dataset.tab!, true);
+      }
+    });
+  });
+  if (new URL(location.href).searchParams.get('onglet') === 'invitation') select('invitation');
+
+  const contactError = (v: string) => {
+    const s = v.trim();
+    if (!s) return 'Indique ton numéro WhatsApp ou ton adresse e-mail.';
+    if (s.includes('@')) return emailError(s);
+    const digits = s.replace(/[^\d]/g, '');
+    if (digits.length < 8) return 'Ce numéro semble incomplet (ex. +243 99 000 00 00).';
+    return '';
+  };
+
+  document.querySelectorAll<HTMLFormElement>('form[data-cform]').forEach((form) => {
+    const checks: Array<() => boolean> = [];
+    form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-rule]').forEach((el) => {
+      const rule = el.dataset.rule;
+      if (rule === 'radio') {
+        const group = form.querySelectorAll<HTMLInputElement>(`input[name="${el.name}"]`);
+        const check = () => {
+          const ok = Array.from(group).some((r) => r.checked);
+          setError(el, ok ? '' : el.dataset.msgRequired || 'Fais un choix.');
+          return ok;
+        };
+        group.forEach((r) => r.addEventListener('change', check));
+        checks.push(check);
+        return;
+      }
+      checks.push(watch(el, (x) => {
+        if (rule === 'checked') return (x as HTMLInputElement).checked ? '' : (x.dataset.msgRequired || '');
+        if (rule === 'contact') return contactError(x.value);
+        return x.value.trim() ? '' : (x.dataset.msgRequired || 'Ce champ est obligatoire.');
+      }));
+    });
+
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const results = checks.map((c) => c());
+      if (results.includes(false)) {
+        form.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+        return;
+      }
+      const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+      const kind = form.dataset.cform;
+      const endpoint = form.dataset.endpoint;
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Envoi…';
+      try {
+        if (endpoint) {
+          await postJSON(endpoint, { ...data, demande: kind });
+          status.innerHTML = `<p class="form-success">C'est envoyé. Je te réponds dès que possible.</p>`;
+          form.reset();
+        } else {
+          // Aucun service d'envoi branché : on prépare le message sur WhatsApp, le canal principal.
+          const lignes = kind === 'invitation'
+            ? [
+                "Bonjour Race Élue, je souhaite t'inviter à intervenir.",
+                `Type : ${data.type}`, `Nom : ${data.nom}`, `Église ou organisation : ${data.organisation}`,
+                `Ville et pays : ${data.ville}`, data.date ? `Date souhaitée : ${data.date}` : '', `Format : ${data.format}`,
+                data.description ? `Événement : ${data.description}` : '', `Me répondre : ${data.contact}`,
+              ]
+            : ['Bonjour Race Élue,', data.message, '', `${data.nom} (${data.contact})`];
+          const url = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(lignes.filter((l) => l !== '').join('\n'))}`;
+          window.open(url, '_blank', 'noopener');
+          status.innerHTML = `<p class="form-success">Ton message est prêt dans WhatsApp : il ne reste qu'à l'envoyer. <a href="${url}" target="_blank" rel="noopener noreferrer">Rouvrir WhatsApp</a></p>`;
+        }
+        status.hidden = false;
+      } catch {
+        status.innerHTML = `<p class="form-alert">L'envoi n'a pas abouti. Vérifie ta connexion et réessaie, ou écris-moi sur WhatsApp.</p>`;
+        status.hidden = false;
+      } finally {
+        btn.disabled = false; btn.textContent = label;
+      }
+    });
+  });
+</script>
+
+<style>
+  .gap14 { gap: 14px; }
+  .hero { padding-top: 24px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 16px; }
+  .hero h1 { line-height: 1.02; max-width: 820px; }
+  .hero .lead { color: var(--texte-vert); max-width: 620px; }
+  .hero .btn { margin-top: 6px; min-height: 54px; }
+  .hero-social { display: flex; justify-content: center; gap: 12px; }
+  .hero-social a { width: 48px; height: 48px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--filet-vert-2); color: var(--texte-vert); }
+  .hero-social a:hover { background: var(--vert-foret); color: var(--creme); }
+  @media (min-width: 960px) {
+    .hero { padding-top: 56px; padding-bottom: 200px; gap: 20px; }
+  }
+
+  .main { padding-top: 32px; padding-bottom: 48px; }
+  @media (min-width: 960px) {
+    .main { margin-top: -136px; padding-top: 0; padding-bottom: var(--sec); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr); gap: 32px; align-items: start; }
+  }
+  .side { display: flex; flex-direction: column; gap: 20px; }
+  .wa-card { background: var(--creme); padding: 32px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 1px 2px rgba(74, 42, 26, 0.06), 0 12px 32px rgba(74, 42, 26, 0.12); }
+  .wa-head { display: flex; gap: 14px; align-items: center; }
+  .wa-ico { width: 52px; height: 52px; border-radius: 999px; background: var(--vert-pale); display: flex; align-items: center; justify-content: center; color: var(--whatsapp); }
+  .wa-head strong { font: 700 18px var(--sans); color: var(--encre); }
+  .wa-head span span, .line-card span span { font-size: 15px; color: var(--secondaire); }
+  .wa-card p { font-size: 15px; line-height: 1.6; }
+  .line-card { background: var(--creme); border-radius: var(--r-carte); padding: 28px 32px; display: flex; gap: 14px; align-items: center; box-shadow: inset 0 0 0 1px var(--filet); color: var(--vert); }
+  .line-card strong { font: 700 16px var(--sans); color: var(--encre); }
+  .line-card.col { flex-direction: column; align-items: flex-start; }
+  .soc { display: flex; gap: 12px; align-items: center; font: 400 15px var(--sans); color: var(--encre); min-height: 32px; }
+  .soc :global(.icon) { color: var(--vert); }
+  .soc:hover { color: var(--cuivre); }
+  .urgence { display: flex; gap: 12px; align-items: flex-start; padding: 4px 8px; font: 400 13px/1.55 var(--sans); color: var(--secondaire); }
+  .urgence :global(.icon) { color: var(--erreur); }
+
+  .form-card { display: flex; flex-direction: column; gap: 20px; }
+  @media (min-width: 960px) {
+    .form-card { background: var(--creme); border-radius: var(--r-carte); padding: 44px 48px; gap: 26px; box-shadow: 0 1px 2px rgba(74, 42, 26, 0.06), 0 12px 32px rgba(74, 42, 26, 0.12); }
+  }
+  .tabs { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; border-radius: 999px; background: var(--sable); gap: 4px; }
+  .tabs button {
+    min-height: 44px; border-radius: 999px; border: 0; background: none; cursor: pointer;
+    font: 700 14px var(--sans); color: var(--secondaire); padding: 0 22px; transition: background-color 0.15s, color 0.15s;
+  }
+  .tabs button:hover { color: var(--encre); }
+  .tabs button[aria-selected='true'] { background: var(--vert); color: var(--creme); }
+  @media (min-width: 960px) {
+    .tabs { display: flex; align-self: flex-start; padding: 5px; }
+    .tabs button { font-size: 15px; white-space: nowrap; }
+  }
+  .cform { display: flex; flex-direction: column; gap: 20px; }
+  .cform[hidden] { display: none; }
+  .fhead { gap: 6px; }
+  .fhead h2 { font-size: 30px; line-height: 1.08; }
+  .req { font-size: 15px; color: var(--secondaire); }
+  @media (max-width: 959.98px) { .req { display: none; } }
+  @media (min-width: 960px) { .cform { gap: 26px; } .fhead h2 { font-size: 38px; } }
+  .two { display: flex; flex-direction: column; gap: 20px; }
+  @media (min-width: 960px) { .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+  legend { padding: 0; margin-bottom: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; border-radius: 999px;
+    box-shadow: inset 0 0 0 1px var(--bordure); font: 600 14px var(--sans); color: var(--encre); cursor: pointer;
+  }
+  .chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .chip :global(.chk) { display: none; }
+  .chip:has(input:checked) { background: var(--vert-pale); box-shadow: inset 0 0 0 1.5px var(--vert); color: var(--vert); font-weight: 700; }
+  .chip:has(input:checked) :global(.chk) { display: inline-block; }
+  .chip:has(input:focus-visible) { outline: 2px solid var(--cuivre); outline-offset: 3px; }
+  .chip:hover { background: var(--sable); }
+  @media (min-width: 960px) { .chips { gap: 10px; } .chip { padding: 0 18px; } }
+  .radios { display: flex; gap: 24px; flex-wrap: wrap; }
+  .radio { display: flex; gap: 10px; align-items: center; min-height: 44px; font: 600 15px var(--sans); cursor: pointer; }
+  .radio input { appearance: none; -webkit-appearance: none; width: 22px; height: 22px; margin: 0; border-radius: 999px; box-shadow: inset 0 0 0 2px var(--bordure); display: grid; place-content: center; cursor: pointer; }
+  .radio input::after { content: ''; width: 10px; height: 10px; border-radius: 999px; background: var(--cuivre); transform: scale(0); transition: transform 0.12s; }
+  .radio input:checked { box-shadow: inset 0 0 0 2px var(--cuivre); }
+  .radio input:checked::after { transform: scale(1); }
+  .submit-row { display: flex; flex-direction: column; gap: 12px; }
+  .submit-row .btn { min-height: 54px; font-size: 16px; }
+  @media (min-width: 960px) { .submit-row { flex-direction: row; align-items: center; gap: 20px; } .submit-row .btn { align-self: flex-start; min-height: 56px; font-size: 17px; } .submit-row .small { font-size: 14px; } }
+  .status :global(a) { color: inherit; text-decoration: underline; }
+
+  .themes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(48px, 6.6vw, 96px); align-items: center; }
+  .themes-photo { height: 480px; border-radius: var(--r-carte); overflow: hidden; }
+  .themes-photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .themes-txt { gap: 28px; }
+  .themes ul { list-style: none; margin: 0; padding: 0; }
+  .themes li { display: flex; gap: 18px; align-items: baseline; padding: 18px 0; box-shadow: inset 0 -1px 0 var(--filet); font: 500 26px/1.2 var(--serif); color: var(--cacao); }
+  .themes li:last-child { box-shadow: none; }
+  .star { color: var(--sauge); font: 400 14px var(--sans); }
+</style>

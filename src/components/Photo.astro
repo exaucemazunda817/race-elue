@@ -1,0 +1,36 @@
+---
+// Photo optimisée : WebP, plusieurs largeurs (400/800/1200), chargement différé sauf héros.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/photos/*.jpg', { eager: true });
+
+interface Props {
+  src: string; // nom du fichier dans src/assets/photos
+  alt: string;
+  sizes?: string;
+  position?: string;
+  priority?: boolean;
+  class?: string;
+  style?: string;
+}
+const { src, alt, sizes = '(min-width: 960px) 50vw, 100vw', position = 'center', priority = false, class: className, style } = Astro.props;
+const mod = photos[`../assets/photos/${src}`];
+if (!mod) throw new Error(`Photo introuvable : ${src}`);
+const img = mod.default;
+const widths = [400, 800, 1200].filter((w) => w < img.width).concat(img.width);
+---
+<Picture
+  src={img}
+  alt={alt}
+  widths={widths}
+  sizes={sizes}
+  formats={['webp']}
+  fallbackFormat="jpg"
+  quality={72}
+  loading={priority ? 'eager' : 'lazy'}
+  decoding={priority ? 'sync' : 'async'}
+  fetchpriority={priority ? 'high' : undefined}
+  class={className}
+  style={`object-position:${position};${style ?? ''}`}
+/>

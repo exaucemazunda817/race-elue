@@ -1,0 +1,74 @@
+---
+// Page servie par le service worker quand une page demandée n'est pas en cache et que le réseau est coupé.
+// Elle liste les pages déjà lues (enregistrées dans le cache du navigateur).
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Hors connexion" description="Ce que tu as déjà lu reste disponible hors connexion." active="/hors-ligne" noindex noFab>
+  <div slot="top" class="banner">
+    <Icon name="wifi-slash" size={22} />
+    <span>Tu es hors connexion.<span class="only-desktop"> Tu peux encore lire les pages déjà ouvertes.</span></span>
+    <button type="button" onclick="location.reload()">Réessayer</button>
+  </div>
+  <section class="wrap off">
+    <div class="stack gap14">
+      <span class="kicker only-desktop">Disponible hors connexion</span>
+      <h1 class="h1" style="--h1-d:52px;--h1-m:32px;--h1-vw:3.6vw">Ce que tu as déjà lu</h1>
+    </div>
+    <div class="grid" data-list>
+      <p class="vide" data-vide>Les pages que tu ouvres pendant que tu es connectée s'enregistrent ici pour être relues sans Internet.</p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const list = document.querySelector<HTMLElement>('[data-list]')!;
+  const vide = document.querySelector<HTMLElement>('[data-vide]')!;
+  const tick = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></svg>';
+  (async () => {
+    if (!('caches' in window)) return;
+    const cache = await caches.open('pages-v1');
+    const reqs = await cache.keys();
+    const items: { url: string; title: string }[] = [];
+    for (const r of reqs) {
+      const u = new URL(r.url);
+      if (u.pathname === '/hors-ligne' || u.pathname === '/hors-ligne/') continue;
+      const res = await cache.match(r);
+      const html = res ? await res.text() : '';
+      const m = html.match(/<title>([^<]*)<\/title>/);
+      const title = (m ? m[1] : u.pathname).replace(/ · Race Élue Disanka.*$/, '').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+      items.push({ url: u.pathname, title });
+    }
+    if (!items.length) return;
+    vide.remove();
+    items.forEach((it) => {
+      const a = document.createElement('a');
+      a.className = 'item';
+      a.href = it.url;
+      a.innerHTML = `<span class="k">${tick}Enregistré</span><span class="t"></span>`;
+      a.querySelector('.t')!.textContent = it.title;
+      list.appendChild(a);
+    });
+  })();
+</script>
+
+<style>
+  .gap14 { gap: 14px; }
+  .banner { background: var(--cacao); color: var(--creme); padding: 14px var(--gutter); display: flex; gap: 10px; align-items: center; font: 600 14px/1.4 var(--sans); }
+  .banner :global(.icon) { color: var(--or); }
+  .banner button { margin-left: auto; background: none; border: 0; color: inherit; font: inherit; text-decoration: underline; text-underline-offset: 4px; min-height: 44px; cursor: pointer; }
+  .off { padding-top: 32px; padding-bottom: 64px; display: flex; flex-direction: column; gap: 20px; }
+  .grid { display: flex; flex-direction: column; gap: 14px; }
+  .vide { color: var(--secondaire); }
+  .grid :global(.item) { background: #fff; border-radius: var(--r-carte); box-shadow: var(--ombre-md); padding: 20px; display: flex; flex-direction: column; gap: 6px; color: inherit; }
+  .grid :global(.k) { display: flex; gap: 6px; align-items: center; font: 800 11px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--vert); }
+  .grid :global(.t) { font: 500 22px/1.12 var(--serif); color: var(--cacao); }
+  @media (min-width: 960px) {
+    .banner { font-size: 15px; }
+    .off { padding-top: 80px; padding-bottom: var(--sec-2); gap: 32px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .grid :global(.item) { padding: 26px; gap: 10px; }
+    .grid :global(.k) { font-size: 11px; }
+    .grid :global(.t) { font-size: 26px; }
+  }
+</style>

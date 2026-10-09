@@ -1,0 +1,151 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Cover from '../../components/Cover.astro';
+import QuoteBand from '../../components/QuoteBand.astro';
+import NewsletterBand from '../../components/NewsletterBand.astro';
+import MagazineReader from '../../components/MagazineReader.astro';
+import { MAGAZINE, SITE } from '../../data/site';
+import { SOMMAIRE_N01 } from '../../data/magazine';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'PublicationIssue',
+  issueNumber: '1',
+  name: `${MAGAZINE.titre} ${MAGAZINE.numero}`,
+  datePublished: '2026-02',
+  author: { '@type': 'Person', name: SITE.nom },
+  publisher: { '@type': 'Organization', name: SITE.editeur },
+  isAccessibleForFree: true,
+  inLanguage: 'fr',
+  isPartOf: { '@type': 'Periodical', name: `${MAGAZINE.titre}, magazine de la foi` },
+};
+---
+<Base
+  title={`${MAGAZINE.titre}, ${MAGAZINE.numero}`}
+  description="« Devenu une légende », le magazine de la foi de Race Élue Disanka : Joseph, David, Marie, Lincoln, Mandela, Anne Frank et des témoignages d'aujourd'hui. À lire en ligne ou en PDF, gratuitement."
+  ogImage="/og/magazine.jpg"
+  active="/publications"
+  footerMention=""
+  jsonLd={jsonLd}
+>
+  <section class="hero bg-vert on-vert wrap">
+    <nav class="crumb" aria-label="Fil d'Ariane">
+      <a href="/publications" class="only-desktop">Publications</a>
+      <Icon name="caret-right" size={14} class="only-desktop" />
+      <span class="only-desktop" aria-current="page">{MAGAZINE.titre} · {MAGAZINE.numero}</span>
+      <a href="/publications" class="only-mobile back"><Icon name="arrow-left" size={18} />Publications</a>
+    </nav>
+    <div class="hero-grid">
+      <div class="cover-wrap"><Cover kind="magazine" width={380} sizes="(min-width: 960px) 380px, 210px" priority shadow="lg" /></div>
+      <div class="hero-txt">
+        <span class="kicker or"><span class="only-desktop">Magazine de la foi · {MAGAZINE.numero} · {MAGAZINE.date}</span><span class="only-mobile">Magazine · {MAGAZINE.numero} · {MAGAZINE.date}</span></span>
+        <h1 class="h1" style="--h1-m:44px;--h1-vw:5.3vw">Devenu <em>une légende</em></h1>
+        <p class="lead only-desktop">Des histoires bibliques, des récits inspirants et des témoignages pour te rappeler que Dieu écrit encore des histoires de victoire. Tu deviendras aussi une légende.</p>
+        <p class="lead only-mobile">Histoires bibliques, récits inspirants et témoignages pour nourrir ta foi.</p>
+        <div class="btns">
+          <a class="btn btn-gold btn-lg" href="#lecteur" data-open-page="1"><Icon name="book-open-text" />Lire en ligne</a>
+          <a class="btn btn-ghost-light btn-lg" href={MAGAZINE.pdf} download><Icon name="download-simple" /><span class="only-desktop">Télécharger le PDF</span><span class="only-mobile">{MAGAZINE.poids}</span></a>
+        </div>
+        <span class="small only-desktop">{MAGAZINE.poids} · {MAGAZINE.pages} pages · Gratuit · Publié par RED Éditions</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap sec sommaire">
+    <div class="stack intro">
+      <span class="kicker only-desktop">Au sommaire</span>
+      <h2 class="h2" style="--h2-m:30px">Dans ce numéro</h2>
+      <p class="only-desktop">Chaque rubrique s'ouvre directement dans le lecteur en ligne, à la bonne page.</p>
+    </div>
+    <ol class="toc">
+      {SOMMAIRE_N01.map((s) => (
+        <li>
+          <a href={`#page-${s.page}`} data-open-page={s.page}>
+            <span class="rub">{s.rubrique}</span>
+            <span class="tt">{s.titre}</span>
+            <span class="pg"><span class="sr-only">page </span>{String(s.page).padStart(2, '0')}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="wrap sec-2 bg-sable reader-sec" id="lecteur" aria-labelledby="lecteur-titre">
+    <div class="reader-head">
+      <div class="stack gap14">
+        <span class="kicker only-desktop">Lecteur en ligne</span>
+        <h2 class="h2" id="lecteur-titre" style="--h2-d:44px;--h2-m:28px">Feuillette le magazine</h2>
+      </div>
+      <span class="small">Les pages se chargent une à une, idéal en 3G.</span>
+    </div>
+    <MagazineReader />
+  </section>
+
+  <QuoteBand texte="Tu deviendras aussi une légende. Alors, s'il te plaît, n'abandonne pas." pad="sec-2" class="only-desktop" />
+
+  <NewsletterBand
+    id="prochain-numero"
+    titre="Reçois le prochain numéro"
+    titreEm="dès sa sortie"
+    texte="Un e-mail par parution, avec le lien de lecture. Désinscription en un clic."
+    texteMobile=""
+    button="Me prévenir"
+    source="magazine"
+    after="message"
+    pad="sec-2"
+    flushTop={false}
+  />
+</Base>
+
+<style>
+  .hero { padding-top: 12px; padding-bottom: 48px; display: flex; flex-direction: column; gap: 18px; }
+  .crumb { display: flex; gap: 10px; align-items: center; font: 600 14px var(--sans); color: var(--discret-vert); }
+  .crumb a { color: var(--or); }
+  .back { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; font-size: 13px; }
+  .hero-grid { display: flex; flex-direction: column; gap: 18px; }
+  .cover-wrap { width: 210px; align-self: center; margin: 6px 0 10px; }
+  .hero-txt { display: flex; flex-direction: column; gap: 18px; max-width: 600px; }
+  .hero h1 { line-height: 0.98; }
+  .hero .lead { color: var(--texte-vert); }
+  .btns { display: flex; flex-direction: column; gap: 12px; }
+  .btns .btn { min-height: 54px; font-size: 16px; }
+  @media (min-width: 960px) {
+    .hero { padding-top: 32px; padding-bottom: 120px; gap: 48px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(300px, 420px) minmax(0, 1fr); gap: clamp(48px, 6.6vw, 96px); align-items: center; }
+    .cover-wrap { width: min(380px, 100%); justify-self: center; margin: 0; }
+    .hero-txt { gap: 24px; }
+    .btns { flex-direction: row; gap: 16px; }
+    .btns .btn { min-height: 56px; font-size: 17px; }
+    .hero .small { font-size: 14px; }
+  }
+
+  .sommaire { padding-block: 48px; display: flex; flex-direction: column; gap: 4px; }
+  .intro { gap: 18px; margin-bottom: 12px; }
+  .intro p { font-size: 17px; }
+  .toc { list-style: none; margin: 0; padding: 0; }
+  .toc li { box-shadow: inset 0 -1px 0 var(--filet); }
+  .toc li:last-child { box-shadow: none; }
+  .toc a { display: flex; flex-direction: column; gap: 4px; padding: 14px 0; color: inherit; }
+  .toc a:hover .tt { color: var(--cuivre); }
+  .rub { font: 800 11px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--cuivre); }
+  .tt { font: 500 21px/1.2 var(--serif); color: var(--cacao); transition: color 0.15s; }
+  .pg { display: none; }
+  @media (min-width: 960px) {
+    .sommaire { padding-block: var(--sec); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 96px; align-items: start; }
+    .intro { margin: 0; }
+    .toc a { display: grid; grid-template-columns: 150px minmax(0, 1fr) 40px; gap: 24px; align-items: baseline; padding: 22px 0; }
+    .rub { font-size: 11px; }
+    .tt { font-size: 26px; }
+    .pg { display: block; text-align: right; font: 400 15px var(--sans); color: var(--secondaire); }
+  }
+
+  .reader-sec { display: flex; flex-direction: column; gap: 20px; padding-inline: 0; background: var(--vert); padding-block: 20px 0; }
+  .reader-head { display: none; }
+  .gap14 { gap: 14px; }
+  @media (min-width: 960px) {
+    .reader-sec { padding-inline: var(--gutter); background: var(--sable); padding-block: var(--sec-2); gap: 36px; scroll-margin-top: 0; }
+    .reader-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
+    .reader-head .small { font-size: 14px; }
+  }
+</style>

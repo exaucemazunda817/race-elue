@@ -1,0 +1,59 @@
+---
+import Icon from './Icon.astro';
+import Photo from './Photo.astro';
+import { THEMES, type Pensee } from '../data/pensees';
+
+interface Props { p: Pensee }
+const { p } = Astro.props;
+const titre = p.titreEm ? `${p.titre} ${p.titreEm}` : p.titre;
+const kickerD = p.video ? `${THEMES[p.theme]} · YouTube` : `${THEMES[p.theme]} · ${p.duree}`;
+const kickerM = p.video ? `Vidéo · ${p.video.duree}` : `${THEMES[p.theme]} · ${p.duree}`;
+---
+<a class="pcard" href={`/pensees/${p.slug}`} data-theme={p.theme} data-video={p.video ? 'oui' : undefined}>
+  <span class="img">
+    <Photo src={p.photo} alt="" position={p.position} sizes="(min-width: 960px) 380px, 96px" />
+    {p.video && (
+      <span class="badge"><Icon name="play" /><span class="only-desktop">Vidéo · {p.video.duree}</span></span>
+    )}
+  </span>
+  <span class="body">
+    <span class="k only-desktop">{kickerD}</span>
+    <span class="k only-mobile">{kickerM}</span>
+    <span class="t">{titre}</span>
+    {p.exemple && <span class="ex only-desktop">Texte d'exemple</span>}
+  </span>
+</a>
+
+<style>
+  .pcard {
+    display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; align-items: center;
+    padding: 16px 0; box-shadow: inset 0 -1px 0 var(--filet); color: inherit;
+  }
+  .img { position: relative; display: block; width: 96px; height: 96px; }
+  .img :global(img) { width: 96px; height: 96px; object-fit: cover; border-radius: 999px 999px 6px 6px; }
+  .badge {
+    position: absolute; right: 6px; bottom: 6px; width: 30px; height: 30px; border-radius: 999px; background: var(--creme);
+    display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--cuivre); font-size: 14px;
+  }
+  .body { display: flex; flex-direction: column; gap: 6px; }
+  .k { font: 800 11px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--vert); }
+  .t { font: 500 21px/1.15 var(--serif); color: var(--cacao); }
+  .ex { font: 400 13px var(--sans); color: var(--secondaire); }
+  .pcard:hover .t { color: var(--cuivre); }
+
+  @media (min-width: 960px) {
+    .pcard {
+      display: flex; flex-direction: column; gap: 0; padding: 0; align-items: stretch;
+      background: #fff; border-radius: var(--r-carte); box-shadow: var(--ombre-md); overflow: hidden;
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
+    }
+    .pcard:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(74, 42, 26, 0.06), 0 16px 32px rgba(74, 42, 26, 0.12); }
+    .img { width: 100%; height: 200px; }
+    .img :global(img) { width: 100%; height: 200px; border-radius: 0; }
+    .badge { left: 16px; right: auto; bottom: 16px; width: auto; height: 36px; padding: 0 14px; font: 700 13px var(--sans); color: var(--vert); }
+    .badge :global(.icon) { color: var(--cuivre); }
+    .body { padding: 22px 24px 26px; gap: 10px; }
+    .k { font-size: 11px; }
+    .t { font-size: 26px; line-height: 1.12; }
+  }
+</style>

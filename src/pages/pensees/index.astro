@@ -1,0 +1,185 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Photo from '../../components/Photo.astro';
+import PenseeCard from '../../components/PenseeCard.astro';
+import NewsletterBand from '../../components/NewsletterBand.astro';
+import { PENSEES, THEMES } from '../../data/pensees';
+
+const une = PENSEES.find((p) => p.alaune) ?? PENSEES[0];
+const autres = PENSEES.filter((p) => p !== une);
+const filtres = [
+  { key: 'tout', label: 'Tout', court: 'Tout' },
+  { key: 'guerison', label: 'Guérison intérieure', court: 'Guérison' },
+  { key: 'identite', label: 'Identité', court: 'Identité' },
+  { key: 'priere', label: 'Prière', court: 'Prière' },
+  { key: 'creativite', label: 'Créativité', court: 'Créativité' },
+  { key: 'video', label: 'Vidéos', court: 'Vidéos', icon: true },
+];
+const PAR_PAGE = 6;
+---
+<Base
+  title="Pensées et méditations"
+  description="Des textes courts de Race Élue Disanka à lire en quelques minutes, chacun suivi d'une prière : guérison intérieure, identité, prière, créativité."
+  active="/pensees"
+>
+  <section class="wrap head">
+    <span class="kicker">Pensées et méditations</span>
+    <h1 class="h1">Une pensée pour <em>aujourd'hui</em></h1>
+    <p class="lead only-desktop">Des textes courts à lire en quelques minutes, chacun suivi d'une prière. Choisis un thème, ou laisse-toi surprendre.</p>
+  </section>
+
+  <div class="filters-wrap">
+    <div class="filters wrap" role="group" aria-label="Filtrer par thème" data-filters>
+      {filtres.map((f, i) => (
+        <button type="button" class="pill" data-filter={f.key} aria-pressed={i === 0 ? 'true' : 'false'}>
+          {f.icon && <Icon name="play-circle" size={18} />}
+          <span class="only-desktop">{f.label}</span><span class="only-mobile">{f.court}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <section class="wrap une-sec" data-item data-theme={une.theme}>
+    <a class="une on-vert" href={`/pensees/${une.slug}`}>
+      <span class="une-img"><Photo src="laptop-talk.jpg" alt="Race Élue souriante devant son ordinateur" position="center 25%" priority sizes="(min-width: 960px) 640px, 100vw" /></span>
+      <span class="une-txt">
+        <span class="kicker or"><span class="only-desktop">À la une · {THEMES[une.theme]} · {une.duree}</span><span class="only-mobile">À la une · {une.duree}</span></span>
+        <span class="une-titre">{une.titreEm ? `${une.titre} ${une.titreEm}` : une.titre}</span>
+        {une.resume && <span class="une-resume only-desktop">{une.resume}</span>}
+        <span class="btn btn-gold btn-md une-btn only-desktop">Lire la pensée <Icon name="arrow-right" /></span>
+        <span class="link une-link only-mobile">Lire la pensée <Icon name="arrow-right" /></span>
+      </span>
+    </a>
+  </section>
+
+  <section class="wrap liste" aria-label="Toutes les pensées">
+    <div class="grid" data-grid>
+      {autres.map((p, i) => (
+        <>
+          <div class="item" data-item data-theme={p.theme} data-video={p.video ? 'oui' : undefined} data-index={i} hidden={i >= PAR_PAGE}>
+            <PenseeCard p={p} />
+          </div>
+          {i === 2 && (
+            <div class="item meditation" data-item data-theme="meditation" data-always>
+              <span class="kicker vert only-desktop">Méditation courte</span>
+              <p>« Il guérit ceux qui ont le cœur brisé, et il panse leurs blessures. »</p>
+              <span class="ref">Psaume 147.3</span>
+            </div>
+          )}
+        </>
+      ))}
+    </div>
+    <p class="empty" hidden data-empty>Aucune pensée sur ce thème pour l'instant. <button type="button" class="link" data-reset>Voir toutes les pensées</button></p>
+    {autres.length > PAR_PAGE && <button type="button" class="btn btn-outline btn-md more" data-more>Voir plus de pensées</button>}
+  </section>
+
+  <NewsletterBand texte="Et l'ebook offert dès ton inscription." pad="sec-2" />
+</Base>
+
+<script>
+  const PAR_PAGE = 6;
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-item]'));
+  const more = document.querySelector<HTMLButtonElement>('[data-more]');
+  const empty = document.querySelector<HTMLElement>('[data-empty]')!;
+  let current = 'tout';
+  let limit = PAR_PAGE;
+
+  function matches(el: HTMLElement, key: string) {
+    if (el.dataset.always !== undefined) return key === 'tout';
+    if (key === 'tout') return true;
+    if (key === 'video') return el.dataset.video === 'oui';
+    return el.dataset.theme === key;
+  }
+  function apply() {
+    let shown = 0;
+    let hiddenByLimit = 0;
+    items.forEach((el) => {
+      const ok = matches(el, current);
+      const isGridCard = el.dataset.index !== undefined;
+      if (ok && isGridCard) {
+        if (shown < limit) { el.hidden = false; shown++; } else { el.hidden = true; hiddenByLimit++; }
+      } else {
+        el.hidden = !ok;
+      }
+    });
+    const any = items.some((el) => !el.hidden);
+    empty.hidden = any;
+    if (more) more.hidden = hiddenByLimit === 0;
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === current)));
+  }
+  function setFilter(key: string, push = true) {
+    current = key; limit = PAR_PAGE; apply();
+    if (push) {
+      const url = new URL(location.href);
+      if (key === 'tout') url.searchParams.delete('theme'); else url.searchParams.set('theme', key);
+      history.replaceState(null, '', url);
+    }
+  }
+  buttons.forEach((b) => b.addEventListener('click', () => setFilter(b.dataset.filter!)));
+  more?.addEventListener('click', () => { limit += PAR_PAGE; apply(); });
+  document.querySelector('[data-reset]')?.addEventListener('click', () => setFilter('tout'));
+  const initial = new URL(location.href).searchParams.get('theme');
+  if (initial && buttons.some((b) => b.dataset.filter === initial)) setFilter(initial, false);
+</script>
+
+<style>
+  .head { padding-top: 36px; padding-bottom: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .head h1 { line-height: 1.02; }
+  .lead { max-width: 620px; }
+  .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 24px; scrollbar-width: none; }
+  .filters::-webkit-scrollbar { display: none; }
+  .pill {
+    flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 999px;
+    border: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--bordure); color: var(--encre);
+    font: 600 14px var(--sans); cursor: pointer; transition: background-color 0.15s, color 0.15s;
+  }
+  .pill :global(.icon) { color: var(--cuivre); }
+  .pill:hover { background: var(--sable); }
+  .pill[aria-pressed='true'] { background: var(--vert); color: var(--creme); box-shadow: none; font-weight: 700; }
+  .pill[aria-pressed='true'] :global(.icon) { color: var(--or); }
+
+  .une-sec { padding-bottom: 20px; }
+  .une-sec[hidden] { display: none; }
+  .une { background: var(--vert); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; color: var(--creme); }
+  .une:hover { color: var(--creme); }
+  .une-img { display: block; height: 200px; }
+  .une-img :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .une-txt { padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .une-txt .kicker { font-size: 11px; letter-spacing: 0.2em; }
+  .une-titre { font: 500 28px/1.05 var(--serif); color: var(--creme); }
+  .une-resume { font-size: 17px; line-height: 1.65; color: var(--texte-vert); }
+  .une-link { color: var(--or) !important; }
+  .une:hover .une-titre { color: var(--or-hover); }
+
+  .liste { padding-top: 4px; padding-bottom: 40px; display: flex; flex-direction: column; }
+  .grid { display: flex; flex-direction: column; }
+  .item[hidden] { display: none; }
+  .meditation { background: var(--vert-pale); border-radius: var(--r-carte); padding: 24px 22px; margin-top: 20px; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+  .meditation p { font: italic 500 23px/1.3 var(--serif); color: var(--cacao); }
+  .ref { font: 600 13px var(--sans); color: var(--encre); }
+  .more { margin-top: 24px; align-self: stretch; }
+  .empty { padding: 24px 0; color: var(--secondaire); }
+  .empty .link { background: none; border: 0; padding: 0; cursor: pointer; }
+
+  @media (min-width: 960px) {
+    .head { padding-top: 96px; padding-bottom: 0; align-items: center; text-align: center; gap: 22px; }
+    .head h1 { max-width: 900px; }
+    .filters { justify-content: center; flex-wrap: wrap; gap: 10px; padding-top: 34px; padding-bottom: 56px; overflow: visible; }
+    .pill { padding: 0 20px; }
+    .une-sec { padding-top: 24px; padding-bottom: 96px; }
+    .une { border-radius: var(--r-bandeau); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+    .une-img { height: 460px; }
+    .une-txt { padding: 56px; gap: 18px; justify-content: center; }
+    .une-txt .kicker { font-size: 11px; letter-spacing: 0.22em; }
+    .une-titre { font-size: clamp(36px, 3.2vw, 46px); }
+    .une-btn { align-self: flex-start; margin-top: 6px; }
+    .liste { padding-top: 0; padding-bottom: var(--sec-2); gap: 40px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+    .meditation { margin-top: 0; padding: 36px 32px; gap: 14px; }
+    .meditation p { font-size: 28px; line-height: 1.25; }
+    .ref { font-size: 14px; }
+    .more { align-self: center; margin-top: 0; }
+  }
+</style>

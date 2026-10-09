@@ -1,0 +1,41 @@
+---
+// Citation plein écran sur fond vert (une seule par page).
+interface Props {
+  texte: string;
+  source?: string;
+  sourceMobile?: string;
+  note?: string; // phrase sous la citation (Guérie et Épanouie)
+  size?: number; // taille desktop du texte
+  pad?: 'sec' | 'sec-2';
+  class?: string;
+}
+const { texte, source, sourceMobile, note, size = 52, pad = 'sec-2', class: className } = Astro.props;
+---
+<section class:list={['quote-band bg-vert on-vert wrap', pad, className]} style={`--qd:${size}px`}>
+  <span class="big-q" aria-hidden="true">“</span>
+  <blockquote><p>{texte}</p></blockquote>
+  {note && <p class="note only-desktop">{note}</p>}
+  {source && (
+    sourceMobile !== undefined ? (
+      <>
+        <span class="kicker or only-desktop">{source}</span>
+        {sourceMobile && <span class="kicker or only-mobile">{sourceMobile}</span>}
+      </>
+    ) : <span class="kicker or">{source}</span>
+  )}
+</section>
+
+<style>
+  .quote-band { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; padding-inline: max(24px, var(--gutter)); }
+  .big-q { font: 500 80px/0.5 var(--serif); color: var(--or); padding-top: 24px; }
+  blockquote { margin: 0; }
+  blockquote p { font: italic 500 30px/1.2 var(--serif); color: var(--creme); max-width: 920px; text-wrap: balance; }
+  .note { font-size: 17px; line-height: 1.6; color: var(--texte-vert); max-width: 560px; }
+  .kicker { font-size: 11px; }
+  @media (min-width: 960px) {
+    .quote-band { gap: 22px; }
+    .big-q { font-size: 120px; padding-top: 40px; }
+    blockquote p { font-size: var(--qd); line-height: 1.15; }
+    .kicker { font-size: 12px; letter-spacing: 0.24em; }
+  }
+</style>

@@ -1,0 +1,63 @@
+---
+// Cartes « ebook » et « magazine » (accueil et page Publications).
+import Icon from './Icon.astro';
+import Cover from './Cover.astro';
+import { EBOOK, MAGAZINE } from '../data/site';
+---
+<div class="pub-grid">
+  <article class="pub sable">
+    <a href={`/publications/${EBOOK.slug}`} class="pub-cover" tabindex="-1" aria-hidden="true"><Cover kind="ebook" width={200} sizes="(min-width: 960px) 200px, 96px" /></a>
+    <div class="pub-txt">
+      <span class="kicker"><span class="only-desktop">Ebook · 5 pensées</span><span class="only-mobile">Ebook</span></span>
+      <h3><a href={`/publications/${EBOOK.slug}`}>{EBOOK.titre}</a></h3>
+      <p class="only-desktop">Reconnaître sa blessure, retrouver son identité en Lui, prier, laisser faire le temps. Un guide doux, à lire à ton rythme.</p>
+      <div class="pub-actions only-desktop">
+        <a class="btn btn-primary" href={`/publications/${EBOOK.slug}#recevoir`}>Recevoir l'ebook</a>
+        <a class="link" href={`/publications/${EBOOK.slug}/extrait`}>Lire un extrait</a>
+      </div>
+      <a class="link only-mobile" href={`/publications/${EBOOK.slug}#recevoir`}>Recevoir l'ebook <Icon name="arrow-right" /></a>
+      <span class="small only-desktop">Publié par RED Éditions</span>
+    </div>
+  </article>
+  <article class="pub vert on-vert">
+    <a href={`/publications/${MAGAZINE.slug}`} class="pub-cover" tabindex="-1" aria-hidden="true"><Cover kind="magazine" width={200} sizes="(min-width: 960px) 200px, 96px" /></a>
+    <div class="pub-txt">
+      <span class="kicker or"><span class="only-desktop">Magazine · {MAGAZINE.numero} · {MAGAZINE.date}</span><span class="only-mobile">Magazine · {MAGAZINE.numero}</span></span>
+      <h3><a href={`/publications/${MAGAZINE.slug}`}>{MAGAZINE.titre}</a></h3>
+      <p class="only-desktop">Histoires bibliques, histoires inspirantes et témoignages pour nourrir ta foi.</p>
+      <div class="pub-actions only-desktop">
+        <a class="btn btn-gold" href={`/publications/${MAGAZINE.slug}#lecteur`}>Lire en ligne</a>
+        <a class="link" href={MAGAZINE.pdf} download><Icon name="download-simple" /> {MAGAZINE.poids}</a>
+      </div>
+      <a class="link only-mobile" href={`/publications/${MAGAZINE.slug}#lecteur`}>Lire en ligne <Icon name="arrow-right" /></a>
+      <span class="small only-desktop">Publié par RED Éditions</span>
+    </div>
+  </article>
+</div>
+
+<style>
+  .pub-grid { display: grid; gap: 16px; }
+  .pub { border-radius: var(--r-carte); padding: 20px; display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; align-items: start; }
+  .pub.sable { background: var(--sable); }
+  .pub.vert { background: var(--vert); }
+  .pub-txt { display: flex; flex-direction: column; gap: 6px; }
+  .pub-txt .kicker { font-size: 11px; letter-spacing: 0.2em; }
+  .pub h3 { font-size: 22px; line-height: 1.08; }
+  .pub h3 a { color: inherit; }
+  .pub.vert h3 a { color: var(--creme); }
+  .pub p { font-size: 16px; line-height: 1.6; }
+  .pub.vert p { color: var(--texte-vert); }
+  .pub-actions { display: flex; gap: 14px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
+  .pub-actions .btn { font-size: 15px; padding: 0 22px; }
+  .pub-actions .link { font-size: 15px; }
+  .pub.vert .link { color: var(--creme); }
+  .pub-cover { display: block; }
+  @media (min-width: 960px) {
+    .pub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+    .pub { padding: 40px; grid-template-columns: minmax(120px, 200px) minmax(0, 1fr); gap: 36px; align-items: center; }
+    .pub-txt { gap: 14px; }
+    .pub-txt .kicker { font-size: 11px; }
+    .pub h3 { font-size: clamp(26px, 2.4vw, 34px); }
+  }
+
+</style>

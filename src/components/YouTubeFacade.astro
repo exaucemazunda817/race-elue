@@ -1,0 +1,59 @@
+---
+// Vidéo en façade : vignette + bouton. Le lecteur YouTube (youtube-nocookie) ne se charge qu'au clic.
+import Icon from './Icon.astro';
+import Photo from './Photo.astro';
+import { RESEAUX } from '../data/site';
+
+interface Props {
+  youtubeId?: string;
+  titre: string;
+  duree: string;
+  photo: string; // vignette locale (légère), utilisée tant qu'aucune vidéo n'est liée
+  position?: string;
+}
+const { youtubeId, titre, duree, photo, position } = Astro.props;
+const chaine = RESEAUX.find((r) => r.nom === 'YouTube')!.url;
+---
+<figure class="yt">
+  {youtubeId ? (
+    <button type="button" class="yt-btn" data-yt={youtubeId} data-title={titre} aria-label={`Regarder la vidéo : ${titre} (${duree})`}>
+      <Photo src={photo} alt="" position={position} sizes="(min-width: 960px) 720px, 100vw" />
+      <span class="yt-over"><span class="play"><Icon name="play" size={28} /></span><span class="lbl">Regarder la vidéo · {duree}</span></span>
+    </button>
+  ) : (
+    <a class="yt-btn" href={chaine} target="_blank" rel="noopener noreferrer">
+      <Photo src={photo} alt="" position={position} sizes="(min-width: 960px) 720px, 100vw" />
+      <span class="yt-over"><span class="play"><Icon name="play" size={28} /></span><span class="lbl">Voir la vidéo sur YouTube · {duree}</span></span>
+    </a>
+  )}
+  <figcaption>La vidéo se charge seulement si tu appuies.</figcaption>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-yt]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?autoplay=1&rel=0`;
+      iframe.title = btn.dataset.title || 'Vidéo YouTube';
+      iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+      iframe.allowFullscreen = true;
+      iframe.className = 'yt-frame';
+      btn.replaceWith(iframe);
+      iframe.focus();
+    }, { once: true });
+  });
+</script>
+
+<style>
+  .yt { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .yt-btn, .yt :global(.yt-frame) {
+    position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; padding: 0;
+    border-radius: var(--r-carte); overflow: hidden; background: var(--encre); cursor: pointer;
+  }
+  .yt-btn :global(img) { width: 100%; height: 100%; object-fit: cover; opacity: 0.75; transition: opacity 0.2s; }
+  .yt-btn:hover :global(img) { opacity: 0.6; }
+  .yt-over { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+  .play { width: 64px; height: 64px; border-radius: 999px; background: var(--creme); color: var(--cuivre); display: flex; align-items: center; justify-content: center; }
+  .lbl { font: 700 13px var(--sans); color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4); }
+  figcaption { font: 400 12px var(--sans); color: var(--secondaire); }
+</style>

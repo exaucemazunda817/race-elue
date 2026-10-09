@@ -1,0 +1,249 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import QuoteBand from '../components/QuoteBand.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import StickyBar from '../components/StickyBar.astro';
+import { wa, MSG } from '../data/site';
+import { byIndex, hasExamples } from '../data/temoignages';
+
+const activites = [
+  { icon: 'chats-circle', titre: 'Partages', texte: 'Un groupe WhatsApp bienveillant pour parler librement, en toute confidentialité.' },
+  { icon: 'hands-praying', titre: 'Prière', texte: 'Des temps de prière les unes pour les autres, et des sujets confiés en privé.' },
+  { icon: 'microphone-stage', titre: 'Enseignements', texte: 'Des messages courts en audio ou en vidéo, légers à télécharger.' },
+  { icon: 'book-bookmark', titre: 'Ressources', texte: "L'ebook, le magazine et des méditations pour continuer entre deux rencontres." },
+];
+const pas = [
+  { titre: 'Écris-moi sur WhatsApp', texte: 'Un simple « Bonjour, je souhaite rejoindre Guérie et Épanouie » suffit.', court: 'Un simple bonjour suffit.' },
+  { titre: 'On fait connaissance', texte: 'Je te présente le groupe et sa charte de bienveillance.', court: 'Je te présente la charte.' },
+  { titre: 'Tu entres dans la communauté', texte: 'Tu participes comme tu veux : lire, partager ou simplement prier.', court: 'Tu participes comme tu veux.' },
+];
+const charte = [
+  { icon: 'lock-key', titre: 'Confidentialité.', texte: 'Ce qui est partagé dans le groupe reste dans le groupe.' },
+  { icon: 'heart', titre: 'Sans jugement.', texte: 'Chaque histoire est accueillie avec respect.' },
+  { icon: 'plant', titre: 'À ton rythme.', texte: "Personne n'est obligée de parler." },
+  { icon: 'first-aid', titre: 'Accompagnement spirituel.', texte: "Il ne remplace pas un suivi médical ou psychologique. En cas de détresse, nous t'encourageons à consulter un professionnel." },
+];
+// Réponses 2 à 4 rédigées d'après la charte et la page Contact : à faire valider par l'autrice.
+const faq = [
+  { q: "Est-ce que c'est gratuit ?", r: 'Oui, rejoindre la communauté est gratuit.' },
+  { q: 'Je vis hors de la RDC, puis-je participer ?', r: "Oui. La communauté vit sur WhatsApp : tu peux la rejoindre où que tu sois, en RDC comme dans la diaspora." },
+  { q: 'Dois-je raconter mon histoire ?', r: "Non. Personne n'est obligée de parler : tu peux simplement lire, prier, et partager seulement quand tu te sens prête." },
+  { q: 'Peux-tu intervenir dans mon église ?', r: 'Oui, en présentiel ou en ligne.', lien: { href: '/contact?onglet=invitation', label: "Envoyer une demande d'intervention" } },
+];
+const temoignages = byIndex(1, 4, 5);
+---
+<Base
+  title="Guérie et Épanouie"
+  description="Guérie et Épanouie, le ministère de Race Élue Disanka : une communauté de femmes qui avancent ensemble vers la guérison intérieure. Partages, prière, enseignements, sur WhatsApp."
+  ogImage="/og/guerie.jpg"
+  active="/guerie-et-epanouie"
+  stickyBar
+>
+  <section class="hero bg-vert on-vert wrap">
+    <div class="hero-txt">
+      <span class="kicker or">Le ministère · depuis 2024</span>
+      <h1 class="h1" style="--h1-d:84px;--h1-m:48px;--h1-vw:5.8vw">Guérie <em>et</em> Épanouie</h1>
+      <p class="lead only-desktop">Une communauté de femmes qui avancent ensemble vers la guérison intérieure. On y partage, on y prie, on y apprend à se laisser aimer par Dieu. Tu peux venir comme tu es.</p>
+      <p class="lead only-mobile">Une communauté de femmes qui avancent ensemble vers la guérison intérieure. Viens comme tu es.</p>
+      <div class="btns">
+        <a class="btn btn-gold btn-lg" href={wa(MSG.communaute)} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp-logo" size={24} />Rejoindre la communauté</a>
+        <a class="link only-desktop" href="#rejoindre">Comment ça marche</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="arche-line" aria-hidden="true"></div>
+      <Photo src="laugh-outdoor.jpg" alt="Race Élue éclate de rire en extérieur, près d'un laurier rose" position="38% center" priority sizes="(min-width: 960px) 560px, 100vw" />
+    </div>
+  </section>
+
+  <section class="wrap sec pourquoi">
+    <div class="stack gap18">
+      <span class="kicker">Pourquoi ce ministère</span>
+      <h2 class="h2" style="--h2-d:50px;--h2-m:30px">Beaucoup de femmes sourient <em>en portant des blessures</em></h2>
+    </div>
+    <div class="stack pourquoi-txt">
+      <p class="only-desktop">En 2024, Dieu a déposé dans mon cœur le fardeau de parler des blessures intérieures. Guérie et Épanouie est né de cet appel : un espace sûr où l'on peut enfin dire ce qui fait mal, et découvrir que Dieu guérit vraiment.</p>
+      <p class="only-desktop">Ici, personne ne te juge. On avance chacune à son rythme, et on se rappelle que la guérison est un chemin, pas une performance.</p>
+      <p class="only-mobile">En 2024, Dieu a déposé dans mon cœur le fardeau de parler des blessures intérieures. Ici, personne ne te juge : on avance chacune à son rythme.</p>
+      <span class="sign only-desktop">Race Élue</span>
+    </div>
+  </section>
+
+  <section class="wrap sec bg-pale activites">
+    <div class="stack gap14">
+      <span class="kicker vert only-desktop">Ce que nous vivons ensemble</span>
+      <h2 class="h2" style="--h2-d:50px;--h2-m:30px"><span class="only-desktop">Quatre rendez-vous pour grandir</span><span class="only-mobile">Ce que nous vivons ensemble</span></h2>
+    </div>
+    <div class="act-grid">
+      {activites.map((a) => (
+        <div class="act">
+          <Icon name={a.icon} />
+          <h3>{a.titre}</h3>
+          <p class="only-desktop">{a.texte}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap sec rejoindre" id="rejoindre">
+    <div class="stack rej-txt">
+      <div class="stack gap14">
+        <span class="kicker only-desktop">Nous rejoindre</span>
+        <h2 class="h2" style="--h2-d:50px;--h2-m:30px">Trois pas, <em>à ton rythme</em></h2>
+      </div>
+      <ol class="pas">
+        {pas.map((p, i) => (
+          <li>
+            <span class="num" aria-hidden="true">{i + 1}</span>
+            <span class="stack"><strong>{p.titre}</strong><span class="only-desktop">{p.texte}</span><span class="only-mobile">{p.court}</span></span>
+          </li>
+        ))}
+      </ol>
+      <a class="btn btn-primary btn-lg only-desktop wa-cta" href={wa(MSG.communaute)} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp-logo" size={24} />Écrire sur WhatsApp</a>
+    </div>
+    <div class="charte">
+      <span class="kicker"><span class="only-desktop">Notre charte de bienveillance</span><span class="only-mobile">Charte de bienveillance</span></span>
+      <ul class="only-desktop">
+        {charte.map((c) => <li><Icon name={c.icon} size={24} /><span><strong>{c.titre}</strong> {c.texte}</span></li>)}
+      </ul>
+      <ul class="only-mobile">
+        <li><Icon name="lock-key" size={20} /><span>Confidentialité, sans jugement, à ton rythme.</span></li>
+        <li><Icon name="first-aid" size={20} /><span>Accompagnement spirituel, qui ne remplace pas un suivi médical ou psychologique.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <QuoteBand texte="Je suis guérie et épanouie !" note="La déclaration que chaque membre est invitée à faire sienne, un jour après l'autre." size={64} />
+
+  <section class="wrap sec-2 bg-sable elles">
+    <h2 class="h2 only-desktop" style="--h2-d:46px">Elles en parlent</h2>
+    <div class="t-grid">
+      {temoignages.map((t, i) => <div class:list={{ 'only-desktop': i > 0 }}><TestimonialCard t={t} /></div>)}
+    </div>
+    {hasExamples(temoignages) && <span class="small">Textes d'exemple, à remplacer par de vrais témoignages publiés avec accord.</span>}
+  </section>
+
+  <section class="wrap sec-2 faq">
+    <h2 class="h2" style="--h2-d:46px;--h2-m:30px">Tes questions</h2>
+    <div class="faq-list">
+      {faq.map((f, i) => (
+        <details open={i === 0}>
+          <summary>{f.q}<span class="pm" aria-hidden="true"><Icon name="plus" class="plus" /><Icon name="minus" class="minus" /></span></summary>
+          <p>{f.r} {f.lien && <a href={f.lien.href}>{f.lien.label}</a>}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <StickyBar slot="sticky" withWhatsApp={false}>
+    <a class="btn btn-wa" href={wa(MSG.communaute)} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp-logo" size={24} />Rejoindre sur WhatsApp</a>
+  </StickyBar>
+</Base>
+
+<style>
+  .gap14 { gap: 14px; }
+  .gap18 { gap: 16px; }
+  .hero { padding-top: 20px; padding-bottom: 56px; display: flex; flex-direction: column-reverse; gap: 20px; }
+  .hero-txt { display: flex; flex-direction: column; gap: 20px; }
+  .hero h1 { line-height: 0.98; }
+  .hero .lead { color: var(--texte-vert); max-width: 500px; }
+  .btns { display: flex; flex-direction: column; gap: 16px; }
+  .btns .btn { min-height: 54px; font-size: 16px; }
+  .hero-photo { position: relative; height: 300px; margin: 6px 10px 6px 0; }
+  .arche-line { position: absolute; inset: -10px -10px 10px 10px; border: 1.5px solid var(--or); border-radius: 999px 999px 6px 6px; }
+  .hero-photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 999px 999px 6px 6px; }
+  @media (min-width: 960px) {
+    .hero { padding-top: 64px; padding-bottom: var(--sec); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 80px; align-items: center; }
+    .hero-txt { gap: 26px; }
+    .btns { flex-direction: row; align-items: center; }
+    .btns .btn { min-height: 56px; font-size: 17px; }
+    .btns .link { color: var(--creme); font-size: 16px; }
+    .hero-photo { height: 520px; margin: 14px 0 0 14px; }
+    .arche-line { inset: -14px 14px 14px -14px; border-radius: var(--arche); }
+    .hero-photo :global(img) { border-radius: var(--arche); box-shadow: var(--ombre-lg); }
+  }
+
+  .pourquoi { padding-block: 56px; display: flex; flex-direction: column; gap: 16px; }
+  .pourquoi-txt { gap: 20px; }
+  .pourquoi-txt p { font-size: 16px; line-height: 1.7; }
+  .sign { font: italic 500 26px var(--serif); color: var(--cuivre); }
+  @media (min-width: 960px) {
+    .pourquoi { padding-block: var(--sec); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 96px; align-items: start; }
+    .pourquoi-txt { padding-top: 28px; }
+    .pourquoi-txt p { font-size: 19px; line-height: 1.75; }
+  }
+
+  .activites { padding-block: 56px; display: flex; flex-direction: column; gap: 20px; }
+  .act-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 359.98px) { .act-grid { grid-template-columns: 1fr; } }
+  .act { background: var(--creme); border-radius: var(--r-carte); padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .act :global(.icon) { font-size: 26px; color: var(--cuivre); }
+  .act h3 { font-size: 22px; line-height: 1.1; }
+  .act p { font-size: 15px; line-height: 1.6; }
+  @media (min-width: 960px) {
+    .activites { padding-block: var(--sec); gap: 56px; }
+    .act-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+    .act { padding: 32px 28px; gap: 14px; }
+    .act :global(.icon) { font-size: 30px; }
+    .act h3 { font-size: 28px; }
+  }
+
+  .rejoindre { padding-block: 56px; display: flex; flex-direction: column; gap: 22px; scroll-margin-top: 16px; }
+  .rej-txt { gap: 22px; }
+  .pas { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 22px; }
+  .pas li { display: flex; gap: 16px; align-items: flex-start; }
+  .num { width: 44px; height: 44px; flex: none; border-radius: 999px 999px 5px 5px; background: var(--vert); color: var(--or); display: flex; align-items: center; justify-content: center; font: italic 600 22px var(--serif); }
+  .pas strong { font: 700 16px var(--sans); color: var(--encre); }
+  .pas .stack span { font-size: 14px; line-height: 1.5; color: var(--secondaire); }
+  .charte { background: var(--sable); border-radius: var(--r-carte); padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .charte ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .charte li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.55; }
+  .charte li :global(.icon) { color: var(--vert); margin-top: 2px; }
+  @media (min-width: 960px) {
+    .rejoindre { padding-block: var(--sec); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 96px; align-items: center; }
+    .rej-txt { gap: 36px; }
+    .pas { gap: 28px; }
+    .pas li { gap: 24px; }
+    .num { width: 56px; height: 56px; border-radius: 999px 999px 6px 6px; font-size: 28px; }
+    .pas strong { font-size: 19px; }
+    .pas .stack { gap: 4px; }
+    .pas .stack span { font-size: 16px; line-height: 1.6; }
+    .wa-cta { align-self: flex-start; }
+    .charte { border-radius: var(--r-bandeau); padding: 48px; gap: 22px; }
+    .charte ul { gap: 22px; }
+    .charte li { gap: 16px; font-size: 17px; line-height: 1.6; }
+    .charte li :global(.icon) { margin-top: 0; }
+  }
+
+  .elles { padding-top: 56px; padding-bottom: 8px; background: var(--creme); display: flex; flex-direction: column; gap: 14px; }
+  .elles :global(.tcard) { background: transparent; padding: 0; }
+  .t-grid { display: grid; gap: 28px; }
+  @media (min-width: 960px) {
+    .elles { padding-block: var(--sec-2); background: var(--sable); gap: 40px; }
+    .elles :global(.tcard) { background: var(--creme); padding: 32px; }
+    .t-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .elles .small { margin-top: -12px; }
+  }
+
+  .faq { padding-top: 48px; padding-bottom: 72px; display: flex; flex-direction: column; gap: 16px; }
+  .faq-list details { box-shadow: inset 0 -1px 0 var(--filet); }
+  .faq-list details:last-child { box-shadow: none; }
+  summary {
+    list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    padding: 18px 0; min-height: 44px; cursor: pointer; font: 700 16px var(--sans); color: var(--encre);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--cuivre); }
+  .pm { color: var(--cuivre); display: inline-flex; }
+  .pm :global(.minus) { display: none; }
+  details[open] .pm :global(.minus) { display: inline-block; }
+  details[open] .pm :global(.plus) { display: none; }
+  details p { padding: 0 0 20px; font-size: 16px; line-height: 1.65; }
+  @media (min-width: 960px) {
+    .faq { padding-block: var(--sec-2); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 96px; align-items: start; }
+    summary { padding: 24px 0; font-size: 18px; }
+    details p { margin-top: -10px; padding-bottom: 24px; }
+  }
+</style>

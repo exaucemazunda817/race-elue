@@ -1,0 +1,23 @@
+---
+// Icônes Phosphor (style duotone) insérées en SVG au moment de la construction :
+// aucune police d'icônes à télécharger, seules les icônes utilisées sont dans la page.
+import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+
+interface Props {
+  name: string;
+  size?: number | string;
+  class?: string;
+  label?: string;
+  style?: string;
+}
+
+const { name, size = '1em', class: className, label, style } = Astro.props;
+const require = createRequire(import.meta.url);
+const file = require.resolve(`@phosphor-icons/core/assets/duotone/${name}-duotone.svg`);
+const raw = readFileSync(file, 'utf8');
+const inner = raw.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+const a11y = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true" focusable="false"';
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="${size}" height="${size}" fill="currentColor" class="icon${className ? ' ' + className : ''}"${style ? ` style="${style}"` : ''} ${a11y}>${inner}</svg>`;
+---
+<Fragment set:html={svg} />

@@ -1,0 +1,126 @@
+---
+import Icon from './Icon.astro';
+import { RESEAUX, wa } from '../data/site';
+
+interface Props {
+  variant?: 'full' | 'court';
+  mention?: string; // mention mobile spécifique (maquettes : varie selon la page)
+  stickyBar?: boolean;
+}
+const { variant = 'court', mention, stickyBar = false } = Astro.props;
+const annee = 2026;
+---
+<footer class:list={['site-footer on-vert wrap', variant, { 'has-sticky': stickyBar }]}>
+  {variant === 'full' ? (
+    <>
+      <div class="cols">
+        <div class="brand">
+          <span class="logo">Race Élue Disanka</span>
+          <p class="only-desktop">Foi, créativité et guérison des blessures intérieures. Publications signées RED Éditions.</p>
+          <div class="social only-mobile">
+            {RESEAUX.map((r) => (
+              <a href={r.url} target="_blank" rel="noopener noreferrer" aria-label={r.nom}><Icon name={r.icon} size={24} /></a>
+            ))}
+          </div>
+        </div>
+        <nav class="col only-desktop" aria-label="Explorer">
+          <span class="col-title">Explorer</span>
+          <a href="/a-propos">À propos</a>
+          <a href="/publications">Publications</a>
+          <a href="/pensees">Pensées et méditations</a>
+          <a href="/temoignages">Témoignages</a>
+        </nav>
+        <nav class="col only-desktop" aria-label="Communauté">
+          <span class="col-title">Communauté</span>
+          <a href="/guerie-et-epanouie">Guérie et Épanouie</a>
+          <a href="/#newsletter">Newsletter</a>
+          <a href="/contact">Contact et invitations</a>
+        </nav>
+        <nav class="col only-desktop" aria-label="Me suivre">
+          <span class="col-title">Me suivre</span>
+          {RESEAUX.map((r) => <a href={r.url} target="_blank" rel="noopener noreferrer">{r.nom}</a>)}
+          <a href={wa()} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </nav>
+        <nav class="grid-links only-mobile" aria-label="Plan du site">
+          <a href="/a-propos">À propos</a>
+          <a href="/guerie-et-epanouie">Guérie et Épanouie</a>
+          <a href="/publications">Publications</a>
+          <a href="/pensees">Pensées</a>
+          <a href="/temoignages">Témoignages</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </div>
+      <div class="bottom">
+        <p class="only-desktop">Ce site propose un accompagnement spirituel. Il ne remplace pas un suivi médical ou psychologique. Si tu traverses une détresse, parles-en aussi à un professionnel de santé.</p>
+        <p class="only-mobile">Accompagnement spirituel : ne remplace pas un suivi médical ou psychologique.</p>
+        <p class="legal">
+          <span class="only-mobile">Publié par RED Éditions · </span>© {annee} · <a href="/mentions-legales">Mentions légales</a> · <a href="/mentions-legales#donnees-personnelles">Confidentialité</a>
+        </p>
+      </div>
+    </>
+  ) : (
+    <div class="short">
+      <a class="logo" href="/">Race Élue Disanka</a>
+      <p>
+        <span class="only-desktop">Accompagnement spirituel : ce contenu ne remplace pas un suivi médical ou psychologique. </span>
+        {mention && <span class="only-mobile">{mention} </span>}
+        Publié par RED Éditions · © {annee} · <a href="/mentions-legales">Mentions légales</a> · <a href="/mentions-legales#donnees-personnelles">Confidentialité</a>
+      </p>
+    </div>
+  )}
+</footer>
+
+<style>
+  .site-footer { background: var(--vert); color: var(--discret-vert); font: 400 12px/1.6 var(--sans); }
+  .site-footer a { color: inherit; }
+  .site-footer a:hover { color: var(--creme); text-decoration: underline; text-underline-offset: 4px; }
+  .logo { font: italic 600 22px/1.2 var(--serif); color: var(--creme) !important; text-decoration: none !important; display: inline-flex; align-items: center; min-height: 44px; align-self: flex-start; }
+
+  /* Version complète (accueil) */
+  .full { padding-top: 48px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 28px; }
+  .full .logo { font-size: 26px; }
+  .cols { display: flex; flex-direction: column; gap: 28px; }
+  .brand { display: flex; flex-direction: column; gap: 28px; }
+  .social { display: flex; gap: 12px; }
+  .social a {
+    width: 48px; height: 48px; display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 999px; box-shadow: inset 0 0 0 1px var(--filet-vert-2); color: var(--texte-vert);
+  }
+  .social a:hover { background: var(--vert-foret); text-decoration: none; }
+  .grid-links { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; font: 400 15px var(--sans); }
+  .grid-links a { color: var(--texte-vert); display: flex; align-items: center; min-height: 44px; line-height: 1.3; }
+  .bottom { display: flex; flex-direction: column; gap: 4px; }
+  .bottom p { margin: 0; }
+
+  @media (min-width: 960px) {
+    .full { padding-top: 80px; gap: 56px; }
+    .cols { display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)); gap: 48px; }
+    .brand { gap: 14px; }
+    .full .logo { font-size: 30px; }
+    .brand p { font-size: 15px; line-height: 1.6; max-width: 320px; margin: 0; }
+    .col { display: flex; flex-direction: column; gap: 12px; font: 400 15px var(--sans); }
+    .col a { color: var(--texte-vert); }
+    .col-title { font: 800 11px var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--or); }
+    .bottom {
+      flex-direction: row; justify-content: space-between; gap: 40px; padding-top: 28px;
+      box-shadow: inset 0 1px 0 var(--filet-vert); font-size: 13px;
+    }
+    .legal { white-space: nowrap; }
+  }
+
+  /* Version courte (pages intérieures) */
+  .short { padding: 32px 0 40px; display: flex; flex-direction: column; gap: 10px; }
+  .short p { margin: 0; }
+  @media (min-width: 960px) {
+    .court { font-size: 13px; }
+    .short { padding: 56px 0 40px; flex-direction: row; justify-content: space-between; gap: 40px; }
+    .short .logo { font-size: 26px; }
+    .short p { max-width: 36em; }
+  }
+
+  /* Place pour le bouton WhatsApp ou la barre d'action collante sur mobile */
+  @media (max-width: 959.98px) {
+    .site-footer { padding-bottom: 96px; }
+    .site-footer.has-sticky { padding-bottom: 112px; }
+  }
+</style>

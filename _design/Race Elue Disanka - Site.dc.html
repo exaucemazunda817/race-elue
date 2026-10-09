@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&amp;family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&amp;display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<style>
+body{margin:0;background:#ECE6DC;font-family:'Nunito Sans',system-ui,sans-serif;color:#3B3029;-webkit-font-smoothing:antialiased}
+a{color:#94522A}a:hover{color:#7A4220}
+*:focus-visible{outline:2px solid #94522A;outline-offset:3px}
+.dv-turn{padding:48px 56px 40px;scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:12px;margin:0 0 24px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1E3B2F;color:#FBF7F1;border-radius:4px;text-decoration:none}
+.dv-tname{font:700 14px/1.2 'Nunito Sans',sans-serif;color:#1E3B2F}
+.dv-opts{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}
+.dv-opt{flex:none;max-width:none;display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(30,59,47,.1);color:#1E3B2F;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:600 12px/1.3 'Nunito Sans',sans-serif;color:#6B5E52}
+.dv-card{max-width:none;flex:none;background:#FBF7F1;border-radius:10px;box-shadow:0 1px 2px rgba(74,42,26,.06),0 12px 32px rgba(74,42,26,.08);overflow:hidden}
+.dv-opt:target .dv-oid{background:#94522A;color:#fff}
+.dv-next{margin:28px 0 0;font:13px/1.5 'Nunito Sans',sans-serif;color:#6B5E52}
+</style>
+</helmet>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Étape 1 — Note d'intention, design system, composants, page d'accueil</span></div>
+<div class="dv-opts">
+
+<!-- 1a NOTE D'INTENTION -->
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Note d'intention</div>
+<div class="dv-card" style="width:880px;padding:72px 80px;box-sizing:border-box;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A">Note d'intention ✦ Race Élue Disanka</div>
+<h1 style="margin:0;font:500 60px/1.02 'Cormorant Garamond',serif;color:#4A2A1A;text-wrap:balance">Une maison de lumière <em style="font-style:italic;color:#1E3B2F">pour les cœurs qui se relèvent.</em></h1>
+</div>
+<p style="margin:0;font:400 19px/1.7 'Nunito Sans';color:#3B3029;max-width:640px;text-wrap:pretty">Le concept : le site est une pièce calme, voûtée, éclairée d'une lumière chaude, comme le décor en arches de tes portraits. On y entre par une arche, on y lit comme dans un livre, on en ressort encouragée. L'ebook apporte le crème, le cuivre et le trait fin ; le magazine apporte la profondeur sombre, l'or et les petites capitales. Le vert, ta couleur, devient le fil qui relie les deux : il remplace le noir du magazine et donne au site une identité propre, vivante et apaisante.</p>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px">
+<div style="display:flex;flex-direction:column;gap:10px"><div style="font:800 12px/1 'Nunito Sans';letter-spacing:.2em;text-transform:uppercase;color:#1E3B2F">Couleurs</div><p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029;text-wrap:pretty">Vert profond pour les moments d'impact (héros, citations, pied de page), crème pour la lecture. Le cuivre a été assombri à #94522A pour passer l'AA en texte et en bouton. L'or reste réservé aux fonds sombres.</p></div>
+<div style="display:flex;flex-direction:column;gap:10px"><div style="font:800 12px/1 'Nunito Sans';letter-spacing:.2em;text-transform:uppercase;color:#1E3B2F">Typographie</div><p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029;text-wrap:pretty">Cormorant Garamond, déjà présente dans le magazine, pour la voix littéraire et ses italiques. Nunito Sans pour lire longtemps sur un petit écran Android : formes ouvertes, rondeurs douces, très lisible dès 16 px.</p></div>
+<div style="display:flex;flex-direction:column;gap:10px"><div style="font:800 12px/1 'Nunito Sans';letter-spacing:.2em;text-transform:uppercase;color:#1E3B2F">Ambiance</div><p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029;text-wrap:pretty">Beaucoup d'air, des photos vraies où tu ris, peu d'ornements. L'arche, le rameau et l'étoile ✦ suffisent. Pas de nuages ni de mains jointes : l'espoir passe par ton visage et tes mots.</p></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:28px 32px;background:#E3EAD9;border-radius:12px">
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.2em;text-transform:uppercase;color:#1E3B2F">Choix d'expert à valider</div>
+<ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font:400 15px/1.55 'Nunito Sans';color:#3B3029">
+<li><strong>Pas de 3ᵉ police manuscrite.</strong> La signature « Je suis guérie et épanouie ! » sera ta vraie écriture, scannée en SVG (2 Ko). En attendant : Cormorant italique. C'est plus personnel et plus léger.</li>
+<li><strong>Fraunces écartée</strong> : très répandue, et son côté « gourmand » s'éloigne de l'élégance de tes publications.</li>
+<li><strong>Navigation à 5 entrées + Contact.</strong> Les témoignages vivent dans chaque page (accueil, fiches, Guérie et Épanouie) et sur une page dédiée accessible depuis le pied de page.</li>
+<li><strong>Photos :</strong> les portraits en arches (Ange Photo du Ciel) servent les héros ; les photos en extérieur, la communauté ; la photo au pupitre, l'autorité et les invitations. Les selfies Silikin et à la porte ne sont pas retenus pour le site.</li>
+</ul></div>
+<div style="font:400 13px/1.5 'Nunito Sans';color:#6B5E52">Note : le design system Broadsheet rattaché au projet (presse, cyan/magenta) a été mis de côté au profit de ta palette et des publications, comme demandé dans le brief.</div>
+</div></div>
+
+<!-- 1b DESIGN SYSTEM -->
+<div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Design system — tokens</div>
+<div class="dv-card" style="width:1200px;padding:64px 72px;box-sizing:border-box;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A">01 · Couleurs et contrastes (WCAG 2.2)</div>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px">
+<div style="display:flex;flex-direction:column;gap:8px"><div style="height:110px;border-radius:12px;background:#1E3B2F;display:flex;align-items:flex-end;padding:12px;box-sizing:border-box;font:600 22px 'Cormorant Garamond';color:#C9A24B">Aa 5,1</div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Vert profond · #1E3B2F</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">En-tête, héros, citations, pied de page. Crème dessus : 11,4:1.</div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="height:110px;border-radius:12px;background:#284A3B;display:flex;align-items:flex-end;padding:12px;box-sizing:border-box;font:600 22px 'Cormorant Garamond';color:#FBF7F1">Aa 9,6</div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Vert forêt · #284A3B</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Survol et cartes sur fond sombre.</div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="height:110px;border-radius:12px;background:#8FA88B;display:flex;align-items:flex-end;padding:12px;box-sizing:border-box;font:600 22px 'Cormorant Garamond';color:#1E3B2F">Aa 4,7</div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Sauge · #8FA88B</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Filets, motifs, puces. Jamais en texte sur crème (2,4:1).</div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="height:110px;border-radius:12px;background:#E3EAD9;display:flex;align-items:flex-end;padding:12px;box-sizing:border-box;font:600 22px 'Cormorant Garamond';color:#94522A">Aa 4,9</div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Vert pâle · #E3EAD9</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Sections secondaires, cartes, états succès.</div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="height:110px;border-radius:12px;background:#FBF7F1;box-shadow:inset 0 0 0 1px #E6DCCD;display:flex;align-items:flex-end;padding:12px;box-sizing:border-box;font:600 22px 'Cormorant Garamond';color:#4A2A1A">Aa 12</div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Crème · #FBF7F1</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Fond principal de lecture.</div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="height:110px;border-radius:12px;background:#94522A;display:flex;align-items:flex-end;padding:12px;box-sizing:border-box;font:600 22px 'Cormorant Garamond';color:#FFFFFF">Aa 6,0</div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Cuivre action · #94522A</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Boutons, liens. Ajusté depuis #A5612F (4,5:1, trop juste) → 5,6:1 sur crème.</div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="height:110px;border-radius:12px;background:#7A4220;display:flex;align-items:flex-end;padding:12px;box-sizing:border-box;font:600 22px 'Cormorant Garamond';color:#FFFFFF">Aa 8,1</div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Cuivre appuyé · #7A4220</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Survol et état pressé.</div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="height:110px;border-radius:12px;background:#C9A24B;display:flex;align-items:flex-end;padding:12px;box-sizing:border-box;font:600 22px 'Cormorant Garamond';color:#1E3B2F">Aa 5,1</div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Or doux · #C9A24B</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Accents sur vert uniquement. Sur crème : 2,1:1, interdit en texte.</div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="height:110px;border-radius:12px;background:#4A2A1A;display:flex;align-items:flex-end;padding:12px;box-sizing:border-box;font:600 22px 'Cormorant Garamond';color:#FBF7F1">Aa 12</div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Cacao · #4A2A1A</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Titres sur fond clair.</div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="height:110px;border-radius:12px;background:#3B3029;display:flex;align-items:flex-end;padding:12px;box-sizing:border-box;font:600 22px 'Cormorant Garamond';color:#FBF7F1">Aa 12</div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Encre · #3B3029 / #6B5E52</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Texte courant (12:1) et texte secondaire (5,9:1).</div></div>
+</div>
+<div style="font:400 13px/1.5 'Nunito Sans';color:#6B5E52">Neutres d'appui : sable #F3ECE1 (surface alternative), filet #E6DCCD, erreur #A23B2A (6,1:1 sur crème, toujours accompagnée d'une icône et d'un texte).</div>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:56px">
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A">02 · Échelle typographique · desktop / mobile</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline"><div style="font:700 12px/1.3 'Nunito Sans';color:#6B5E52">H1 · 64 / 40<br>Cormorant 500</div><div style="font:500 64px/1.02 'Cormorant Garamond';color:#4A2A1A">Tu peux <em>guérir</em></div></div>
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline"><div style="font:700 12px/1.3 'Nunito Sans';color:#6B5E52">H2 · 48 / 32</div><div style="font:500 48px/1.05 'Cormorant Garamond';color:#4A2A1A">Publications à la une</div></div>
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline"><div style="font:700 12px/1.3 'Nunito Sans';color:#6B5E52">H3 · 34 / 26</div><div style="font:500 34px/1.1 'Cormorant Garamond';color:#4A2A1A">Dieu guérit avec le temps</div></div>
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline"><div style="font:700 12px/1.3 'Nunito Sans';color:#6B5E52">H4 · 26 / 22<br>italique 600</div><div style="font:italic 600 26px/1.2 'Cormorant Garamond';color:#4A2A1A">Une pensée pour aujourd'hui</div></div>
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline"><div style="font:700 12px/1.3 'Nunito Sans';color:#6B5E52">H5 · 19 / 18<br>Nunito 700</div><div style="font:700 19px/1.3 'Nunito Sans';color:#3B3029">Recevoir l'ebook gratuitement</div></div>
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline"><div style="font:700 12px/1.3 'Nunito Sans';color:#6B5E52">H6 · 16 / 16<br>Nunito 700</div><div style="font:700 16px/1.3 'Nunito Sans';color:#3B3029">Sommaire de l'ebook</div></div>
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline"><div style="font:700 12px/1.3 'Nunito Sans';color:#6B5E52">Corps L · 19 / 18<br>lh 1,7</div><div style="font:400 19px/1.7 'Nunito Sans';color:#3B3029">Chaque fois que j'ai fait l'expérience de la guérison, c'est Dieu qui a agi.</div></div>
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline"><div style="font:700 12px/1.3 'Nunito Sans';color:#6B5E52">Corps · 17 / 16<br>lh 1,65</div><div style="font:400 17px/1.65 'Nunito Sans';color:#3B3029">Texte courant, jamais sous 16 px sur mobile. Mesure : 60 à 72 caractères.</div></div>
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline"><div style="font:700 12px/1.3 'Nunito Sans';color:#6B5E52">Légende · 13</div><div style="font:400 13px/1.5 'Nunito Sans';color:#6B5E52">Publié par RED Éditions · février 2026</div></div>
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline"><div style="font:700 12px/1.3 'Nunito Sans';color:#6B5E52">Kicker · 12<br>800, +0,22em</div><div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A">Foi · Créativité · Guérison</div></div>
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:baseline"><div style="font:700 12px/1.3 'Nunito Sans';color:#6B5E52">Bouton · 16<br>700</div><div style="font:700 16px/1 'Nunito Sans';color:#3B3029">Je m'inscris</div></div>
+</div></div>
+
+<div style="display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A">03 · Espacements (base 4)</div>
+<div style="display:flex;align-items:flex-end;gap:10px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:4px;height:4px;background:#8FA88B"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">4</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:8px;height:8px;background:#8FA88B"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">8</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:12px;height:12px;background:#8FA88B"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">12</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:16px;height:16px;background:#8FA88B"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">16</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:24px;height:24px;background:#8FA88B"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">24</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:32px;height:32px;background:#8FA88B"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">32</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:48px;height:48px;background:#8FA88B"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">48</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:64px;height:64px;background:#8FA88B"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">64</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:96px;height:96px;background:#8FA88B"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">96</span></div>
+</div>
+<div style="font:400 14px/1.55 'Nunito Sans';color:#3B3029">Sections : 128 desktop / 72 mobile. Grille : 12 colonnes, 1200 max, gouttière 32, marge 24 (mobile 4 colonnes, marge 20).</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A">04 · Rayons et ombres</div>
+<div style="display:flex;gap:16px;align-items:flex-end">
+<div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:64px;height:64px;background:#F3ECE1;border-radius:6px;box-shadow:0 1px 2px rgba(74,42,26,.08)"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">6 · champ</span></div>
+<div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:64px;height:64px;background:#F3ECE1;border-radius:12px;box-shadow:0 1px 2px rgba(74,42,26,.06),0 8px 24px rgba(74,42,26,.08)"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">12 · carte</span></div>
+<div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:64px;height:64px;background:#F3ECE1;border-radius:999px;box-shadow:0 24px 48px -12px rgba(30,59,47,.22)"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">pilule · bouton</span></div>
+<div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:64px;height:84px;background:#F3ECE1;border-radius:999px 999px 6px 6px"></div><span style="font:600 11px 'Nunito Sans';color:#6B5E52">arche</span></div>
+</div>
+<div style="font:400 13px/1.5 'Nunito Sans';color:#6B5E52">Ombres teintées cacao, jamais noires : sm (champs), md (cartes), lg (photo héros, bouton WhatsApp).</div>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A">05 · Motifs signature et iconographie</div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px"><div style="height:150px;background:#F3ECE1;border-radius:12px;display:flex;align-items:center;justify-content:center"><div style="width:82px;height:116px;border:1.5px solid #94522A;border-radius:999px 999px 4px 4px;position:relative"><div style="position:absolute;inset:8px;border-radius:999px 999px 2px 2px;background:#E3EAD9"></div></div></div><div style="font:700 14px 'Nunito Sans';color:#3B3029">L'arche</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Photos héros, citations, cartes « portes ». Fil cuivre décalé de 12 px. Écho direct au décor de tes portraits.</div></div>
+<div style="display:flex;flex-direction:column;gap:12px"><div style="height:150px;background:#F3ECE1;border-radius:12px;display:flex;align-items:center;justify-content:center"><svg width="170" height="28" viewBox="0 0 170 28" fill="none" stroke="#8FA88B" stroke-width="1.2" stroke-linecap="round"><path d="M4 14H70"></path><path d="M100 14H166"></path><path d="M40 14c4-7 10-9 16-8-3 6-9 8-16 8z"></path><path d="M54 14c4 7 10 9 16 8-3-6-9-8-16-8z"></path><path d="M116 14c4-7 10-9 16-8-3 6-9 8-16 8z"></path><path d="M130 14c4 7 10 9 16 8-3-6-9-8-16-8z"></path><text x="85" y="19" text-anchor="middle" font-size="14" fill="#94522A" stroke="none">✦</text></svg></div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Rameau + étoile ✦</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Séparateur, une fois par page au maximum. Trait 1,2 px, sauge.</div></div>
+<div style="display:flex;flex-direction:column;gap:12px"><div style="height:150px;background:#F3ECE1;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:4px;padding:0 24px"><span style="font:500 76px/0.8 'Cormorant Garamond';color:#94522A;float:left">C</span><span style="font:400 13px/1.5 'Nunito Sans';color:#3B3029">e recueil porte sur une question majeure : comment Dieu guérit-il les cœurs brisés ?</span></div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Lettrine</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Début d'article et d'extrait. Cormorant, cuivre, 3 lignes.</div></div>
+<div style="display:flex;flex-direction:column;gap:12px"><div style="height:150px;background:#1E3B2F;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:18px;color:#C9A24B"><span style="font:500 72px/0.6 'Cormorant Garamond';padding-top:20px">“</span><i class="ph-duotone ph-book-open-text" style="font-size:30px"></i><i class="ph-duotone ph-heart" style="font-size:30px"></i><i class="ph-duotone ph-whatsapp-logo" style="font-size:30px"></i></div><div style="font:700 14px 'Nunito Sans';color:#3B3029">Guillemets dorés · icônes</div><div style="font:400 13px/1.45 'Nunito Sans';color:#6B5E52">Phosphor duotone, 20–24 px, toujours avec un libellé. Police d'icônes chargée en sous-ensemble.</div></div>
+</div>
+</div>
+</div></div>
+
+<!-- 1c COMPOSANTS -->
+<div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Bibliothèque de composants</div>
+<div class="dv-card" style="width:1200px;padding:64px 72px;box-sizing:border-box;display:flex;flex-direction:column;gap:56px">
+
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A">Boutons · tous états · cible ≥ 48 px</div>
+<div style="display:grid;grid-template-columns:140px repeat(5,minmax(0,1fr));gap:14px 16px;align-items:center;font:600 12px 'Nunito Sans';color:#6B5E52">
+<span></span><span>Repos</span><span>Survol</span><span>Pressé</span><span>Focus clavier</span><span>Désactivé</span>
+<span>Principal</span>
+<span style="display:flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;background:#94522A;color:#fff;font:700 16px 'Nunito Sans'">Recevoir l'ebook</span>
+<span style="display:flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;background:#7A4220;color:#fff;font:700 16px 'Nunito Sans';box-shadow:0 8px 20px -8px rgba(122,66,32,.6)">Recevoir l'ebook</span>
+<span style="display:flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;background:#5E3218;color:#fff;font:700 16px 'Nunito Sans';transform:translateY(1px)">Recevoir l'ebook</span>
+<span style="display:flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;background:#94522A;color:#fff;font:700 16px 'Nunito Sans';outline:2px solid #94522A;outline-offset:3px">Recevoir l'ebook</span>
+<span style="display:flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;background:#94522A;color:#fff;font:700 16px 'Nunito Sans';opacity:.45">Recevoir l'ebook</span>
+<span>Secondaire</span>
+<span style="display:flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;box-shadow:inset 0 0 0 1.5px #94522A;color:#94522A;font:700 16px 'Nunito Sans'">Lire un extrait</span>
+<span style="display:flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;box-shadow:inset 0 0 0 1.5px #94522A;background:#F5E9DF;color:#7A4220;font:700 16px 'Nunito Sans'">Lire un extrait</span>
+<span style="display:flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;box-shadow:inset 0 0 0 1.5px #7A4220;background:#EBD8C8;color:#5E3218;font:700 16px 'Nunito Sans'">Lire un extrait</span>
+<span style="display:flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;box-shadow:inset 0 0 0 1.5px #94522A;color:#94522A;font:700 16px 'Nunito Sans';outline:2px solid #94522A;outline-offset:3px">Lire un extrait</span>
+<span style="display:flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;box-shadow:inset 0 0 0 1.5px #94522A;color:#94522A;font:700 16px 'Nunito Sans';opacity:.45">Lire un extrait</span>
+<span>Lien texte</span>
+<span style="font:700 16px 'Nunito Sans';color:#94522A;display:flex;gap:6px;align-items:center;justify-content:center">Lire la suite <i class="ph-duotone ph-arrow-right"></i></span>
+<span style="font:700 16px 'Nunito Sans';color:#7A4220;text-decoration:underline;text-underline-offset:4px;display:flex;gap:6px;align-items:center;justify-content:center">Lire la suite <i class="ph-duotone ph-arrow-right"></i></span>
+<span style="font:700 16px 'Nunito Sans';color:#5E3218;text-decoration:underline;text-underline-offset:4px;display:flex;gap:6px;align-items:center;justify-content:center">Lire la suite <i class="ph-duotone ph-arrow-right"></i></span>
+<span style="font:700 16px 'Nunito Sans';color:#94522A;outline:2px solid #94522A;outline-offset:3px;border-radius:2px;display:flex;gap:6px;align-items:center;justify-content:center">Lire la suite <i class="ph-duotone ph-arrow-right"></i></span>
+<span style="font:700 16px 'Nunito Sans';color:#94522A;opacity:.45;display:flex;gap:6px;align-items:center;justify-content:center">Lire la suite <i class="ph-duotone ph-arrow-right"></i></span>
+</div>
+<div style="display:flex;gap:20px;align-items:center;padding:28px;background:#1E3B2F;border-radius:12px;flex-wrap:wrap">
+<span style="font:600 12px 'Nunito Sans';color:#E3EAD9;width:120px">Sur fond vert</span>
+<span style="display:flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:#C9A24B;color:#1E3B2F;font:700 16px 'Nunito Sans'">Recevoir l'ebook</span>
+<span style="display:flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:#D9B866;color:#1E3B2F;font:700 16px 'Nunito Sans'">Survol</span>
+<span style="display:flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;box-shadow:inset 0 0 0 1.5px #E3EAD9;color:#FBF7F1;font:700 16px 'Nunito Sans'">Découvrir le magazine</span>
+<span style="display:flex;align-items:center;gap:10px;height:56px;padding:0 22px 0 18px;border-radius:999px;background:#FBF7F1;color:#1E3B2F;font:700 16px 'Nunito Sans';box-shadow:0 24px 48px -12px rgba(0,0,0,.35)"><i class="ph-duotone ph-whatsapp-logo" style="font-size:26px;color:#1E7A46"></i>M'écrire sur WhatsApp</span>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:56px">
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A">Champs de formulaire</div>
+<div style="display:flex;flex-direction:column;gap:8px"><label style="font:700 15px 'Nunito Sans';color:#3B3029">Ton prénom</label><div style="height:52px;border-radius:6px;background:#fff;box-shadow:inset 0 0 0 1px #CDBFAE;display:flex;align-items:center;padding:0 16px;font:400 16px 'Nunito Sans';color:#857767">Ex. Grâce</div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><label style="font:700 15px 'Nunito Sans';color:#3B3029">Ton adresse e-mail</label><div style="height:52px;border-radius:6px;background:#fff;box-shadow:inset 0 0 0 2px #94522A,0 0 0 4px #F0E0D3;display:flex;align-items:center;padding:0 16px;font:400 16px 'Nunito Sans';color:#3B3029">grace@exemple.com|</div><span style="font:400 13px 'Nunito Sans';color:#6B5E52">Focus. Une pensée par semaine, désinscription en un clic.</span></div>
+<div style="display:flex;flex-direction:column;gap:8px"><label style="font:700 15px 'Nunito Sans';color:#3B3029">Ton adresse e-mail</label><div style="height:52px;border-radius:6px;background:#fff;box-shadow:inset 0 0 0 2px #A23B2A;display:flex;align-items:center;padding:0 16px;font:400 16px 'Nunito Sans';color:#3B3029">grace@exemple</div><span style="font:600 13px 'Nunito Sans';color:#A23B2A;display:flex;gap:6px;align-items:center"><i class="ph-duotone ph-warning-circle" style="font-size:18px"></i>Il manque la fin de l'adresse (ex. .com).</span></div>
+<div style="display:flex;flex-direction:column;gap:8px"><label style="font:700 15px 'Nunito Sans';color:#3B3029">Ton message</label><div style="height:104px;border-radius:6px;background:#fff;box-shadow:inset 0 0 0 1px #CDBFAE;padding:14px 16px;box-sizing:border-box;font:400 16px 'Nunito Sans';color:#857767">Dis-moi ce qui te pèse, ou parle-moi de ton invitation…</div></div>
+<div style="display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:6px;background:#E3EAD9;font:600 15px 'Nunito Sans';color:#1E3B2F"><i class="ph-duotone ph-check-circle" style="font-size:22px"></i>C'est envoyé. Regarde ta boîte mail, l'ebook t'y attend.</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A">Bloc de citation</div>
+<div style="background:#1E3B2F;border-radius:999px 999px 12px 12px;padding:72px 40px 40px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
+<span style="font:500 88px/0.5 'Cormorant Garamond';color:#C9A24B;padding-top:24px">“</span>
+<p style="margin:0;font:italic 500 30px/1.25 'Cormorant Garamond';color:#FBF7F1;text-wrap:balance">Tu deviendras aussi une légende. Alors, s'il te plaît, n'abandonne pas.</p>
+<span style="font:800 11px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#C9A24B">Devenu une légende · N°01</span>
+</div>
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A;margin-top:12px">Menu mobile (ouvert)</div>
+<div style="background:#1E3B2F;border-radius:12px;padding:20px 24px 28px;display:flex;flex-direction:column;gap:4px">
+<div style="display:flex;justify-content:space-between;align-items:center;height:48px;margin-bottom:12px"><span style="font:italic 600 22px 'Cormorant Garamond';color:#FBF7F1">Race Élue Disanka</span><span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:#FBF7F1;font-size:24px"><i class="ph-duotone ph-x"></i></span></div>
+<span style="font:500 26px/2 'Cormorant Garamond';color:#FBF7F1">À propos</span>
+<span style="font:500 26px/2 'Cormorant Garamond';color:#C9A24B;display:flex;gap:10px;align-items:center">Publications <span style="font-size:14px">✦</span></span>
+<span style="font:500 26px/2 'Cormorant Garamond';color:#FBF7F1">Guérie et Épanouie</span>
+<span style="font:500 26px/2 'Cormorant Garamond';color:#FBF7F1">Pensées et méditations</span>
+<span style="font:500 26px/2 'Cormorant Garamond';color:#FBF7F1">Contact et invitations</span>
+<div style="display:flex;gap:12px;margin-top:16px;color:#E3EAD9;font-size:24px"><i class="ph-duotone ph-tiktok-logo" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:999px;box-shadow:inset 0 0 0 1px #4C6B5C"></i><i class="ph-duotone ph-instagram-logo" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:999px;box-shadow:inset 0 0 0 1px #4C6B5C"></i><i class="ph-duotone ph-youtube-logo" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:999px;box-shadow:inset 0 0 0 1px #4C6B5C"></i></div>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="font:800 12px/1 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#94522A">Cartes · publication, article, témoignage</div>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start">
+<div style="background:#fff;border-radius:12px;box-shadow:0 1px 2px rgba(74,42,26,.06),0 8px 24px rgba(74,42,26,.08);padding:24px;display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px">
+<div style="aspect-ratio:3/4;border-radius:4px;background:#F6EEE3;box-shadow:0 6px 16px rgba(74,42,26,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:10px;box-sizing:border-box;text-align:center"><div style="width:40px;height:52px;border:1px solid #A5612F;border-radius:999px 999px 2px 2px"></div><span style="font:italic 600 12px/1.05 'Cormorant Garamond';color:#4A2A1A">Comment Dieu guérit les cœurs brisés</span></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:800 11px/1 'Nunito Sans';letter-spacing:.2em;text-transform:uppercase;color:#94522A">Ebook · 18 pages</span><span style="font:500 24px/1.1 'Cormorant Garamond';color:#4A2A1A">Comment Dieu guérit les cœurs brisés</span><span style="font:400 14px/1.5 'Nunito Sans';color:#6B5E52">Ton guide vers la guérison intérieure, en 5 pensées.</span><span style="font:700 15px 'Nunito Sans';color:#94522A;display:flex;gap:6px;align-items:center;margin-top:4px">Recevoir l'ebook <i class="ph-duotone ph-arrow-right"></i></span></div>
+</div>
+<div style="background:#fff;border-radius:12px;box-shadow:0 1px 2px rgba(74,42,26,.06),0 8px 24px rgba(74,42,26,.08);overflow:hidden;display:flex;flex-direction:column">
+<div style="height:150px;background:url(photos/laptop-talk.jpg) center 22%/cover"></div>
+<div style="padding:20px 22px 24px;display:flex;flex-direction:column;gap:8px"><span style="font:800 11px/1 'Nunito Sans';letter-spacing:.2em;text-transform:uppercase;color:#1E3B2F">Créativité · 4 min</span><span style="font:500 24px/1.1 'Cormorant Garamond';color:#4A2A1A">Créer avec Dieu quand on se sent vide</span><span style="font:400 13px 'Nunito Sans';color:#6B5E52">12 mars 2026</span></div>
+</div>
+<div style="background:#E3EAD9;border-radius:12px;padding:28px 24px;display:flex;flex-direction:column;gap:14px">
+<span style="font:500 56px/0.4 'Cormorant Garamond';color:#94522A;padding-top:16px">“</span>
+<p style="margin:0;font:italic 500 21px/1.35 'Cormorant Garamond';color:#3B3029">Exemple : la pensée sur le temps m'a permis d'arrêter de me presser. J'ai prié autrement.</p>
+<div style="display:flex;gap:10px;align-items:center"><span style="width:36px;height:36px;border-radius:999px;background:#8FA88B;color:#1E3B2F;font:700 14px/36px 'Nunito Sans';text-align:center">M</span><span style="font:600 14px/1.3 'Nunito Sans';color:#3B3029">M., Kinshasa<br><span style="font-weight:400;color:#4F5D49">Lectrice de l'ebook</span></span></div>
+</div>
+</div>
+</div>
+</div></div>
+
+<!-- 1d ACCUEIL DESKTOP -->
+<div class="dv-opt" id="1d"><div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Accueil — desktop 1440</div>
+<div class="dv-card" style="width:1440px"><dc-import name="Ecran - Accueil desktop" show-notes="{{ showNotes }}" hero-src="{{ heroSrc }}" hint-size="1440px,6000px"></dc-import></div></div>
+
+<!-- 1e ACCUEIL MOBILE -->
+<div class="dv-opt" id="1e"><div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>Accueil — mobile 390 (Android)</div>
+<div style="width:410px"><dc-import name="Ecran - Accueil mobile" show-notes="{{ showNotes }}" hero-src="{{ heroSrc }}" hint-size="410px,4000px"></dc-import></div></div>
+
+</div>
+<p class="dv-next">Ensuite : valider <a class="dv-oid" href="#1a">1a</a>–<a class="dv-oid" href="#1c">1c</a>, puis maquettes « Publications » (fiche ebook) et « Guérie et Épanouie » · ou : « héros plein cadre photo dans <a class="dv-oid" href="#1d">1d</a> » · « tester Montserrat à la place de Nunito Sans »</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;heroPhoto&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Portrait arches (souriante)&quot;,&quot;Portrait arches (posée)&quot;,&quot;Studio cœur (souriante)&quot;,&quot;Ordinateur (rire)&quot;],&quot;default&quot;:&quot;Portrait arches (souriante)&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const photos = {
+      'Portrait arches (souriante)': 'photos/portrait-arches.jpg',
+      'Portrait arches (posée)': 'photos/portrait-serious.jpg',
+      'Studio cœur (souriante)': 'photos/studio-smile.jpg',
+      'Ordinateur (rire)': 'photos/laptop.jpg'
+    };
+    return {
+      heroSrc: photos[this.props.heroPhoto] || photos['Portrait arches (souriante)'],
+      showNotes: this.props.showNotes ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

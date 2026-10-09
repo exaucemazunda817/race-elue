@@ -1,0 +1,51 @@
+---
+import SubscribeForm from './SubscribeForm.astro';
+
+interface Props {
+  id?: string;
+  titre?: string;
+  titreEm?: string;
+  texte?: string;
+  texteMobile?: string;
+  button?: string;
+  source?: string;
+  after?: 'merci' | 'message';
+  pad?: 'sec' | 'sec-2';
+  flushTop?: boolean;
+}
+const {
+  id = 'newsletter', titre = 'Une pensée chaque semaine,', titreEm = 'avec une prière',
+  texte = "Et l'ebook offert dès ton inscription. Pas de spam, désinscription en un clic.",
+  texteMobile, button = "Je m'inscris", source = 'newsletter', after = 'merci', pad = 'sec', flushTop = true,
+} = Astro.props;
+---
+<section class:list={['wrap nl-sec', pad, { 'flush-top': flushTop }]} id={id} aria-labelledby={`${id}-titre`}>
+  <div class="nl">
+    <div class="txt">
+      <h2 id={`${id}-titre`}>{titre} <em>{titreEm}</em></h2>
+      {texteMobile !== undefined ? (
+        <>
+          <p class="only-desktop">{texte}</p>
+          {texteMobile && <p class="only-mobile">{texteMobile}</p>}
+        </>
+      ) : <p>{texte}</p>}
+    </div>
+    <SubscribeForm id={id} button={button} source={source} after={after} border="#B9C7B4" />
+  </div>
+</section>
+
+<style>
+  .flush-top { padding-top: 0; }
+  .nl {
+    background: var(--vert-pale); border-radius: var(--r-bandeau); padding: 28px 22px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .txt { display: flex; flex-direction: column; gap: 12px; }
+  h2 { font-size: 28px; line-height: 1.1; }
+  p { font-size: 15px; line-height: 1.55; }
+  @media (min-width: 960px) {
+    .nl { padding: 56px 64px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+    h2 { font-size: 40px; line-height: 1.08; }
+    p { font-size: 16px; line-height: 1.6; }
+  }
+</style>

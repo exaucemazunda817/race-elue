@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&amp;family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&amp;display=swap">
+<style>body{margin:0;background:#ECE6DC;font-family:'Nunito Sans',system-ui,sans-serif;color:#3B3029;-webkit-font-smoothing:antialiased}a{color:#94522A}a:hover{color:#7A4220}code{font:13px ui-monospace,Menlo,monospace;background:#F3ECE1;padding:2px 6px;border-radius:4px}</style>
+</helmet>
+<main style="max-width:1160px;margin:0 auto;padding:56px 32px 96px;display:flex;flex-direction:column;gap:56px">
+<header style="background:#1E3B2F;border-radius:16px;padding:48px 52px;display:flex;flex-direction:column;gap:16px">
+<span style="font:800 12px 'Nunito Sans';letter-spacing:.22em;text-transform:uppercase;color:#C9A24B">Passation développeur · Claude Code</span>
+<h1 style="margin:0;font:500 56px/1 'Cormorant Garamond';color:#FBF7F1">Site Race Élue Disanka</h1>
+<p style="margin:0;font:400 17px/1.7 'Nunito Sans';color:#E3EAD9;max-width:760px">Maquettes haute fidélité à <strong>recréer</strong> dans une vraie stack (recommandé : Astro + Markdown, hébergement statique). Les fichiers HTML sont des références de design, pas du code de production. Le détail complet (tokens, comportements, formulaires, performance, accessibilité) est dans <code style="background:#284A3B;color:#FBF7F1">README.md</code>.</p>
+</header>
+
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+<div style="background:#FBF7F1;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:8px"><span style="font:800 11px 'Nunito Sans';letter-spacing:.2em;color:#94522A">PUBLIC</span><span style="font:400 15px/1.6 'Nunito Sans'">Femmes chrétiennes francophones, RDC et diaspora. Surtout Android, souvent en 3G.</span></div>
+<div style="background:#FBF7F1;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:8px"><span style="font:800 11px 'Nunito Sans';letter-spacing:.2em;color:#94522A">OBJECTIFS</span><span style="font:400 15px/1.6 'Nunito Sans'">Ebook (collecte e-mail), lecture du magazine, adhésion WhatsApp à Guérie et Épanouie, invitations.</span></div>
+<div style="background:#FBF7F1;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:8px"><span style="font:800 11px 'Nunito Sans';letter-spacing:.2em;color:#94522A">EXIGENCES</span><span style="font:400 15px/1.6 'Nunito Sans'">&lt; 500 Ko par page, LCP &lt; 2,5 s, WCAG 2.2 AA, vidéos au clic, mode hors ligne, cibles ≥ 44 px.</span></div>
+</section>
+
+<section style="background:#FBF7F1;border-radius:16px;padding:40px;display:flex;flex-direction:column;gap:24px">
+<h2 style="margin:0;font:500 36px/1.05 'Cormorant Garamond';color:#4A2A1A">Tokens</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px"><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#1E3B2F;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">vert-profond</span><code>#1E3B2F</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#284A3B;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">vert-foret</span><code>#284A3B</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#8FA88B;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">sauge (déco)</span><code>#8FA88B</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#E3EAD9;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">vert-pale</span><code>#E3EAD9</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#FBF7F1;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">creme</span><code>#FBF7F1</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#F3ECE1;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">sable</span><code>#F3ECE1</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#94522A;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">cuivre</span><code>#94522A</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#7A4220;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">cuivre-hover</span><code>#7A4220</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#C9A24B;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">or (sur vert)</span><code>#C9A24B</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#4A2A1A;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">cacao</span><code>#4A2A1A</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#3B3029;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">encre</span><code>#3B3029</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#6B5E52;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">secondaire</span><code>#6B5E52</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#E6DCCD;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">filet</span><code>#E6DCCD</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#CDBFAE;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">bordure-champ</span><code>#CDBFAE</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#A23B2A;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">erreur</span><code>#A23B2A</code></div><div style="display:flex;flex-direction:column;gap:6px"><div style="height:56px;border-radius:8px;background:#1E7A46;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><span style="font:700 13px 'Nunito Sans'">whatsapp</span><code>#1E7A46</code></div></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font:500 40px/1 'Cormorant Garamond';color:#4A2A1A">Cormorant <em>Garamond</em></span><span style="font:400 14px/1.6 'Nunito Sans';color:#6B5E52">Titres 500 · italiques · citations · lettrines. H1 76/40–48 · H2 48–52/30–32 · H3 34/26 · H4 italique 26/22.</span></div>
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font:700 26px/1.2 'Nunito Sans';color:#3B3029">Nunito Sans</span><span style="font:400 14px/1.6 'Nunito Sans';color:#6B5E52">Corps 17/1.65 (mobile 16) · article 20/1.8 · légende 13 · kicker 12 800 +0.22em majuscules · bouton 16 700.</span></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;font:400 14px 'Nunito Sans';color:#3B3029">
+<span>Espacements : 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128</span><span>·</span><span>Rayons : champ 6 · carte 12 · pilule 999 · arche <code>999px 999px 8px 8px</code></span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+<span style="display:flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:#94522A;color:#fff;font:700 16px 'Nunito Sans'">Principal</span>
+<span style="display:flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;box-shadow:inset 0 0 0 1.5px #94522A;color:#94522A;font:700 16px 'Nunito Sans'">Secondaire</span>
+<span style="display:flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:#1E3B2F;color:#FBF7F1;font:700 16px 'Nunito Sans'">Sur vert : <span style="color:#C9A24B;margin-left:6px">or</span></span>
+<span style="font:400 13px 'Nunito Sans';color:#6B5E52">Tous les états (survol, pressé, focus, désactivé) : voir <code>Race Elue Disanka - Site.dc.html</code> planche 1c et le README.</span>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;font:500 36px/1.05 'Cormorant Garamond';color:#4A2A1A">Écrans</h2>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#6B5E52">Aperçus réduits. Ouvre chaque fichier pour l'écran à taille réelle ; toutes les valeurs sont en styles inline dans le source.</p>
+</section>
+<section style="background:#FBF7F1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline"><h3 style="margin:0;font:500 32px/1.05 'Cormorant Garamond';color:#4A2A1A">Accueil</h3><code>/</code></div>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029">Héros vert + photo en arche, publications, trois portes, citation, histoire, témoignages (carrousel mobile), ministère, newsletter, réseaux.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;font:600 13px 'Nunito Sans'"><a href="Ecran - Accueil desktop.dc.html">Ecran - Accueil desktop.dc.html</a><a href="Ecran - Accueil mobile.dc.html">Ecran - Accueil mobile.dc.html</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="height:900px;overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px #E6DCCD;flex:none"><div style="zoom:.5"><dc-import name="Ecran - Accueil desktop" hint-size="1440px,4000px"></dc-import></div></div>
+<div style="height:900px;overflow:hidden;flex:none"><div style="zoom:0.6"><dc-import name="Ecran - Accueil mobile" hint-size="410px,3000px"></dc-import></div></div>
+</div>
+</section>
+<section style="background:#FBF7F1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline"><h3 style="margin:0;font:500 32px/1.05 'Cormorant Garamond';color:#4A2A1A">Fiche ebook</h3><code>/publications/comment-dieu-guerit-les-coeurs-brises</code></div>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029">Formulaire e-mail → /merci. Sommaire réel. Extrait HTML. Barre collante mobile. Variante payante : Ecran - Ebook achat mobile.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;font:600 13px 'Nunito Sans'"><a href="Ecran - Ebook desktop.dc.html">Ecran - Ebook desktop.dc.html</a><a href="Ecran - Ebook mobile.dc.html">Ecran - Ebook mobile.dc.html</a><a href="Ecran - Ebook achat mobile.dc.html">Ecran - Ebook achat mobile.dc.html</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="height:900px;overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px #E6DCCD;flex:none"><div style="zoom:.5"><dc-import name="Ecran - Ebook desktop" hint-size="1440px,4000px"></dc-import></div></div>
+<div style="height:900px;overflow:hidden;flex:none"><div style="zoom:0.6"><dc-import name="Ecran - Ebook mobile" hint-size="410px,3000px"></dc-import></div></div>
+</div>
+</section>
+<section style="background:#FBF7F1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline"><h3 style="margin:0;font:500 32px/1.05 'Cormorant Garamond';color:#4A2A1A">Fiche magazine</h3><code>/publications/devenu-une-legende-n01</code></div>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029">Lecteur en ligne : pages WebP chargées à la demande, double page desktop, swipe mobile. PDF en téléchargement.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;font:600 13px 'Nunito Sans'"><a href="Ecran - Magazine desktop.dc.html">Ecran - Magazine desktop.dc.html</a><a href="Ecran - Magazine mobile.dc.html">Ecran - Magazine mobile.dc.html</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="height:900px;overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px #E6DCCD;flex:none"><div style="zoom:.5"><dc-import name="Ecran - Magazine desktop" hint-size="1440px,4000px"></dc-import></div></div>
+<div style="height:900px;overflow:hidden;flex:none"><div style="zoom:0.6"><dc-import name="Ecran - Magazine mobile" hint-size="410px,3000px"></dc-import></div></div>
+</div>
+</section>
+<section style="background:#FBF7F1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline"><h3 style="margin:0;font:500 32px/1.05 'Cormorant Garamond';color:#4A2A1A">Pensées et méditations</h3><code>/pensees</code></div>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029">Filtres par thème (pastilles 44px), carte à la une, grille de cartes, vidéos en façade.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;font:600 13px 'Nunito Sans'"><a href="Ecran - Pensees desktop.dc.html">Ecran - Pensees desktop.dc.html</a><a href="Ecran - Pensees mobile.dc.html">Ecran - Pensees mobile.dc.html</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="height:900px;overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px #E6DCCD;flex:none"><div style="zoom:.5"><dc-import name="Ecran - Pensees desktop" hint-size="1440px,4000px"></dc-import></div></div>
+<div style="height:900px;overflow:hidden;flex:none"><div style="zoom:0.6"><dc-import name="Ecran - Pensees mobile" hint-size="410px,3000px"></dc-import></div></div>
+</div>
+</section>
+<section style="background:#FBF7F1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline"><h3 style="margin:0;font:500 32px/1.05 'Cormorant Garamond';color:#4A2A1A">Article</h3><code>/pensees/[slug]</code></div>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029">Barre de progression, colonne 720px, lettrine, citation en arche, vidéo YouTube au clic, prière, partage WhatsApp.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;font:600 13px 'Nunito Sans'"><a href="Ecran - Article desktop.dc.html">Ecran - Article desktop.dc.html</a><a href="Ecran - Article mobile.dc.html">Ecran - Article mobile.dc.html</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="height:900px;overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px #E6DCCD;flex:none"><div style="zoom:.5"><dc-import name="Ecran - Article desktop" hint-size="1440px,4000px"></dc-import></div></div>
+<div style="height:900px;overflow:hidden;flex:none"><div style="zoom:0.6"><dc-import name="Ecran - Article mobile" hint-size="410px,3000px"></dc-import></div></div>
+</div>
+</section>
+<section style="background:#FBF7F1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline"><h3 style="margin:0;font:500 32px/1.05 'Cormorant Garamond';color:#4A2A1A">Guérie et Épanouie</h3><code>/guerie-et-epanouie</code></div>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029">Activités, trois pas, charte de bienveillance (mention médicale), FAQ en &lt;details&gt;.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;font:600 13px 'Nunito Sans'"><a href="Ecran - Guerie desktop.dc.html">Ecran - Guerie desktop.dc.html</a><a href="Ecran - Guerie mobile.dc.html">Ecran - Guerie mobile.dc.html</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="height:900px;overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px #E6DCCD;flex:none"><div style="zoom:.5"><dc-import name="Ecran - Guerie desktop" hint-size="1440px,4000px"></dc-import></div></div>
+<div style="height:900px;overflow:hidden;flex:none"><div style="zoom:0.6"><dc-import name="Ecran - Guerie mobile" hint-size="410px,3000px"></dc-import></div></div>
+</div>
+</section>
+<section style="background:#FBF7F1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline"><h3 style="margin:0;font:500 32px/1.05 'Cormorant Garamond';color:#4A2A1A">À propos</h3><code>/a-propos</code></div>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029">Portrait en arche, récit avec lettrine, mission I-II-III, photos, église, invitation.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;font:600 13px 'Nunito Sans'"><a href="Ecran - A propos desktop.dc.html">Ecran - A propos desktop.dc.html</a><a href="Ecran - A propos mobile.dc.html">Ecran - A propos mobile.dc.html</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="height:900px;overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px #E6DCCD;flex:none"><div style="zoom:.5"><dc-import name="Ecran - A propos desktop" hint-size="1440px,4000px"></dc-import></div></div>
+<div style="height:900px;overflow:hidden;flex:none"><div style="zoom:0.6"><dc-import name="Ecran - A propos mobile" hint-size="410px,3000px"></dc-import></div></div>
+</div>
+</section>
+<section style="background:#FBF7F1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline"><h3 style="margin:0;font:500 32px/1.05 'Cormorant Garamond';color:#4A2A1A">Contact et invitations</h3><code>/contact</code></div>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029">WhatsApp prioritaire. Formulaire à onglets (message / invitation), validation inline, consentement.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;font:600 13px 'Nunito Sans'"><a href="Ecran - Contact desktop.dc.html">Ecran - Contact desktop.dc.html</a><a href="Ecran - Contact mobile.dc.html">Ecran - Contact mobile.dc.html</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="height:900px;overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px #E6DCCD;flex:none"><div style="zoom:.5"><dc-import name="Ecran - Contact desktop" hint-size="1440px,4000px"></dc-import></div></div>
+<div style="height:900px;overflow:hidden;flex:none"><div style="zoom:0.6"><dc-import name="Ecran - Contact mobile" hint-size="410px,3000px"></dc-import></div></div>
+</div>
+</section>
+<section style="background:#FBF7F1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline"><h3 style="margin:0;font:500 32px/1.05 'Cormorant Garamond';color:#4A2A1A">Témoignages</h3><code>/temoignages</code></div>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029">Mur en colonnes CSS, publication uniquement avec accord écrit.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;font:600 13px 'Nunito Sans'"><a href="Ecran - Temoignages desktop.dc.html">Ecran - Temoignages desktop.dc.html</a><a href="Ecran - Temoignages mobile.dc.html">Ecran - Temoignages mobile.dc.html</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="height:900px;overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px #E6DCCD;flex:none"><div style="zoom:.5"><dc-import name="Ecran - Temoignages desktop" hint-size="1440px,4000px"></dc-import></div></div>
+<div style="height:900px;overflow:hidden;flex:none"><div style="zoom:0.6"><dc-import name="Ecran - Temoignages mobile" hint-size="410px,3000px"></dc-import></div></div>
+</div>
+</section>
+<section style="background:#FBF7F1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline"><h3 style="margin:0;font:500 32px/1.05 'Cormorant Garamond';color:#4A2A1A">Mentions légales</h3><code>/mentions-legales</code></div>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029">Sommaire latéral collant desktop, accordéons mobile.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;font:600 13px 'Nunito Sans'"><a href="Ecran - Mentions legales desktop.dc.html">Ecran - Mentions legales desktop.dc.html</a><a href="Ecran - Mentions legales mobile.dc.html">Ecran - Mentions legales mobile.dc.html</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="height:900px;overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px #E6DCCD;flex:none"><div style="zoom:.5"><dc-import name="Ecran - Mentions legales desktop" hint-size="1440px,4000px"></dc-import></div></div>
+<div style="height:900px;overflow:hidden;flex:none"><div style="zoom:0.6"><dc-import name="Ecran - Mentions legales mobile" hint-size="410px,3000px"></dc-import></div></div>
+</div>
+</section>
+<section style="background:#FBF7F1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline"><h3 style="margin:0;font:500 32px/1.05 'Cormorant Garamond';color:#4A2A1A">États</h3><code>/merci · 404 · hors ligne</code></div>
+<p style="margin:0;font:400 15px/1.6 'Nunito Sans';color:#3B3029">Confirmation après inscription, 404, bandeau hors connexion + pages en cache (service worker).</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;font:600 13px 'Nunito Sans'"><a href="Ecran - Etats desktop.dc.html">Ecran - Etats desktop.dc.html</a><a href="Ecran - Etats mobile.dc.html">Ecran - Etats mobile.dc.html</a></div>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<div style="height:560px;overflow:hidden;border-radius:10px;box-shadow:0 0 0 1px #E6DCCD;flex:none"><div style="zoom:.5"><dc-import name="Ecran - Etats desktop" hint-size="1440px,2300px"></dc-import></div></div>
+<div style="height:420px;overflow:hidden;flex:none"><div style="zoom:0.32"><dc-import name="Ecran - Etats mobile" hint-size="1310px,810px"></dc-import></div></div>
+</div>
+</section>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

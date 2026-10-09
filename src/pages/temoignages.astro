@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import { TEMOIGNAGES, hasExamples } from '../data/temoignages';
+import { wa, MSG } from '../data/site';
+
+// Variation des cartes comme dans la maquette : 1re en arche verte, 4e sur vert pâle, les autres sur sable.
+const tone = (i: number) => (i === 0 ? 'arche' : i === 3 ? 'pale' : 'sable') as 'arche' | 'pale' | 'sable';
+---
+<Base
+  title="Témoignages"
+  description="Ce que Dieu a fait dans leur cœur : témoignages de lectrices et de membres de la communauté Guérie et Épanouie, publiés avec leur accord."
+  active="/temoignages"
+>
+  <section class="hero bg-vert on-vert wrap">
+    <span class="kicker or">Témoignages</span>
+    <h1 class="h1">Ce que Dieu a fait <em>dans leur cœur</em></h1>
+    <p class="lead only-desktop">Chaque témoignage est publié avec l'accord de la personne. Les prénoms peuvent être abrégés pour protéger son intimité.</p>
+    <p class="lead only-mobile">Publiés avec l'accord de chaque personne.</p>
+  </section>
+
+  <section class="wrap mur-sec">
+    <div class="mur">
+      {TEMOIGNAGES.map((t, i) => (
+        <div class:list={['brique', { 'mobile-hide': i >= 3 }]}>
+          <TestimonialCard t={t} tone={tone(i)} showSource short />
+        </div>
+      ))}
+    </div>
+    {hasExamples(TEMOIGNAGES) && <p class="small">Textes d'exemple, à remplacer par de vrais témoignages publiés avec accord écrit.</p>}
+  </section>
+
+  <section class="wrap partage-sec">
+    <div class="partage">
+      <div class="stack txt">
+        <h2>Toi aussi, <em><span class="only-desktop">tu as une histoire à partager ?</span><span class="only-mobile">tu as une histoire ?</span></em></h2>
+        <p class="only-desktop">Envoie-moi ton témoignage par écrit ou en message vocal. Je te demanderai ton accord avant toute publication.</p>
+        <p class="only-mobile">Envoie-la par écrit ou en vocal. Rien n'est publié sans ton accord.</p>
+      </div>
+      <div class="btns">
+        <a class="btn btn-wa btn-lg only-desktop" href={wa(MSG.temoignage)} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp-logo" />Par WhatsApp</a>
+        <a class="btn btn-outline btn-lg only-desktop" href="/contact">Par écrit</a>
+        <a class="btn btn-light btn-md only-mobile" href={wa(MSG.temoignage)} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp-logo" />Envoyer mon témoignage</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding-top: 28px; padding-bottom: 48px; display: flex; flex-direction: column; gap: 14px; }
+  .hero h1 { line-height: 1.02; }
+  .hero .lead { color: var(--texte-vert); max-width: 600px; }
+  @media (min-width: 960px) {
+    .hero { padding-top: 72px; padding-bottom: var(--sec-2); align-items: center; text-align: center; gap: 22px; }
+    .hero h1 { max-width: 900px; }
+  }
+  .mur-sec { padding-top: 36px; padding-bottom: 36px; }
+  .mur { display: flex; flex-direction: column; gap: 16px; }
+  .small { margin-top: 16px; }
+  @media (max-width: 959.98px) {
+    .mobile-hide { display: none; }
+    .mur :global(.arche) { border-radius: var(--r-carte); padding: 24px; background: var(--sable); }
+    .mur :global(.arche) :global(blockquote p) { color: var(--encre); font-size: 21px; }
+    .mur :global(.arche) :global(figcaption) { color: var(--encre); }
+    .mur :global(.arche) :global(.qmark) { color: var(--cuivre); }
+  }
+  @media (min-width: 960px) {
+    .mur-sec { padding-top: 96px; padding-bottom: 40px; }
+    .mur { display: block; column-count: 3; column-gap: 28px; }
+    .brique { break-inside: avoid; margin: 0 0 28px; }
+    .small { margin-top: 0; }
+  }
+
+  .partage-sec { padding-top: 0; padding-bottom: 48px; }
+  .partage { background: var(--vert); border-radius: var(--r-bandeau); padding: 28px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .partage h2 { font-size: 28px; line-height: 1.1; color: var(--creme); }
+  .partage h2 em { color: var(--or); }
+  .partage p { font-size: 15px; line-height: 1.55; color: var(--texte-vert); }
+  .txt { gap: 12px; }
+  .btns { display: flex; gap: 12px; }
+  .btns .btn { flex: 1; }
+  @media (min-width: 960px) {
+    .partage-sec { padding-top: 56px; padding-bottom: var(--sec-2); }
+    .partage { background: var(--vert-pale); padding: 56px 64px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 56px; align-items: center; }
+    .partage h2 { font-size: 42px; line-height: 1.08; color: var(--cacao); }
+    .partage h2 em { color: inherit; }
+    .partage p { font-size: 17px; line-height: 1.6; color: var(--encre); }
+    .btns .btn { flex: none; }
+  }
+</style>

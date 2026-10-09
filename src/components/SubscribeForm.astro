@@ -1,0 +1,57 @@
+---
+import Icon from './Icon.astro';
+import { ENDPOINTS, wa } from '../data/site';
+
+interface Props {
+  id: string;
+  button: string;
+  source: string;
+  after?: 'merci' | 'message';
+  border?: string; // couleur du contour du champ
+}
+const { id, button, source, after = 'merci', border = 'var(--bordure)' } = Astro.props;
+---
+<form class="subscribe" data-subscribe data-source={source} data-after={after} data-endpoint={ENDPOINTS.newsletter} novalidate style={`--field-border:${border}`}>
+  <div class="row">
+    <label class="sr-only" for={`${id}-email`}>Ton adresse e-mail</label>
+    <input
+      class="input input-pill"
+      id={`${id}-email`}
+      name="email"
+      type="email"
+      inputmode="email"
+      autocomplete="email"
+      placeholder="Ton adresse e-mail"
+      aria-describedby={`${id}-email-err`}
+      required
+    />
+    <button type="submit" class="btn btn-primary">{button}</button>
+  </div>
+  <p class="field-error" id={`${id}-email-err`} role="alert"><Icon name="warning-circle" /><span data-msg></span></p>
+  <div class="status" data-status hidden>
+    <p class="form-success ok"><Icon name="check-circle" />C'est noté. Tu recevras un e-mail à chaque parution.</p>
+    <p class="form-alert fallback"><Icon name="warning-circle" size={20} /><span>Les inscriptions par e-mail ouvrent bientôt. En attendant, <a href={wa('Bonjour Race Élue, préviens-moi de la prochaine parution, s\'il te plaît.')} target="_blank" rel="noopener noreferrer">demande-le-moi sur WhatsApp</a>.</span></p>
+    <p class="form-alert error"><Icon name="warning-circle" size={20} /><span>L'envoi n'a pas abouti. Vérifie ta connexion et réessaie.</span></p>
+  </div>
+</form>
+
+<script>
+  import '../scripts/forms';
+</script>
+
+<style>
+  .subscribe { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+  .row { display: flex; flex-direction: column; gap: 12px; }
+  .input { box-shadow: inset 0 0 0 1px var(--field-border); min-height: 52px; }
+  .row .btn { min-height: 52px; }
+  @media (min-width: 640px) {
+    .row { flex-direction: row; }
+    .input { flex: 1; min-height: 56px; }
+    .row .btn { min-height: 56px; padding: 0 26px; }
+  }
+  .status > p { display: none; }
+  .status[data-kind='ok'] .ok,
+  .status[data-kind='fallback'] .fallback,
+  .status[data-kind='error'] .error { display: flex; }
+  .form-alert a { color: inherit; text-decoration: underline; }
+</style>
