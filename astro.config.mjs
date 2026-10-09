@@ -1,9 +1,13 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// Adresse publique du site : à définir (variable SITE_URL) dès que le nom de domaine sera choisi.
-// Elle sert aux balises canoniques, à l'aperçu de partage (Open Graph) et au sitemap.
-const site = process.env.SITE_URL || 'https://race-elue-disanka.vercel.app';
+// Adresse publique du site : balises canoniques, aperçu de partage (Open Graph), robots.txt et sitemap.
+// Ordre : SITE_URL (à définir le jour du vrai nom de domaine), puis l'adresse de production que Vercel
+// fournit automatiquement pendant la construction, puis l'adresse Vercel actuelle.
+const vercelProd = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+const site = (process.env.SITE_URL || '').trim()
+  || (vercelProd ? `https://${vercelProd}` : '')
+  || 'https://race-elue.vercel.app';
 
 export default defineConfig({
   site,
