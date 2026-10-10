@@ -8,7 +8,7 @@ interface Props {
   backHref?: string;
   backLabel?: string;
 }
-const { active = '', variant = 'default', backHref = '/pensees', backLabel = 'Pensées' } = Astro.props;
+const { active = '', variant = 'default', backHref = '/pensees', backLabel = 'Blog' } = Astro.props;
 const isActive = (match: string) => active.startsWith(match);
 const contactActive = active.startsWith('/contact');
 ---

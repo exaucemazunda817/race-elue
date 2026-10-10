@@ -20,10 +20,11 @@ export const RESEAUX = [
 ];
 
 export const NAV = [
-  { href: '/a-propos', label: 'À propos', match: '/a-propos' },
   { href: '/publications', label: 'Publications', match: '/publications' },
   { href: '/guerie-et-epanouie', label: 'Guérie et Épanouie', match: '/guerie-et-epanouie' },
-  { href: '/pensees', label: 'Pensées', labelLong: 'Pensées et méditations', match: '/pensees' },
+  // Le blog : articles et pensées écrites (adresse courte /blog redirigée vers /pensees, vercel.json)
+  { href: '/pensees', label: 'Blog', labelLong: 'Blog · pensées et méditations', match: '/pensees' },
+  { href: '/a-propos', label: 'À propos', match: '/a-propos' },
 ];
 
 export const EBOOK = {

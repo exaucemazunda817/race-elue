@@ -205,7 +205,15 @@ const jsonLd = {
   @media (min-width: 960px) { .pubs :global(.pubs-rameau) { margin-top: 8px; } }
 
   /* Héros (texte posé sur la photo) */
-  .home-h1 { --h1-m: 38px; line-height: 1.02; max-width: 640px; }
+  .home-h1 { --h1-m: 34px; line-height: 1.02; max-width: 640px; }
+  /* Téléphone : bloc de texte plus compact pour laisser voir le visage (10/10/2026) */
+  @media (max-width: 959.98px) {
+    .home-h1 { line-height: 0.98; }
+    :global(.ph-accueil .ph-txt) { gap: 10px !important; }
+    :global(.ph-accueil .lead) { line-height: 1.45 !important; }
+    .btns { gap: 8px; }
+    .btns .btn { min-height: 48px; }
+  }
   .btns { display: flex; flex-direction: column; gap: 12px; }
   .btns .btn { min-height: 52px; }
   .signature { font: italic 500 22px var(--serif); color: var(--or); margin-top: 8px; display: inline-block; align-self: flex-start; }
@@ -230,7 +238,13 @@ const jsonLd = {
   }
   .porte:hover { color: var(--creme); box-shadow: var(--ombre-md); }
   /* Photo en fond de chaque case (demande de Mazunda du 10/10/2026), voile vert pour la lisibilité */
-  .porte { position: relative; isolation: isolate; overflow: hidden; background: var(--vert); color: var(--creme); box-shadow: 0 14px 30px -16px rgba(0, 0, 0, 0.45); }
+  /* Cases en relief : ombre portée en plusieurs couches + cadre doré décalé (comme les arches des photos) */
+  .porte {
+    position: relative; isolation: isolate; overflow: hidden; background: var(--vert); color: var(--creme);
+    box-shadow: 0 2px 4px rgba(30, 59, 47, 0.12), 0 14px 28px -10px rgba(30, 59, 47, 0.45), 0 36px 64px -28px rgba(74, 42, 26, 0.55);
+    outline: 1.5px solid rgba(201, 162, 75, 0.6); outline-offset: 5px;
+  }
+  .porte:hover { box-shadow: 0 2px 4px rgba(30, 59, 47, 0.12), 0 22px 40px -12px rgba(30, 59, 47, 0.55), 0 48px 80px -30px rgba(74, 42, 26, 0.6); outline-color: var(--or); }
   .porte-fond { position: absolute; inset: 0; z-index: -1; }
   .porte-fond :global(picture), .porte-fond :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease-out; }
   .porte:hover .porte-fond :global(img) { transform: scale(1.06); }
@@ -246,7 +260,8 @@ const jsonLd = {
     .portes-head { align-items: center; text-align: center; }
     .portes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; width: 100%; }
     .porte { flex-direction: column; border-radius: 999px 999px 12px 12px; padding: 72px 36px 40px; text-align: center; gap: 16px; }
-    .porte:hover { transform: translateY(-4px); }
+    .porte:hover { transform: translateY(-6px); }
+    .portes-grid { gap: 40px; }
     .porte-icon { width: auto; height: auto; background: none; box-shadow: none; font-size: 40px; }
     .porte-icon::after { content: ''; display: block; width: 40px; height: 1px; margin: 14px auto 0; background: var(--or-couv); }
     .porte-fond::after { background: linear-gradient(180deg, rgba(30, 59, 47, 0.35) 0%, rgba(30, 59, 47, 0.78) 42%, rgba(30, 59, 47, 0.93) 100%); }
@@ -310,7 +325,7 @@ const jsonLd = {
   }
 
   /* Réseaux */
-  .reseaux { position: relative; isolation: isolate; overflow: hidden; background: var(--vert); padding-block: 64px; display: flex; flex-direction: column; gap: 28px; }
+  .reseaux { margin-top: 56px; position: relative; isolation: isolate; overflow: hidden; background: var(--vert); padding-block: 64px; display: flex; flex-direction: column; gap: 28px; }
   .reseaux-fond { position: absolute; inset: 0; z-index: -1; }
   .reseaux-fond :global(picture), .reseaux-fond :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
   .reseaux-fond::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(30, 59, 47, 0.72) 0%, rgba(30, 59, 47, 0.5) 50%, rgba(30, 59, 47, 0.78) 100%); }

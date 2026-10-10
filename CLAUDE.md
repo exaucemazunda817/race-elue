@@ -106,6 +106,16 @@ Rapport : `~/Documents/Mazunda/08-Divers/Race-Elue-Disanka/audit-design-2026-10-
 - **Espacements** : marges de section ramenées à 48/64/80 px (téléphone/tablette/ordinateur) au lieu de 64/88/128.
 - Bande défilante dorée (texte vert).
 
+## 4e passe (10/10/2026, nuit)
+- Menu : Publications, Guérie et Épanouie, **Blog** (= /pensees ; `/blog` et `/blog/<article>` redirigés, vercel.json),
+  À propos. Le blog est l'endroit où l'autrice publie ses articles et pensées (aujourd'hui en ajoutant un texte
+  dans `src/data/pensees.ts` + son image de partage ; un outil de publication sans code reste à choisir).
+- Pied de page complet sur **toutes** les pages (`footer = 'full'` par défaut dans Base) ; liens resserrés.
+- Trois portes : ombre portée en couches + cadre doré décalé (`outline-offset`). Espace crème entre la bande
+  d'inscription et la bande des réseaux (deux fonds photo collés).
+- À propos, « Trois fils » : cartes à photo en arche (numéro, titre, texte), remplaçant les colonnes + rangée de
+  photos ; rangée qui glisse sur téléphone, sans animation d'apparition (saccades, cf. One Love).
+
 ## Pièges rencontrés
 - `img { display:block }` écrasait l'attribut `hidden` : règle globale `[hidden] { display:none !important }` indispensable.
 - Événement `close` de `<dialog>` peu fiable dans certains navigateurs intégrés : le menu mobile fait son nettoyage directement.

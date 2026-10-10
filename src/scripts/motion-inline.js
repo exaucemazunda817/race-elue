@@ -28,6 +28,8 @@
     var seen = new Map();
     d.querySelectorAll(g[0]).forEach(function (el) {
       if (el.hasAttribute('data-reveal') || (hero && hero.contains(el)) || el.closest('dialog, .entree')) return;
+      // Cartes d'une rangée qui glisse (téléphone) : pas d'animation, sinon le glissement saccade (cf. One Love).
+      if (innerWidth < 960 && el.closest('.m-grid')) return;
       el.setAttribute('data-reveal', 'waiting');
       if (g[1]) el.setAttribute('data-rv', g[1]);
       if (g[2]) {

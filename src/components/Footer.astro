@@ -27,7 +27,7 @@ const annee = 2026;
           <span class="col-title">Explorer</span>
           <a href="/a-propos">À propos</a>
           <a href="/publications">Publications</a>
-          <a href="/pensees">Pensées et méditations</a>
+          <a href="/pensees">Blog</a>
           <a href="/temoignages">Témoignages</a>
         </nav>
         <nav class="col only-desktop" aria-label="Communauté">
@@ -45,7 +45,7 @@ const annee = 2026;
           <a href="/a-propos">À propos</a>
           <a href="/guerie-et-epanouie">Guérie et Épanouie</a>
           <a href="/publications">Publications</a>
-          <a href="/pensees">Pensées</a>
+          <a href="/pensees">Blog</a>
           <a href="/temoignages">Témoignages</a>
           <a href="/contact">Contact</a>
         </nav>
@@ -88,7 +88,7 @@ const annee = 2026;
   }
   .social a:hover { background: var(--vert-foret); text-decoration: none; }
   .grid-links { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; font: 400 14px var(--sans); }
-  .grid-links a { color: var(--texte-vert); display: flex; align-items: center; min-height: 44px; line-height: 1.3; }
+  .grid-links a { color: var(--texte-vert); display: flex; align-items: center; min-height: 34px; line-height: 1.3; }
   .bottom { display: flex; flex-direction: column; gap: 4px; }
   .bottom p { margin: 0; }
 
@@ -98,7 +98,9 @@ const annee = 2026;
     .brand { gap: 14px; }
     .full .logo { font-size: 27px; }
     .brand p { font-size: 14px; line-height: 1.6; max-width: 320px; margin: 0; }
-    .col { display: flex; flex-direction: column; gap: 12px; font: 400 14px var(--sans); }
+    .col { display: flex; flex-direction: column; gap: 0; font: 400 14px/1.3 var(--sans); }
+    .col a { padding-block: 2px; }
+    .col-title { margin-bottom: 6px; }
     .col a { color: var(--texte-vert); }
     .col-title { font: 800 12px var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--or); }
     .bottom {
