@@ -19,7 +19,7 @@ import { HERO } from '../data/hero';
 >
   <PageHero photos={HERO.contact} chevauchement>
     <span class="kicker or">Contact et invitations</span>
-    <h1 class="h1" style="--h1-d:72px;--h1-m:42px;--h1-vw:5vw">Écris-moi, <em>je te lis avec attention.</em></h1>
+    <h1 class="h1" style="--h1-d:65px;--h1-m:38px;--h1-vw:4.5vw">Écris-moi, <em>je te lis avec attention.</em></h1>
     <p class="lead only-desktop">Une question, un besoin de prière, une invitation pour ton église ou ton événement : choisis le moyen qui te convient.</p>
     <a class="btn btn-light btn-md only-mobile" href={wa()} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp-logo" size={24} />Écrire sur WhatsApp</a>
     <div class="hero-social only-mobile">
@@ -296,16 +296,16 @@ import { HERO } from '../data/hero';
   .wa-card { background: var(--creme); padding: 32px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--ombre-carte); }
   .wa-head { display: flex; gap: 14px; align-items: center; }
   .wa-ico { width: 52px; height: 52px; border-radius: 999px; background: var(--vert-pale); display: flex; align-items: center; justify-content: center; color: var(--whatsapp); }
-  .wa-head strong { font: 700 18px var(--sans); color: var(--encre); }
-  .wa-head span span, .line-card span span { font-size: 15px; color: var(--secondaire); }
-  .wa-card p { font-size: 15px; line-height: 1.6; }
+  .wa-head strong { font: 700 16px var(--sans); color: var(--encre); }
+  .wa-head span span, .line-card span span { font-size: 14px; color: var(--secondaire); }
+  .wa-card p { font-size: 14px; line-height: 1.6; }
   .line-card { background: var(--creme); border-radius: var(--r-carte); padding: 28px 32px; display: flex; gap: 14px; align-items: center; box-shadow: inset 0 0 0 1px var(--filet); color: var(--vert); }
-  .line-card strong { font: 700 16px var(--sans); color: var(--encre); }
+  .line-card strong { font: 700 14px var(--sans); color: var(--encre); }
   .line-card.col { flex-direction: column; align-items: flex-start; }
-  .soc { display: flex; gap: 12px; align-items: center; font: 400 15px var(--sans); color: var(--encre); min-height: 32px; }
+  .soc { display: flex; gap: 12px; align-items: center; font: 400 14px var(--sans); color: var(--encre); min-height: 32px; }
   .soc :global(.icon) { color: var(--vert); }
   .soc:hover { color: var(--cuivre); }
-  .urgence { display: flex; gap: 12px; align-items: flex-start; padding: 4px 8px; font: 400 13px/1.55 var(--sans); color: var(--secondaire); }
+  .urgence { display: flex; gap: 12px; align-items: flex-start; padding: 4px 8px; font: 400 12px/1.55 var(--sans); color: var(--secondaire); }
   .urgence :global(.icon) { color: var(--erreur); }
 
   .form-card { display: flex; flex-direction: column; gap: 20px; }
@@ -315,21 +315,21 @@ import { HERO } from '../data/hero';
   .tabs { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; border-radius: 999px; background: var(--sable); gap: 4px; }
   .tabs button {
     min-height: 44px; border-radius: 999px; border: 0; background: none; cursor: pointer;
-    font: 700 14px var(--sans); color: var(--secondaire); padding: 0 22px; transition: background-color 0.15s, color 0.15s;
+    font: 700 13px var(--sans); color: var(--secondaire); padding: 0 22px; transition: background-color 0.15s, color 0.15s;
   }
   .tabs button:hover { color: var(--encre); }
   .tabs button[aria-selected='true'] { background: var(--vert); color: var(--creme); }
   @media (min-width: 960px) {
     .tabs { display: flex; align-self: flex-start; padding: 5px; }
-    .tabs button { font-size: 15px; white-space: nowrap; }
+    .tabs button { font-size: 14px; white-space: nowrap; }
   }
   .cform { display: flex; flex-direction: column; gap: 20px; }
   .cform[hidden] { display: none; }
   .fhead { gap: 6px; }
-  .fhead h2 { font-size: 30px; line-height: 1.08; }
-  .req { font-size: 15px; color: var(--secondaire); }
+  .fhead h2 { font-size: 27px; line-height: 1.08; }
+  .req { font-size: 14px; color: var(--secondaire); }
   @media (max-width: 959.98px) { .req { display: none; } }
-  @media (min-width: 960px) { .cform { gap: 26px; } .fhead h2 { font-size: 38px; } }
+  @media (min-width: 960px) { .cform { gap: 26px; } .fhead h2 { font-size: 34px; } }
   .two { display: flex; flex-direction: column; gap: 20px; }
   @media (min-width: 960px) { .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
@@ -337,7 +337,7 @@ import { HERO } from '../data/hero';
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip {
     position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; border-radius: 999px;
-    box-shadow: inset 0 0 0 1px var(--bordure); font: 600 14px var(--sans); color: var(--encre); cursor: pointer;
+    box-shadow: inset 0 0 0 1px var(--bordure); font: 600 13px var(--sans); color: var(--encre); cursor: pointer;
   }
   .chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
   .chip :global(.chk) { display: none; }
@@ -347,14 +347,14 @@ import { HERO } from '../data/hero';
   .chip:hover { background: var(--sable); }
   @media (min-width: 960px) { .chips { gap: 10px; } .chip { padding: 0 18px; } }
   .radios { display: flex; gap: 24px; flex-wrap: wrap; }
-  .radio { display: flex; gap: 10px; align-items: center; min-height: 44px; font: 600 15px var(--sans); cursor: pointer; }
+  .radio { display: flex; gap: 10px; align-items: center; min-height: 44px; font: 600 14px var(--sans); cursor: pointer; }
   .radio input { appearance: none; -webkit-appearance: none; width: 22px; height: 22px; margin: 0; border-radius: 999px; box-shadow: inset 0 0 0 2px var(--bordure); display: grid; place-content: center; cursor: pointer; }
   .radio input::after { content: ''; width: 10px; height: 10px; border-radius: 999px; background: var(--cuivre); transform: scale(0); transition: transform 0.12s; }
   .radio input:checked { box-shadow: inset 0 0 0 2px var(--cuivre); }
   .radio input:checked::after { transform: scale(1); }
   .submit-row { display: flex; flex-direction: column; gap: 12px; }
-  .submit-row .btn { min-height: 54px; font-size: 16px; }
-  @media (min-width: 960px) { .submit-row { flex-direction: row; align-items: center; gap: 20px; } .submit-row .btn { align-self: flex-start; min-height: 56px; font-size: 17px; } .submit-row .small { font-size: 14px; } }
+  .submit-row .btn { min-height: 54px; font-size: 14px; }
+  @media (min-width: 960px) { .submit-row { flex-direction: row; align-items: center; gap: 20px; } .submit-row .btn { align-self: flex-start; min-height: 56px; font-size: 15px; } .submit-row .small { font-size: 13px; } }
   .status :global(a) { color: inherit; text-decoration: underline; }
 
   .themes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(48px, 6.6vw, 96px); align-items: center; }
@@ -362,7 +362,7 @@ import { HERO } from '../data/hero';
   .themes-photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .themes-txt { gap: 28px; }
   .themes ul { list-style: none; margin: 0; padding: 0; }
-  .themes li { display: flex; gap: 18px; align-items: baseline; padding: 18px 0; box-shadow: inset 0 -1px 0 var(--filet); font: 500 26px/1.2 var(--serif); color: var(--cacao); }
+  .themes li { display: flex; gap: 18px; align-items: baseline; padding: 18px 0; box-shadow: inset 0 -1px 0 var(--filet); font: 500 23px/1.2 var(--serif); color: var(--cacao); }
   .themes li:last-child { box-shadow: none; }
-  .star { color: var(--sauge); font: 400 14px var(--sans); }
+  .star { color: var(--sauge); font: 400 13px var(--sans); }
 </style>

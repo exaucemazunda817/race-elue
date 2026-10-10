@@ -42,16 +42,16 @@ import { EBOOK, MAGAZINE } from '../data/site';
   .pub.vert { background: var(--vert); }
   .pub-txt { display: flex; flex-direction: column; gap: 6px; }
   .pub-txt .kicker { font-size: 12px; letter-spacing: 0.2em; }
-  .pub h3 { font-size: 22px; line-height: 1.08; }
+  .pub h3 { font-size: 20px; line-height: 1.08; }
   .pub h3 a { color: inherit; }
   /* Zone tactile portée à 44 px sans changer la mise en page (marge négative compensée) */
   .pub h3 a { display: inline-block; padding-block: 11px; margin-block: -11px; }
   .pub.vert h3 a { color: var(--creme); }
-  .pub p { font-size: 16px; line-height: 1.6; }
+  .pub p { font-size: 14px; line-height: 1.6; }
   .pub.vert p { color: var(--texte-vert); }
   .pub-actions { display: flex; gap: 14px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
-  .pub-actions .btn { font-size: 15px; padding: 0 22px; }
-  .pub-actions .link { font-size: 15px; }
+  .pub-actions .btn { font-size: 14px; padding: 0 22px; }
+  .pub-actions .link { font-size: 14px; }
   .pub.vert .link { color: var(--creme); }
   .pub-cover { display: block; }
   @media (min-width: 960px) {
@@ -59,7 +59,7 @@ import { EBOOK, MAGAZINE } from '../data/site';
     .pub { padding: 40px; grid-template-columns: minmax(120px, 200px) minmax(0, 1fr); gap: 36px; align-items: center; }
     .pub-txt { gap: 14px; }
     .pub-txt .kicker { font-size: 12px; }
-    .pub h3 { font-size: clamp(26px, 2.4vw, 34px); }
+    .pub h3 { font-size: clamp(23px, 2.16vw, 31px); }
   }
 
 </style>

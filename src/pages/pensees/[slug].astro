@@ -50,7 +50,7 @@ import { photoPensee } from '../../data/hero';
       <a href="/pensees">Pensées</a><Icon name="caret-right" size={14} /><a href={`/pensees?theme=${p.theme}`}>{THEMES[p.theme]}</a>
     </nav>
     <span class="kicker or">{THEMES[p.theme]} · {p.duree} de lecture</span>
-    <h1 class="h1" style="--h1-d:72px;--h1-m:42px;--h1-vw:5vw">{p.titre}{p.titreEm && <> <em>{p.titreEm}</em></>}</h1>
+    <h1 class="h1" style="--h1-d:65px;--h1-m:38px;--h1-vw:4.5vw">{p.titre}{p.titreEm && <> <em>{p.titreEm}</em></>}</h1>
     <div class="byline">
       <span class="avatar"><Photo src="portrait-arches.jpg" alt="" position="center 18%" sizes="44px" /></span>
       <span><strong>Race Élue</strong> · <time datetime="2026-02">{p.date}</time> · extrait du magazine {MAGAZINE.numero}</span>
@@ -100,7 +100,7 @@ import { photoPensee } from '../../data/hero';
   </div>
 
   <section class="wrap suite">
-    <h2 class="h2 only-desktop" style="--h2-d:40px">À lire ensuite</h2>
+    <h2 class="h2 only-desktop" style="--h2-d:36px">À lire ensuite</h2>
     <span class="suite-m only-mobile">À lire ensuite</span>
     <div class="suite-grid">
       {suivantes.map((s, i) => (
@@ -155,9 +155,9 @@ import { photoPensee } from '../../data/hero';
 
   .art-grid { padding: 28px var(--gutter) 40px; }
   .art { display: flex; flex-direction: column; gap: 18px; max-width: 720px; margin: 0 auto; }
-  .crumb { display: flex; gap: 10px; align-items: center; font: 600 14px var(--sans); color: var(--secondaire); }
+  .crumb { display: flex; gap: 10px; align-items: center; font: 600 13px var(--sans); color: var(--secondaire); }
   .art h1 { line-height: 1; }
-  .byline { display: flex; gap: 14px; align-items: center; font: 400 13px var(--sans); color: var(--texte-vert); }
+  .byline { display: flex; gap: 14px; align-items: center; font: 400 12px var(--sans); color: var(--texte-vert); }
   .byline strong { color: var(--creme); font-weight: 600; }
   .avatar { box-shadow: 0 0 0 2px var(--or); }
   .avatar { width: 44px; height: 44px; flex: none; border-radius: 999px; overflow: hidden; }
@@ -165,35 +165,35 @@ import { photoPensee } from '../../data/hero';
   .hero-img { height: 250px; border-radius: 999px 999px 8px 8px; overflow: hidden; }
   .hero-img :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .corps { display: flex; flex-direction: column; gap: 18px; }
-  .corps > p { font-size: 17px; line-height: 1.75; max-width: 30em; }
-  .corps > p.source { font-size: 14px; line-height: 1.55; color: var(--secondaire); }
-  .corps .drop::first-letter { font-size: 76px; margin: 8px 10px 0 0; line-height: 0.8; }
-  .corps h2 { font-size: 28px; line-height: 1.1; margin-top: 8px; }
+  .corps > p { font-size: 15px; line-height: 1.75; max-width: 30em; }
+  .corps > p.source { font-size: 13px; line-height: 1.55; color: var(--secondaire); }
+  .corps .drop::first-letter { font-size: 68px; margin: 8px 10px 0 0; line-height: 0.8; }
+  .corps h2 { font-size: 25px; line-height: 1.1; margin-top: 8px; }
   .verset { margin: 0; background: var(--vert); border-radius: 999px 999px 10px 10px; padding: 72px 36px 32px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
-  .verset p { font: italic 500 25px/1.25 var(--serif); color: var(--creme); }
+  .verset p { font: italic 500 22px/1.25 var(--serif); color: var(--creme); }
   .verset cite { font: 800 12px var(--sans); font-style: normal; letter-spacing: 0.22em; text-transform: uppercase; color: var(--or); }
-  .vq { font: 500 80px/0.5 var(--serif); color: var(--or); padding-top: 28px; }
+  .vq { font: 500 72px/0.5 var(--serif); color: var(--or); padding-top: 28px; }
   .priere { background: var(--vert-pale); border-radius: var(--r-carte); padding: 24px 22px; display: flex; flex-direction: column; gap: 10px; }
   .priere-k { display: flex; gap: 8px; align-items: center; font: 800 12px var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--vert); }
   .priere-k :global(.icon) { color: var(--cuivre); }
-  .priere p { font: italic 500 21px/1.45 var(--serif); color: var(--encre); }
+  .priere p { font: italic 500 19px/1.45 var(--serif); color: var(--encre); }
 
   @media (min-width: 960px) {
     .art-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 720px) minmax(0, 1fr); padding: 72px 0 0; }
     .art { gap: 28px; margin: 0; grid-column: 2; }
-    .byline { font-size: 14px; }
+    .byline { font-size: 13px; }
     .hero-img { height: 420px; border-radius: 999px 999px 12px 12px; margin: 12px 0; }
     .corps { gap: 28px; }
-    .corps > p { font-size: 20px; line-height: 1.8; }
-    .corps > p.source { font-size: 15px; }
-    .corps .drop::first-letter { font-size: 104px; margin: 10px 14px 0 0; }
-    .corps h2 { font-size: 38px; margin-top: 16px; }
+    .corps > p { font-size: 18px; line-height: 1.8; }
+    .corps > p.source { font-size: 14px; }
+    .corps .drop::first-letter { font-size: 94px; margin: 10px 14px 0 0; }
+    .corps h2 { font-size: 34px; margin-top: 16px; }
     .verset { margin: 16px 0; padding: 40px 48px; border-radius: 999px 999px 12px 12px; gap: 12px; }
-    .verset p { font-size: 32px; }
+    .verset p { font-size: 29px; }
     .verset cite { font-size: 12px; }
     .priere { padding: 36px 40px; gap: 14px; margin-top: 12px; }
     .priere-k { font-size: 12px; }
-    .priere p { font-size: 25px; }
+    .priere p { font-size: 22px; }
   }
 
   /* Partage (colonne gauche, ordinateur) */
@@ -204,15 +204,15 @@ import { photoPensee } from '../../data/hero';
   .share-btn:hover { background: var(--sable); }
   .copied { font: 600 12px var(--sans); color: var(--vert); }
   .share-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 28px 0; margin-top: 16px; box-shadow: inset 0 1px 0 var(--filet), inset 0 -1px 0 var(--filet); }
-  .share-row span { font: 700 16px var(--sans); color: var(--encre); }
+  .share-row span { font: 700 14px var(--sans); color: var(--encre); }
 
   /* À lire ensuite */
   .suite { padding-bottom: 40px; display: flex; flex-direction: column; gap: 12px; }
-  .suite-m { font: 700 16px var(--sans); color: var(--encre); }
+  .suite-m { font: 700 14px var(--sans); color: var(--encre); }
   .suite-grid { display: flex; flex-direction: column; }
   .next { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; min-height: 44px; color: inherit; background: none; box-shadow: inset 0 -1px 0 var(--filet); border-radius: 0; }
   .next .k { display: none; }
-  .next .t { font: 500 21px/1.15 var(--serif); color: var(--cacao); }
+  .next .t { font: 500 19px/1.15 var(--serif); color: var(--cacao); }
   .next :global(.caret) { color: var(--cuivre); }
   @media (max-width: 959.98px) { .only-desktop-flex { display: none !important; } }
   @media (min-width: 960px) {
@@ -222,8 +222,8 @@ import { photoPensee } from '../../data/hero';
     .next:hover { transform: translateY(-3px); color: inherit; }
     .next .k { display: block; font: 800 12px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--vert); }
     .next .k.cuivre { color: var(--cuivre); }
-    .next .t { font-size: 26px; line-height: 1.12; }
-    .next .small-t { font-size: 22px; }
+    .next .t { font-size: 23px; line-height: 1.12; }
+    .next .small-t { font-size: 20px; }
     .ebook { background: var(--sable); box-shadow: none; display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 18px; align-items: center; }
     .ebook .stack { gap: 6px; }
   }

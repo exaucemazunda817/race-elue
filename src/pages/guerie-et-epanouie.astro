@@ -51,7 +51,7 @@ import { HERO } from '../data/hero';
 >
   <PageHero photos={HERO.guerie}>
     <span class="kicker or">Le ministère · depuis 2024</span>
-    <h1 class="h1" style="--h1-d:84px;--h1-m:48px;--h1-vw:5.8vw">Guérie <em>et</em> Épanouie</h1>
+    <h1 class="h1" style="--h1-d:76px;--h1-m:43px;--h1-vw:5.22vw">Guérie <em>et</em> Épanouie</h1>
     <p class="lead only-desktop">Une communauté de femmes qui avancent ensemble vers la guérison intérieure. On y partage, on y prie, on y apprend à se laisser aimer par Dieu. Tu peux venir comme tu es.</p>
     <p class="lead only-mobile">Une communauté de femmes qui avancent ensemble vers la guérison intérieure. Viens comme tu es.</p>
     <div class="btns">
@@ -63,7 +63,7 @@ import { HERO } from '../data/hero';
   <section class="wrap sec pourquoi">
     <div class="stack gap18">
       <span class="kicker">Pourquoi ce ministère</span>
-      <h2 class="h2" style="--h2-d:50px;--h2-m:30px">Beaucoup de femmes sourient <em>en portant des blessures</em></h2>
+      <h2 class="h2" style="--h2-d:45px;--h2-m:27px">Beaucoup de femmes sourient <em>en portant des blessures</em></h2>
     </div>
     <div class="stack pourquoi-txt">
       <p class="only-desktop">En 2024, Dieu a déposé dans mon cœur le fardeau de parler des blessures intérieures. Guérie et Épanouie est né de cet appel : un espace sûr où l'on peut enfin dire ce qui fait mal, et découvrir que Dieu guérit vraiment.</p>
@@ -76,7 +76,7 @@ import { HERO } from '../data/hero';
   <section class="wrap sec bg-pale activites">
     <div class="stack gap14">
       <span class="kicker vert only-desktop">Ce que nous vivons ensemble</span>
-      <h2 class="h2" style="--h2-d:50px;--h2-m:30px"><span class="only-desktop">Quatre rendez-vous pour grandir</span><span class="only-mobile">Ce que nous vivons ensemble</span></h2>
+      <h2 class="h2" style="--h2-d:45px;--h2-m:27px"><span class="only-desktop">Quatre rendez-vous pour grandir</span><span class="only-mobile">Ce que nous vivons ensemble</span></h2>
     </div>
     <div class="act-grid">
       {activites.map((a) => (
@@ -93,7 +93,7 @@ import { HERO } from '../data/hero';
     <div class="stack rej-txt">
       <div class="stack gap14">
         <span class="kicker only-desktop">Nous rejoindre</span>
-        <h2 class="h2" style="--h2-d:50px;--h2-m:30px">Trois pas, <em>à ton rythme</em></h2>
+        <h2 class="h2" style="--h2-d:45px;--h2-m:27px">Trois pas, <em>à ton rythme</em></h2>
       </div>
       <ol class="pas">
         {pas.map((p, i) => (
@@ -121,7 +121,7 @@ import { HERO } from '../data/hero';
 
   {temoignages.length > 0 && (
   <section class="wrap sec-2 bg-sable elles">
-    <h2 class="h2 only-desktop" style="--h2-d:46px">Elles en parlent</h2>
+    <h2 class="h2 only-desktop" style="--h2-d:41px">Elles en parlent</h2>
     <div class="t-grid">
       {temoignages.map((t, i) => <div class:list={{ 'only-desktop': i > 0 }}><TestimonialCard t={t} /></div>)}
     </div>
@@ -129,7 +129,7 @@ import { HERO } from '../data/hero';
   )}
 
   <section class="wrap sec-2 faq">
-    <h2 class="h2" style="--h2-d:46px;--h2-m:30px">Tes questions</h2>
+    <h2 class="h2" style="--h2-d:41px;--h2-m:27px">Tes questions</h2>
     <div class="faq-list">
       {faq.map((f, i) => (
         <details open={i === 0}>
@@ -149,63 +149,63 @@ import { HERO } from '../data/hero';
   .gap14 { gap: 14px; }
   .gap18 { gap: 16px; }
   .btns { display: flex; flex-direction: column; gap: 16px; }
-  .btns .btn { min-height: 54px; font-size: 16px; }
+  .btns .btn { min-height: 54px; font-size: 14px; }
   @media (min-width: 960px) {
     .btns { flex-direction: row; align-items: center; }
-    .btns .btn { min-height: 56px; font-size: 17px; }
-    .btns .link { color: var(--creme); font-size: 16px; }
+    .btns .btn { min-height: 56px; font-size: 15px; }
+    .btns .link { color: var(--creme); font-size: 14px; }
   }
 
   .pourquoi { padding-block: 56px; display: flex; flex-direction: column; gap: 16px; }
   .pourquoi-txt { gap: 20px; }
-  .pourquoi-txt p { font-size: 16px; line-height: 1.7; }
-  .sign { font: italic 500 26px var(--serif); color: var(--cuivre); }
+  .pourquoi-txt p { font-size: 14px; line-height: 1.7; }
+  .sign { font: italic 500 23px var(--serif); color: var(--cuivre); }
   @media (min-width: 960px) {
     .pourquoi { padding-block: var(--sec); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 96px; align-items: start; }
     .pourquoi-txt { padding-top: 28px; }
-    .pourquoi-txt p { font-size: 19px; line-height: 1.75; }
+    .pourquoi-txt p { font-size: 17px; line-height: 1.75; }
   }
 
   .activites { padding-block: 56px; display: flex; flex-direction: column; gap: 20px; }
   .act-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   @media (max-width: 359.98px) { .act-grid { grid-template-columns: 1fr; } }
   .act { background: var(--creme); border-radius: var(--r-carte); padding: 18px; display: flex; flex-direction: column; gap: 8px; }
-  .act :global(.icon) { font-size: 26px; color: var(--cuivre); }
-  .act h3 { font-size: 22px; line-height: 1.1; }
-  .act p { font-size: 15px; line-height: 1.6; }
+  .act :global(.icon) { font-size: 23px; color: var(--cuivre); }
+  .act h3 { font-size: 20px; line-height: 1.1; }
+  .act p { font-size: 14px; line-height: 1.6; }
   @media (min-width: 960px) {
     .activites { padding-block: var(--sec); gap: 56px; }
     .act-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
     .act { padding: 32px 28px; gap: 14px; }
-    .act :global(.icon) { font-size: 30px; }
-    .act h3 { font-size: 28px; }
+    .act :global(.icon) { font-size: 27px; }
+    .act h3 { font-size: 25px; }
   }
 
   .rejoindre { padding-block: 56px; display: flex; flex-direction: column; gap: 22px; scroll-margin-top: 16px; }
   .rej-txt { gap: 22px; }
   .pas { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 22px; }
   .pas li { display: flex; gap: 16px; align-items: flex-start; }
-  .num { width: 44px; height: 44px; flex: none; border-radius: 999px 999px 5px 5px; background: var(--vert); color: var(--or); display: flex; align-items: center; justify-content: center; font: italic 600 22px var(--serif); }
-  .pas strong { font: 700 16px var(--sans); color: var(--encre); }
-  .pas .stack span { font-size: 14px; line-height: 1.5; color: var(--secondaire); }
+  .num { width: 44px; height: 44px; flex: none; border-radius: 999px 999px 5px 5px; background: var(--vert); color: var(--or); display: flex; align-items: center; justify-content: center; font: italic 600 20px var(--serif); }
+  .pas strong { font: 700 14px var(--sans); color: var(--encre); }
+  .pas .stack span { font-size: 13px; line-height: 1.5; color: var(--secondaire); }
   .pas .stack { max-width: 30em; }
   .charte { background: var(--sable); border-radius: var(--r-carte); padding: 20px; display: flex; flex-direction: column; gap: 12px; }
   .charte ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-  .charte li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.55; }
+  .charte li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.55; }
   .charte li :global(.icon) { color: var(--vert); margin-top: 2px; }
   @media (min-width: 960px) {
     .rejoindre { padding-block: var(--sec); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 96px; align-items: center; }
     .rej-txt { gap: 36px; }
     .pas { gap: 28px; }
     .pas li { gap: 24px; }
-    .num { width: 56px; height: 56px; border-radius: 999px 999px 6px 6px; font-size: 28px; }
-    .pas strong { font-size: 19px; }
+    .num { width: 56px; height: 56px; border-radius: 999px 999px 6px 6px; font-size: 25px; }
+    .pas strong { font-size: 17px; }
     .pas .stack { gap: 4px; }
-    .pas .stack span { font-size: 16px; line-height: 1.6; }
+    .pas .stack span { font-size: 14px; line-height: 1.6; }
     .wa-cta { align-self: flex-start; }
     .charte { border-radius: var(--r-bandeau); padding: 48px; gap: 22px; }
     .charte ul { gap: 22px; }
-    .charte li { gap: 16px; font-size: 17px; line-height: 1.6; }
+    .charte li { gap: 16px; font-size: 15px; line-height: 1.6; }
     .charte li :global(.icon) { margin-top: 0; }
   }
 
@@ -224,7 +224,7 @@ import { HERO } from '../data/hero';
   .faq-list details:last-child { box-shadow: none; }
   summary {
     list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    padding: 18px 0; min-height: 44px; cursor: pointer; font: 700 16px var(--sans); color: var(--encre);
+    padding: 18px 0; min-height: 44px; cursor: pointer; font: 700 14px var(--sans); color: var(--encre);
   }
   summary::-webkit-details-marker { display: none; }
   summary:hover { color: var(--cuivre); }
@@ -232,10 +232,10 @@ import { HERO } from '../data/hero';
   .pm :global(.minus) { display: none; }
   details[open] .pm :global(.minus) { display: inline-block; }
   details[open] .pm :global(.plus) { display: none; }
-  details p { padding: 0 0 20px; font-size: 16px; line-height: 1.65; }
+  details p { padding: 0 0 20px; font-size: 14px; line-height: 1.65; }
   @media (min-width: 960px) {
     .faq { padding-block: var(--sec-2); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 96px; align-items: start; }
-    summary { padding: 24px 0; font-size: 18px; }
+    summary { padding: 24px 0; font-size: 16px; }
     details p { margin-top: -10px; padding-bottom: 24px; }
   }
 </style>

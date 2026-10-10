@@ -133,7 +133,7 @@ import { HERO } from '../../data/hero';
   .pill {
     flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 999px;
     border: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--bordure); color: var(--encre);
-    font: 600 14px var(--sans); cursor: pointer; transition: background-color 0.15s, color 0.15s;
+    font: 600 13px var(--sans); cursor: pointer; transition: background-color 0.15s, color 0.15s;
   }
   .pill :global(.icon) { color: var(--cuivre); }
   .pill:hover { background: var(--sable); }
@@ -148,8 +148,8 @@ import { HERO } from '../../data/hero';
   .une-img :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .une-txt { padding: 22px; display: flex; flex-direction: column; gap: 10px; }
   .une-txt .kicker { font-size: 12px; letter-spacing: 0.2em; }
-  .une-titre { font: 500 28px/1.05 var(--serif); color: var(--creme); }
-  .une-resume { font-size: 17px; line-height: 1.65; color: var(--texte-vert); }
+  .une-titre { font: 500 25px/1.05 var(--serif); color: var(--creme); }
+  .une-resume { font-size: 15px; line-height: 1.65; color: var(--texte-vert); }
   .une-link { color: var(--or) !important; }
   .une:hover .une-titre { color: var(--or-hover); }
 
@@ -157,8 +157,8 @@ import { HERO } from '../../data/hero';
   .grid { display: flex; flex-direction: column; }
   .item[hidden] { display: none; }
   .meditation { background: var(--vert-pale); border-radius: var(--r-carte); padding: 24px 22px; margin-top: 20px; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
-  .meditation p { font: italic 500 23px/1.3 var(--serif); color: var(--cacao); }
-  .ref { font: 600 13px var(--sans); color: var(--encre); }
+  .meditation p { font: italic 500 21px/1.3 var(--serif); color: var(--cacao); }
+  .ref { font: 600 12px var(--sans); color: var(--encre); }
   .more { margin-top: 24px; align-self: stretch; }
   .empty { padding: 24px 0; color: var(--secondaire); }
   .empty .link { background: none; border: 0; padding: 0; cursor: pointer; }
@@ -173,13 +173,13 @@ import { HERO } from '../../data/hero';
     .une-img { height: 460px; }
     .une-txt { padding: 56px; gap: 18px; justify-content: center; }
     .une-txt .kicker { font-size: 12px; letter-spacing: 0.22em; }
-    .une-titre { font-size: clamp(36px, 3.2vw, 46px); }
+    .une-titre { font-size: clamp(32px, 2.88vw, 41px); }
     .une-btn { align-self: flex-start; margin-top: 6px; }
     .liste { padding-top: 0; padding-bottom: var(--sec-2); gap: 40px; }
     .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
     .meditation { margin-top: 0; padding: 36px 32px; gap: 14px; }
-    .meditation p { font-size: 28px; line-height: 1.25; }
-    .ref { font-size: 14px; }
+    .meditation p { font-size: 25px; line-height: 1.25; }
+    .ref { font-size: 13px; }
     .more { align-self: center; margin-top: 0; }
   }
 </style>

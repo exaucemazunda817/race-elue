@@ -47,7 +47,7 @@ const jsonLd = {
     <div class="sec-head">
       <div class="stack gap14">
         <span class="kicker">Publications</span>
-        <h2 class="h2" style="--h2-d:52px;--h2-vw:3.6vw">Des mots pour t'accompagner</h2>
+        <h2 class="h2" style="--h2-d:47px;--h2-vw:3.24vw">Des mots pour t'accompagner</h2>
       </div>
       <a class="link only-desktop" href="/publications">Toutes les publications <Icon name="arrow-right" /></a>
     </div>
@@ -60,7 +60,7 @@ const jsonLd = {
   <section class="wrap sec bg-pale portes">
     <div class="stack gap14 portes-head">
       <span class="kicker vert">Par où commencer&nbsp;?</span>
-      <h2 class="h2" style="--h2-d:52px;--h2-vw:3.6vw">Trois portes, un même chemin</h2>
+      <h2 class="h2" style="--h2-d:47px;--h2-vw:3.24vw">Trois portes, un même chemin</h2>
     </div>
     <div class="portes-grid">
       {portes.map((p) => (
@@ -120,7 +120,7 @@ const jsonLd = {
   <section class:list={['wrap sec ministere', { 'bg-sable': temoignages.length === 0 }]}>
     <div class="stack ministere-txt">
       <span class="kicker vert">Le ministère</span>
-      <h2 class="h2" style="--h2-d:56px;--h2-m:34px;--h2-vw:3.9vw">Guérie <em>et</em> Épanouie</h2>
+      <h2 class="h2" style="--h2-d:50px;--h2-m:31px;--h2-vw:3.51vw">Guérie <em>et</em> Épanouie</h2>
       <p class="only-desktop">Une communauté de femmes qui avancent ensemble vers la guérison intérieure : partages, prière, enseignements et beaucoup de douceur. Tu peux y venir comme tu es.</p>
       <p class="only-mobile">Une communauté de femmes qui avancent ensemble vers la guérison. Viens comme tu es.</p>
       <div class="row-btns">
@@ -138,7 +138,7 @@ const jsonLd = {
 
   <!-- Réseaux -->
   <section class="wrap reseaux only-desktop" aria-labelledby="reseaux-titre">
-    <h2 id="reseaux-titre" class="h2" style="--h2-d:40px">Retrouve-moi au quotidien</h2>
+    <h2 id="reseaux-titre" class="h2" style="--h2-d:36px">Retrouve-moi au quotidien</h2>
     <div class="reseaux-grid">
       {RESEAUX.map((r) => (
         <a class="reseau" href={r.url} target="_blank" rel="noopener noreferrer">
@@ -172,10 +172,10 @@ const jsonLd = {
   @media (min-width: 960px) { .pubs :global(.pubs-rameau) { margin-top: 8px; } }
 
   /* Héros (texte posé sur la photo) */
-  .home-h1 { --h1-m: 42px; line-height: 1.02; max-width: 640px; }
+  .home-h1 { --h1-m: 38px; line-height: 1.02; max-width: 640px; }
   .btns { display: flex; flex-direction: column; gap: 12px; }
   .btns .btn { min-height: 52px; }
-  .signature { font: italic 500 24px var(--serif); color: var(--or); margin-top: 8px; display: inline-block; align-self: flex-start; }
+  .signature { font: italic 500 22px var(--serif); color: var(--or); margin-top: 8px; display: inline-block; align-self: flex-start; }
   .ministere-photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 999px 999px 6px 6px; }
   @media (min-width: 960px) {
     .btns { flex-direction: row; gap: 16px; }
@@ -196,10 +196,10 @@ const jsonLd = {
     transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
   }
   .porte:hover { color: var(--encre); box-shadow: var(--ombre-md); }
-  .porte-icon { width: 52px; height: 52px; flex: none; border-radius: 999px; background: var(--vert-pale); display: flex; align-items: center; justify-content: center; color: var(--cuivre); font-size: 24px; }
+  .porte-icon { width: 52px; height: 52px; flex: none; border-radius: 999px; background: var(--vert-pale); display: flex; align-items: center; justify-content: center; color: var(--cuivre); font-size: 22px; }
   .porte-body { display: flex; flex-direction: column; gap: 2px; }
-  .porte-titre { font: 500 24px/1 var(--serif); color: var(--cacao); }
-  .porte-texte { font-size: 14px; line-height: 1.4; }
+  .porte-titre { font: 500 22px/1 var(--serif); color: var(--cacao); }
+  .porte-texte { font-size: 13px; line-height: 1.4; }
   .porte :global(.porte-caret) { margin-left: auto; color: var(--cuivre); }
   @media (min-width: 960px) {
     .portes { align-items: center; gap: 56px; }
@@ -207,10 +207,10 @@ const jsonLd = {
     .portes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; width: 100%; }
     .porte { flex-direction: column; border-radius: 999px 999px 12px 12px; padding: 72px 36px 40px; text-align: center; gap: 16px; }
     .porte:hover { transform: translateY(-4px); }
-    .porte-icon { width: auto; height: auto; background: none; font-size: 32px; }
+    .porte-icon { width: auto; height: auto; background: none; font-size: 29px; }
     .porte-body { align-items: center; gap: 16px; }
-    .porte-titre { font-size: 38px; }
-    .porte-texte { font-size: 16px; line-height: 1.6; }
+    .porte-titre { font-size: 34px; }
+    .porte-texte { font-size: 14px; line-height: 1.6; }
   }
 
   /* Mon histoire */
@@ -218,16 +218,16 @@ const jsonLd = {
   .histoire-photo { height: 300px; border-radius: var(--r-carte); overflow: hidden; }
   .histoire-photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .histoire-txt { gap: 20px; }
-  .histoire-txt p, .ministere-txt p { font-size: 16px; line-height: 1.65; }
+  .histoire-txt p, .ministere-txt p { font-size: 14px; line-height: 1.65; }
   .row-btns { display: flex; flex-direction: column; gap: 16px; }
   .row-btns .btn { min-height: 52px; }
   @media (min-width: 960px) {
     .histoire { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 96px; align-items: center; }
     .histoire-photo { height: 440px; }
     .histoire-txt { gap: 22px; }
-    .histoire-txt p, .ministere-txt p { font-size: 18px; line-height: 1.7; }
+    .histoire-txt p, .ministere-txt p { font-size: 16px; line-height: 1.7; }
     .row-btns { flex-direction: row; align-items: center; }
-    .row-btns .btn { min-height: 48px; font-size: 15px; padding: 0 22px; }
+    .row-btns .btn { min-height: 48px; font-size: 14px; padding: 0 22px; }
   }
 
   /* Témoignages : carrousel horizontal sur mobile, grille sur desktop */
@@ -275,7 +275,7 @@ const jsonLd = {
     box-shadow: inset 0 0 0 1px var(--filet); color: var(--vert); transition: background-color 0.18s;
   }
   .reseau:hover { background: var(--sable); color: var(--vert); }
-  .reseau strong { font: 700 16px var(--sans); color: var(--encre); }
-  .reseau .stack span { font-size: 14px; color: var(--secondaire); }
+  .reseau strong { font: 700 14px var(--sans); color: var(--encre); }
+  .reseau .stack span { font-size: 13px; color: var(--secondaire); }
   .reseau :global(.out) { margin-left: auto; color: var(--cuivre); }
 </style>

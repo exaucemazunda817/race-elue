@@ -54,7 +54,7 @@ import { HERO } from '../../../data/hero';
       <a href="/publications" class="only-mobile back"><Icon name="arrow-left" size={18} />Publications</a>
     </nav>
     <span class="kicker or"><span class="only-desktop">Ebook · Guide de guérison intérieure</span><span class="only-mobile">Ebook · gratuit</span></span>
-    <h1 class="h1" style="--h1-d:68px;--h1-m:40px;--h1-vw:4.7vw">Comment Dieu guérit <em>les cœurs brisés</em></h1>
+    <h1 class="h1" style="--h1-d:61px;--h1-m:36px;--h1-vw:4.23vw">Comment Dieu guérit <em>les cœurs brisés</em></h1>
     <p class="lead only-desktop">Si Dieu nous aime tant, pourquoi permet-il que nous soyons blessées ? Et surtout, comment guérit-il ? En cinq pensées, je te partage ce que j'ai appris, avec douceur et sans jugement.</p>
     <p class="lead only-mobile">En cinq pensées, je te partage ce que j'ai appris sur la guérison intérieure, avec douceur et sans jugement.</p>
     <ul class="meta">
@@ -91,7 +91,7 @@ import { HERO } from '../../../data/hero';
   <section class="wrap sec sommaire">
     <div class="stack som-intro">
       <span class="kicker">Sommaire</span>
-      <h2 class="h2" style="--h2-m:30px">Cinq pensées pour <em>laisser Dieu agir</em></h2>
+      <h2 class="h2" style="--h2-m:27px">Cinq pensées pour <em>laisser Dieu agir</em></h2>
       <p class="only-desktop">Chaque pensée se lit en quelques minutes et se termine par une prière. Tu peux les lire dans l'ordre, ou t'arrêter sur celle qui te parle aujourd'hui.</p>
     </div>
     <ol class="toc">
@@ -125,7 +125,7 @@ import { HERO } from '../../../data/hero';
     </div>
     <div class="stack autrice-txt">
       <span class="kicker">L'autrice</span>
-      <h2 class="h2" style="--h2-d:44px">Écrit par une sœur qui chemine avec toi</h2>
+      <h2 class="h2" style="--h2-d:40px">Écrit par une sœur qui chemine avec toi</h2>
       <p>« Je ne prétends pas être totalement guérie de tout ; mais chaque fois que j'ai fait l'expérience de la guérison, c'est Dieu qui a agi. » Race Élue anime le ministère Guérie et Épanouie depuis 2024.</p>
       <a class="link" href="/a-propos">Lire son histoire <Icon name="arrow-right" /></a>
     </div>
@@ -133,7 +133,7 @@ import { HERO } from '../../../data/hero';
 
   {temoignages.length > 0 && (
   <section class="wrap sec-2 bg-sable lectrices">
-    <h2 class="h2 only-desktop" style="--h2-d:44px">Ce qu'en disent les lectrices</h2>
+    <h2 class="h2 only-desktop" style="--h2-d:40px">Ce qu'en disent les lectrices</h2>
     <div class="t-grid">
       {temoignages.map((t, i) => <div class:list={{ 'only-desktop': i > 0 }}><TestimonialCard t={t} size="lg" /></div>)}
     </div>
@@ -141,7 +141,7 @@ import { HERO } from '../../../data/hero';
   )}
 
   <section class="wrap sec-2 aussi only-desktop">
-    <h2 class="h2" style="--h2-d:40px">À lire aussi</h2>
+    <h2 class="h2" style="--h2-d:36px">À lire aussi</h2>
     <div class="aussi-grid">
       <a class="aussi-card vert on-vert" href={`/publications/${MAGAZINE.slug}`}>
         <Cover kind="magazine" width={120} shadow="sm" />
@@ -171,22 +171,22 @@ import { HERO } from '../../../data/hero';
   .recevoir { padding-top: 48px; padding-bottom: 48px; }
   .hero-btns { display: flex; flex-direction: column; gap: 12px; }
   .hero-btns .btn { min-height: 52px; }
-  .crumb { display: flex; gap: 10px; align-items: center; font: 600 14px var(--sans); color: var(--secondaire); flex-wrap: wrap; }
+  .crumb { display: flex; gap: 10px; align-items: center; font: 600 13px var(--sans); color: var(--secondaire); flex-wrap: wrap; }
   .crumb a { color: var(--cuivre); }
-  .back { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; font-size: 13px; }
+  .back { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; font-size: 12px; }
   .hero-grid { display: flex; flex-direction: column; gap: 20px; }
   .cover-wrap { position: relative; width: 200px; align-self: center; margin: 12px 0; }
   .cover-arche { position: absolute; inset: -16px -28px -16px -28px; border-radius: 999px 999px 10px 10px; background: var(--vert-pale); }
   .cover-wrap :global(.cover) { position: relative; }
   .get-col { display: flex; flex-direction: column; gap: 14px; max-width: 600px; }
-  .meta { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 18px; font: 600 13px var(--sans); color: var(--secondaire); }
+  .meta { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 18px; font: 600 12px var(--sans); color: var(--secondaire); }
   .meta li { display: flex; gap: 8px; align-items: center; }
   .meta { color: var(--texte-vert); }
   .meta :global(.icon) { color: var(--or); display: none; }
   .get { background: var(--creme); padding: 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: none; scroll-margin-top: 24px; }
   .get-head { display: flex; justify-content: space-between; align-items: baseline; }
-  .get h2 { font: 700 17px var(--sans); color: var(--encre); }
-  .prix { font: 500 30px var(--serif); color: var(--vert); }
+  .get h2 { font: 700 15px var(--sans); color: var(--encre); }
+  .prix { font: 500 27px var(--serif); color: var(--vert); }
   @media (min-width: 960px) {
     .recevoir { padding-top: 96px; padding-bottom: 112px; }
     .hero-btns { flex-direction: row; gap: 16px; }
@@ -195,32 +195,32 @@ import { HERO } from '../../../data/hero';
     .cover-wrap { width: min(380px, 100%); margin: 28px 40px; justify-self: center; }
     .cover-arche { inset: -28px -40px; border-radius: 999px 999px 12px 12px; }
     .get-col { gap: 16px; align-self: center; }
-    .meta { gap: 28px; font-size: 14px; }
+    .meta { gap: 28px; font-size: 13px; }
     .meta :global(.icon) { display: inline-block; }
     .get { padding: 28px; gap: 16px; box-shadow: var(--ombre-md); }
-    .get h2 { font-size: 19px; }
+    .get h2 { font-size: 17px; }
   }
 
   /* Sommaire */
   .sommaire { display: flex; flex-direction: column; gap: 6px; padding-top: 56px; padding-bottom: 56px; }
   .som-intro { gap: 10px; margin-bottom: 12px; }
-  .som-intro p { font-size: 17px; line-height: 1.65; }
+  .som-intro p { font-size: 15px; line-height: 1.65; }
   .toc { list-style: none; margin: 0; padding: 0; }
   .toc li { display: flex; align-items: baseline; gap: 14px; padding: 14px 0; box-shadow: inset 0 -1px 0 var(--filet); }
   .toc li:last-child { box-shadow: none; }
-  .num { width: 20px; flex: none; font: italic 600 22px var(--serif); color: var(--cuivre); }
-  .etoile .num { color: var(--sauge); font: 400 14px var(--sans); font-style: normal; }
-  .titre { flex: 1; font: 500 20px/1.2 var(--serif); color: var(--cacao); }
-  .page { font: 400 16px var(--sans); color: var(--secondaire); display: none; }
+  .num { width: 20px; flex: none; font: italic 600 20px var(--serif); color: var(--cuivre); }
+  .etoile .num { color: var(--sauge); font: 400 13px var(--sans); font-style: normal; }
+  .titre { flex: 1; font: 500 18px/1.2 var(--serif); color: var(--cacao); }
+  .page { font: 400 14px var(--sans); color: var(--secondaire); display: none; }
   .simple { display: none !important; }
   @media (min-width: 960px) {
     .sommaire { padding-block: var(--sec); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 96px; }
     .som-intro { gap: 20px; margin: 0; }
     .toc li { gap: 16px; padding: 16px 0; }
     .simple { display: flex !important; }
-    .simple .titre { font: 400 16px var(--sans); color: var(--secondaire); }
-    .num { width: 36px; font-size: 26px; }
-    .titre { font-size: 24px; }
+    .simple .titre { font: 400 14px var(--sans); color: var(--secondaire); }
+    .num { width: 36px; font-size: 23px; }
+    .titre { font-size: 22px; }
     .page { display: inline; }
   }
 
@@ -228,8 +228,8 @@ import { HERO } from '../../../data/hero';
   .extrait { padding-block: 56px; }
   .extrait-col { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
   .extrait-card { background: var(--creme); border-radius: var(--r-carte); padding: 28px 22px; display: flex; flex-direction: column; gap: 16px; }
-  .extrait-card p { font-size: 16px; line-height: 1.75; }
-  .drop::first-letter { font-size: 66px; margin: 6px 10px 0 0; line-height: 0.8; }
+  .extrait-card p { font-size: 14px; line-height: 1.75; }
+  .drop::first-letter { font-size: 59px; margin: 6px 10px 0 0; line-height: 0.8; }
   .fade { display: none; }
   .extrait-actions { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
   .extrait-actions .btn { min-height: 52px; }
@@ -238,12 +238,12 @@ import { HERO } from '../../../data/hero';
     .extrait { padding-block: var(--sec); }
     .extrait-col { gap: 28px; }
     .extrait-card { padding: 56px 64px; gap: 20px; box-shadow: var(--ombre-md); }
-    .extrait-card p { font-size: 19px; line-height: 1.8; }
-    .drop::first-letter { font-size: 92px; margin: 8px 12px 0 0; }
+    .extrait-card p { font-size: 17px; line-height: 1.8; }
+    .drop::first-letter { font-size: 83px; margin: 8px 12px 0 0; }
     .fade { display: block; height: 72px; margin-top: -72px; position: relative; background: linear-gradient(rgba(251, 247, 241, 0), var(--creme)); }
     .extrait-actions { flex-direction: row; align-items: center; gap: 16px; }
-    .extrait-actions .btn { min-height: 48px; font-size: 15px; padding: 0 22px; }
-    .extrait-actions .small { display: inline; font-size: 14px; }
+    .extrait-actions .btn { min-height: 48px; font-size: 14px; padding: 0 22px; }
+    .extrait-actions .small { display: inline; font-size: 13px; }
   }
 
   /* Autrice */
@@ -251,7 +251,7 @@ import { HERO } from '../../../data/hero';
   .autrice-photo { height: 440px; border-radius: var(--arche); overflow: hidden; }
   .autrice-photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .autrice-txt { gap: 20px; max-width: 620px; }
-  .autrice-txt p { font-size: 18px; line-height: 1.7; }
+  .autrice-txt p { font-size: 16px; line-height: 1.7; }
 
   /* Lectrices */
   .lectrices { padding-top: 56px; padding-bottom: 120px; display: flex; flex-direction: column; gap: 16px; background: var(--creme); }
@@ -272,9 +272,9 @@ import { HERO } from '../../../data/hero';
   a.aussi-card:hover { transform: translateY(-3px); }
   .aussi-card.vert { background: var(--vert); }
   .bientot { box-shadow: inset 0 0 0 1.5px var(--bordure); }
-  .placeholder-cover { aspect-ratio: 3 / 4; border-radius: 3px; box-shadow: inset 0 0 0 1.5px var(--bordure); display: flex; align-items: center; justify-content: center; color: var(--sauge); font-size: 22px; }
+  .placeholder-cover { aspect-ratio: 3 / 4; border-radius: 3px; box-shadow: inset 0 0 0 1.5px var(--bordure); display: flex; align-items: center; justify-content: center; color: var(--sauge); font-size: 20px; }
   .aussi-txt { gap: 8px; }
-  .aussi-titre { font: 500 30px/1.05 var(--serif); color: var(--cacao); }
+  .aussi-titre { font: 500 27px/1.05 var(--serif); color: var(--cacao); }
   .vert .aussi-titre { color: var(--creme); }
-  .desc { font-size: 15px; color: var(--secondaire); }
+  .desc { font-size: 14px; color: var(--secondaire); }
 </style>

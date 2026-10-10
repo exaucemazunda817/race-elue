@@ -130,7 +130,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <style>
       .offline-banner {
         background: var(--cacao); color: var(--creme); padding: 14px var(--gutter);
-        display: flex; gap: 10px; align-items: center; font: 600 14px/1.4 var(--sans);
+        display: flex; gap: 10px; align-items: center; font: 600 13px/1.4 var(--sans);
       }
       .offline-banner[hidden] { display: none; }
       .offline-banner :global(.icon) { color: var(--or); }
@@ -138,7 +138,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
         margin-left: auto; background: none; border: 0; color: inherit; font: inherit; cursor: pointer;
         text-decoration: underline; text-underline-offset: 4px; min-height: 44px;
       }
-      @media (min-width: 960px) { .offline-banner { font-size: 15px; } }
+      @media (min-width: 960px) { .offline-banner { font-size: 14px; } }
 
       .fab {
         position: fixed; right: 16px; bottom: 20px; z-index: 30;
@@ -154,7 +154,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
       @media (min-width: 960px) {
         .fab {
           right: 32px; bottom: 32px; width: auto; height: 60px; padding: 0 24px 0 18px; gap: 10px;
-          background: var(--creme); color: var(--vert); font: 700 16px var(--sans);
+          background: var(--creme); color: var(--vert); font: 700 14px var(--sans);
           box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.4);
         }
         .fab:hover { color: var(--vert); }

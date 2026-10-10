@@ -154,7 +154,7 @@ const total = MAGAZINE.pages;
 
 <style>
   .reader { background: var(--vert); border-radius: 0; padding: 20px 0 24px; display: flex; flex-direction: column; gap: 14px; position: relative; outline: none; }
-  .toolbar { display: flex; justify-content: space-between; align-items: center; padding: 0 16px; color: var(--texte-vert); font: 600 13px var(--sans); }
+  .toolbar { display: flex; justify-content: space-between; align-items: center; padding: 0 16px; color: var(--texte-vert); font: 600 12px var(--sans); }
   .tool { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; padding: 0; text-decoration: none; }
   .tool:hover { color: var(--creme); }
   .tool[hidden] { display: none; }
@@ -166,15 +166,15 @@ const total = MAGAZINE.pages;
   .toc button { width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; text-align: left; background: none; border: 0; color: var(--creme); padding: 10px 12px; border-radius: 8px; cursor: pointer; min-height: 44px; }
   .toc button:hover { background: var(--vert); }
   .rub { grid-column: 1; font: 800 12px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--or-hover); }
-  .tt { grid-column: 1; font: 500 19px/1.2 var(--serif); }
-  .pg { grid-column: 2; grid-row: 1 / span 2; align-self: center; font: 400 13px var(--sans); color: var(--discret-vert); }
+  .tt { grid-column: 1; font: 500 17px/1.2 var(--serif); }
+  .pg { grid-column: 2; grid-row: 1 / span 2; align-self: center; font: 400 12px var(--sans); color: var(--discret-vert); }
 
   .stage { display: block; padding: 0 16px; }
   .stage .nav { display: none; }
   .pages { display: flex; justify-content: center; touch-action: pan-y; }
   .page { width: 100%; max-width: 520px; height: auto; aspect-ratio: 1000 / 1414; background: #f6eee3; border-radius: 4px; }
   .foot { display: flex; justify-content: space-between; align-items: center; padding: 0 16px; }
-  .hint { font: 400 13px var(--sans); color: var(--discret-vert); }
+  .hint { font: 400 12px var(--sans); color: var(--discret-vert); }
   .nav {
     width: 48px; height: 48px; flex: none; border-radius: 999px; border: 0; cursor: pointer;
     display: flex; align-items: center; justify-content: center; background: var(--vert-foret); color: var(--creme);
@@ -187,7 +187,7 @@ const total = MAGAZINE.pages;
 
   @media (min-width: 960px) {
     .reader { border-radius: var(--r-bandeau); padding: 20px; gap: 16px; }
-    .toolbar { padding: 0 8px; font-size: 14px; }
+    .toolbar { padding: 0 8px; font-size: 13px; }
     .toc { margin: 0 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; max-height: none; }
     .toc[hidden] { display: none; }
     .stage { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; padding: 0; }

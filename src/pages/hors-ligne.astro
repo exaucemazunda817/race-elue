@@ -13,7 +13,7 @@ import Icon from '../components/Icon.astro';
   <section class="wrap off">
     <div class="stack gap14">
       <span class="kicker only-desktop">Disponible hors connexion</span>
-      <h1 class="h1" style="--h1-d:52px;--h1-m:32px;--h1-vw:3.6vw">Ce que tu as déjà lu</h1>
+      <h1 class="h1" style="--h1-d:47px;--h1-m:29px;--h1-vw:3.24vw">Ce que tu as déjà lu</h1>
     </div>
     <div class="grid" data-list>
       <p class="vide" data-vide>Les pages que tu ouvres pendant que tu es connectée s'enregistrent ici pour être relues sans Internet.</p>
@@ -54,7 +54,7 @@ import Icon from '../components/Icon.astro';
 
 <style>
   .gap14 { gap: 14px; }
-  .banner { background: var(--cacao); color: var(--creme); padding: 14px var(--gutter); display: flex; gap: 10px; align-items: center; font: 600 14px/1.4 var(--sans); }
+  .banner { background: var(--cacao); color: var(--creme); padding: 14px var(--gutter); display: flex; gap: 10px; align-items: center; font: 600 13px/1.4 var(--sans); }
   .banner :global(.icon) { color: var(--or); }
   .banner button { margin-left: auto; background: none; border: 0; color: inherit; font: inherit; text-decoration: underline; text-underline-offset: 4px; min-height: 44px; cursor: pointer; }
   .off { padding-top: 32px; padding-bottom: 64px; display: flex; flex-direction: column; gap: 20px; }
@@ -62,13 +62,13 @@ import Icon from '../components/Icon.astro';
   .vide { color: var(--secondaire); }
   .grid :global(.item) { background: #fff; border-radius: var(--r-carte); box-shadow: var(--ombre-md); padding: 20px; display: flex; flex-direction: column; gap: 6px; color: inherit; }
   .grid :global(.k) { display: flex; gap: 6px; align-items: center; font: 800 12px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--vert); }
-  .grid :global(.t) { font: 500 22px/1.12 var(--serif); color: var(--cacao); }
+  .grid :global(.t) { font: 500 20px/1.12 var(--serif); color: var(--cacao); }
   @media (min-width: 960px) {
-    .banner { font-size: 15px; }
+    .banner { font-size: 14px; }
     .off { padding-top: 80px; padding-bottom: var(--sec-2); gap: 32px; }
     .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
     .grid :global(.item) { padding: 26px; gap: 10px; }
     .grid :global(.k) { font-size: 12px; }
-    .grid :global(.t) { font-size: 26px; }
+    .grid :global(.t) { font-size: 23px; }
   }
 </style>

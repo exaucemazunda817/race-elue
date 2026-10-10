@@ -43,7 +43,7 @@ import { HERO } from '../data/hero';
 >
   <PageHero photos={HERO.mentions}>
     <span class="kicker or">Informations légales</span>
-    <h1 class="h1" style="--h1-d:64px;--h1-m:38px;--h1-vw:4.4vw">Mentions légales et confidentialité</h1>
+    <h1 class="h1" style="--h1-d:58px;--h1-m:34px;--h1-vw:3.96vw">Mentions légales et confidentialité</h1>
   </PageHero>
   <BackLink />
   <section class="wrap page">
@@ -104,19 +104,19 @@ import { HERO } from '../data/hero';
   .content h1 { line-height: 1.02; margin-bottom: 12px; }
   .acc details { box-shadow: inset 0 -1px 0 var(--filet); }
   .acc details:first-child { box-shadow: inset 0 -1px 0 var(--filet), inset 0 1px 0 var(--filet); }
-  summary { list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 18px 0; min-height: 44px; font: 700 16px var(--sans); color: var(--encre); cursor: pointer; }
+  summary { list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 18px 0; min-height: 44px; font: 700 14px var(--sans); color: var(--encre); cursor: pointer; }
   summary::-webkit-details-marker { display: none; }
   .pm { color: var(--cuivre); display: inline-flex; }
   .pm :global(.minus) { display: none; }
   details[open] .pm :global(.minus) { display: inline-block; }
   details[open] .pm :global(.plus) { display: none; }
-  details p { padding: 4px 0 12px; font-size: 15px; line-height: 1.7; }
+  details p { padding: 4px 0 12px; font-size: 14px; line-height: 1.7; }
   .enc-m { padding-top: 0 !important; }
-  .encart { background: var(--vert-pale); border-radius: var(--r-carte); padding: 18px 20px; margin-top: 16px; display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.55; }
+  .encart { background: var(--vert-pale); border-radius: var(--r-carte); padding: 18px 20px; margin-top: 16px; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; line-height: 1.55; }
   .encart :global(.icon) { color: var(--vert); }
   @media (min-width: 960px) {
     .page { padding-top: 80px; padding-bottom: var(--sec-2); display: grid; grid-template-columns: 260px minmax(0, 720px); gap: clamp(48px, 6.6vw, 96px); }
-    .toc { display: flex; flex-direction: column; gap: 4px; padding-top: 12px; font: 600 15px var(--sans); color: var(--secondaire); position: sticky; top: 24px; align-self: start; }
+    .toc { display: flex; flex-direction: column; gap: 4px; padding-top: 12px; font: 600 14px var(--sans); color: var(--secondaire); position: sticky; top: 24px; align-self: start; }
     .toc-k { font: 800 12px var(--sans); letter-spacing: 0.22em; color: var(--cuivre); margin-bottom: 12px; text-transform: uppercase; }
     .toc a { padding: 10px 0 10px 14px; box-shadow: inset 1px 0 0 var(--filet); color: var(--secondaire); }
     .toc a:hover { color: var(--encre); }
@@ -124,9 +124,9 @@ import { HERO } from '../data/hero';
     .content { gap: 22px; }
     .desktop-sections { display: flex; flex-direction: column; gap: 22px; }
     section { display: flex; flex-direction: column; gap: 22px; scroll-margin-top: 24px; }
-    section h2 { font-size: 32px; line-height: 1.1; margin-top: 12px; }
-    section p { font-size: 17px; line-height: 1.75; }
-    .encart { padding: 24px 28px; gap: 16px; font-size: 16px; line-height: 1.6; margin-top: 0; }
-    .maj { font-size: 14px; color: var(--secondaire); margin-top: 12px; }
+    section h2 { font-size: 29px; line-height: 1.1; margin-top: 12px; }
+    section p { font-size: 15px; line-height: 1.75; }
+    .encart { padding: 24px 28px; gap: 16px; font-size: 14px; line-height: 1.6; margin-top: 0; }
+    .maj { font-size: 13px; color: var(--secondaire); margin-top: 12px; }
   }
 </style>
