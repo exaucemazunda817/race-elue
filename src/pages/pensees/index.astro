@@ -4,14 +4,17 @@ import Icon from '../../components/Icon.astro';
 import Photo from '../../components/Photo.astro';
 import PenseeCard from '../../components/PenseeCard.astro';
 import NewsletterBand from '../../components/NewsletterBand.astro';
-import { PENSEES, THEMES, themesUtilises } from '../../data/pensees';
+import { THEMES } from '../../data/pensees';
+import { chargerPensees, themesDe } from '../../data/blog';
+
+const PENSEES = await chargerPensees();
 
 const une = PENSEES.find((p) => p.alaune) ?? PENSEES[0];
 const autres = PENSEES.filter((p) => p !== une);
 // Seuls les thèmes qui ont au moins une pensée ont un filtre (jamais de filtre vide).
 const filtres: { key: string; label: string; court: string; icon?: boolean }[] = [
   { key: 'tout', label: 'Tout', court: 'Tout' },
-  ...themesUtilises().map((t) => ({ key: t, label: THEMES[t], court: THEMES[t] })),
+  ...themesDe(PENSEES).map((t) => ({ key: t, label: THEMES[t], court: THEMES[t] })),
   ...(PENSEES.some((x) => x.video) ? [{ key: 'video', label: 'Vidéos', court: 'Vidéos', icon: true }] : []),
 ];
 const PAR_PAGE = 6;
@@ -42,7 +45,9 @@ import { HERO } from '../../data/hero';
 
   <section class="wrap une-sec" data-item data-theme={une.theme}>
     <a class="une on-vert" href={`/pensees/${une.slug}`}>
-      <span class="une-img"><Photo src="laptop-talk.jpg" alt="Race Élue souriante devant son ordinateur" position="center 25%" priority sizes="(min-width: 960px) 640px, 100vw" /></span>
+      <span class="une-img">{une.photoUrl
+        ? <Photo url={une.photoUrl} w={une.photoW} h={une.photoH} alt={une.photoAlt ?? ''} position={une.position} priority sizes="(min-width: 960px) 640px, 100vw" />
+        : <Photo src="laptop-talk.jpg" alt="Race Élue souriante devant son ordinateur" position="center 25%" priority sizes="(min-width: 960px) 640px, 100vw" />}</span>
       <span class="une-txt">
         <span class="kicker or"><span class="only-desktop">À la une · {THEMES[une.theme]} · {une.duree}</span><span class="only-mobile">À la une · {une.duree}</span></span>
         <span class="une-titre">{une.titreEm ? `${une.titre} ${une.titreEm}` : une.titre}</span>

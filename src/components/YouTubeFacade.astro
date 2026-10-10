@@ -9,20 +9,21 @@ interface Props {
   titre: string;
   duree: string;
   photo: string; // vignette locale (légère), utilisée tant qu'aucune vidéo n'est liée
+  url?: string; // ou vignette venue de Sanity
   position?: string;
 }
-const { youtubeId, titre, duree, photo, position } = Astro.props;
+const { youtubeId, titre, duree, photo, url, position } = Astro.props;
 const chaine = RESEAUX.find((r) => r.nom === 'YouTube')!.url;
 ---
 <figure class="yt">
   {youtubeId ? (
     <button type="button" class="yt-btn" data-yt={youtubeId} data-title={titre} aria-label={`Regarder la vidéo : ${titre} (${duree})`}>
-      <Photo src={photo} alt="" position={position} sizes="(min-width: 960px) 720px, 100vw" />
+      <Photo src={photo} url={url} alt="" position={position} sizes="(min-width: 960px) 720px, 100vw" />
       <span class="yt-over"><span class="play"><Icon name="play" size={28} /></span><span class="lbl">Regarder la vidéo · {duree}</span></span>
     </button>
   ) : (
     <a class="yt-btn" href={chaine} target="_blank" rel="noopener noreferrer">
-      <Photo src={photo} alt="" position={position} sizes="(min-width: 960px) 720px, 100vw" />
+      <Photo src={photo} url={url} alt="" position={position} sizes="(min-width: 960px) 720px, 100vw" />
       <span class="yt-over"><span class="play"><Icon name="play" size={28} /></span><span class="lbl">Voir la vidéo sur YouTube · {duree}</span></span>
     </a>
   )}

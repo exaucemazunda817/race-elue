@@ -11,7 +11,7 @@ const kickerM = p.video ? `Vidéo · ${p.video.duree}` : `${THEMES[p.theme]} · 
 ---
 <a class="pcard" href={`/pensees/${p.slug}`} data-theme={p.theme} data-video={p.video ? 'oui' : undefined}>
   <span class="img">
-    <Photo src={p.photo} alt="" position={p.position} sizes="(min-width: 960px) 380px, 96px" />
+    <Photo src={p.photo} url={p.photoUrl} w={p.photoW} h={p.photoH} alt="" position={p.position} sizes="(min-width: 960px) 380px, 96px" />
     {p.video && (
       <span class="badge"><Icon name="play" /><span class="only-desktop">Vidéo · {p.video.duree}</span></span>
     )}
@@ -20,7 +20,7 @@ const kickerM = p.video ? `Vidéo · ${p.video.duree}` : `${THEMES[p.theme]} · 
     <span class="k only-desktop">{kickerD}</span>
     <span class="k only-mobile">{kickerM}</span>
     <span class="t">{titre}</span>
-    <span class="ex only-desktop">{p.rubrique} · magazine N°01</span>
+    <span class="ex only-desktop">{p.rubrique ? `${p.rubrique} · magazine N°01` : p.date}</span>
   </span>
 </a>
 

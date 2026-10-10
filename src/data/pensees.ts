@@ -6,7 +6,7 @@
 
 export type Theme = 'foi' | 'epreuve' | 'priere';
 export type Bloc =
-  | { type: 'p'; texte: string }
+  | { type: 'p'; texte: string; html?: string } // html : gras/italique venant de l'espace d'écriture (échappé)
   | { type: 'h2'; texte: string }
   | { type: 'verset'; texte: string; ref: string }
   | { type: 'video'; youtubeId: string; duree: string };
@@ -18,11 +18,17 @@ export type Pensee = {
   theme: Theme;
   duree: string;
   date: string; // affichage (le magazine est daté au mois)
-  photo: string;
+  dateIso?: string; // pour <time datetime> et les données structurées
+  photo: string; // photo locale (src/assets/photos) ; vide pour un article venu de Sanity
+  photoUrl?: string; // photo venue de Sanity
+  photoW?: number;
+  photoH?: number;
+  photoAlt?: string;
+  photoFp?: { x: number; y: number }; // point du visage choisi par l'autrice (0 à 1)
   position?: string;
   resume: string;
-  rubrique: string; // rubrique d'origine dans le magazine
-  page: number; // page du magazine
+  rubrique?: string; // rubrique d'origine dans le magazine (extraits du magazine seulement)
+  page?: number; // page du magazine
   video?: { duree: string; youtubeId?: string };
   corps: Bloc[];
   priere?: string;
@@ -182,7 +188,7 @@ const minutes = (x: Omit<Pensee, 'duree'>) => {
   return `${Math.max(1, Math.round(txt.split(/\s+/).filter(Boolean).length / 200))} min`;
 };
 
-export const PENSEES: Pensee[] = BRUT.map((x) => ({ ...x, duree: minutes(x) }));
+export const PENSEES: Pensee[] = BRUT.map((x) => ({ ...x, dateIso: '2026-02', duree: minutes(x) }));
 
 export const titreComplet = (p: Pensee) => (p.titreEm ? `${p.titre} ${p.titreEm}` : p.titre);
 export const kickerCarte = (p: Pensee) => `${THEMES[p.theme]} · ${p.duree}`;

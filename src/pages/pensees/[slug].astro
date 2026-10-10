@@ -5,14 +5,18 @@ import Photo from '../../components/Photo.astro';
 import Cover from '../../components/Cover.astro';
 import StickyBar from '../../components/StickyBar.astro';
 import YouTubeFacade from '../../components/YouTubeFacade.astro';
-import { PENSEES, THEMES, kickerCarte, titreComplet, type Pensee } from '../../data/pensees';
+import { THEMES, kickerCarte, titreComplet, type Pensee } from '../../data/pensees';
+import { chargerPensees } from '../../data/blog';
 import { EBOOK, MAGAZINE, SITE } from '../../data/site';
 
-export function getStaticPaths() {
-  return PENSEES.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+export async function getStaticPaths() {
+  const liste = await chargerPensees();
+  return liste.map((p) => ({ params: { slug: p.slug }, props: { p } }));
 }
 interface Props { p: Pensee }
 const { p } = Astro.props;
+const PENSEES = await chargerPensees();
+const extrait = typeof p.page === 'number';
 const titre = titreComplet(p);
 const suivantes = PENSEES.filter((x) => x.slug !== p.slug).slice(0, 2);
 const url = new URL(`/pensees/${p.slug}`, Astro.site).href;
@@ -24,8 +28,8 @@ const jsonLd = {
   headline: titre,
   author: { '@type': 'Person', name: SITE.nom },
   publisher: { '@type': 'Organization', name: SITE.editeur },
-  datePublished: '2026-02',
-  isPartOf: { '@type': 'PublicationIssue', name: `${MAGAZINE.titre} ${MAGAZINE.numero}` },
+  datePublished: p.dateIso,
+  ...(extrait ? { isPartOf: { '@type': 'PublicationIssue', name: `${MAGAZINE.titre} ${MAGAZINE.numero}` } } : {}),
   inLanguage: 'fr',
   mainEntityOfPage: url,
 };
@@ -45,15 +49,15 @@ import { photoPensee } from '../../data/hero';
 >
   <div slot="top" class="progress" aria-hidden="true"><span data-progress></span></div>
 
-  <PageHero photos={photoPensee(p.photo)}>
+  <PageHero photos={photoPensee(p)}>
     <nav class="crumb only-desktop" aria-label="Fil d'Ariane">
-      <a href="/pensees">Pensées</a><Icon name="caret-right" size={14} /><a href={`/pensees?theme=${p.theme}`}>{THEMES[p.theme]}</a>
+      <a href="/pensees">Blog</a><Icon name="caret-right" size={14} /><a href={`/pensees?theme=${p.theme}`}>{THEMES[p.theme]}</a>
     </nav>
     <span class="kicker or">{THEMES[p.theme]} · {p.duree} de lecture</span>
     <h1 class="h1" style="--h1-d:65px;--h1-m:38px;--h1-vw:4.5vw">{p.titre}{p.titreEm && <> <em>{p.titreEm}</em></>}</h1>
     <div class="byline">
       <span class="avatar"><Photo src="portrait-arches.jpg" alt="" position="center 18%" sizes="44px" /></span>
-      <span><strong>Race Élue</strong> · <time datetime="2026-02">{p.date}</time> · extrait du magazine {MAGAZINE.numero}</span>
+      <span><strong>Race Élue</strong> · <time datetime={p.dateIso}>{p.date}</time>{extrait && <> · extrait du magazine {MAGAZINE.numero}</>}</span>
     </div>
   </PageHero>
 
@@ -68,7 +72,7 @@ import { photoPensee } from '../../data/hero';
     <article class="art">
       <div class="corps">
         {p.corps.map((b, i) => {
-          if (b.type === 'p') return <p class:list={{ drop: i === premierP }}>{b.texte}</p>;
+          if (b.type === 'p') return b.html ? <p class:list={{ drop: i === premierP }} set:html={b.html} /> : <p class:list={{ drop: i === premierP }}>{b.texte}</p>;
           if (b.type === 'h2') return <h2>{b.texte}</h2>;
           if (b.type === 'verset') return (
             <blockquote class="verset on-vert">
@@ -77,11 +81,11 @@ import { photoPensee } from '../../data/hero';
               <cite>{b.ref}</cite>
             </blockquote>
           );
-          if (b.type === 'video') return <YouTubeFacade youtubeId={b.youtubeId} titre={titre} duree={b.duree} photo={p.photo} position={p.position} />;
+          if (b.type === 'video') return <YouTubeFacade youtubeId={b.youtubeId} titre={titre} duree={b.duree} photo={p.photo} url={p.photoUrl} position={p.position} />;
           return null;
         })}
         {p.video && !p.corps.some((b) => b.type === 'video') && (
-          <YouTubeFacade youtubeId={p.video.youtubeId} titre={titre} duree={p.video.duree} photo={p.photo} position={p.position} />
+          <YouTubeFacade youtubeId={p.video.youtubeId} titre={titre} duree={p.video.duree} photo={p.photo} url={p.photoUrl} position={p.position} />
         )}
         {p.priere && (
           <div class="priere">
@@ -89,7 +93,7 @@ import { photoPensee } from '../../data/hero';
             <p>{p.priere}</p>
           </div>
         )}
-        <p class="source">Extrait du magazine <a href={`/publications/${MAGAZINE.slug}#page-${p.page}`}>« {MAGAZINE.titre} », {MAGAZINE.numero}</a>, rubrique « {p.rubrique} ».</p>
+        {extrait && <p class="source">Extrait du magazine <a href={`/publications/${MAGAZINE.slug}#page-${p.page}`}>« {MAGAZINE.titre} », {MAGAZINE.numero}</a>{p.rubrique && <>, rubrique « {p.rubrique} »</>}.</p>}
       </div>
 
       <div class="share-row only-desktop">

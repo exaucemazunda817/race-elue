@@ -38,7 +38,11 @@ export const HERO = {
   temoignages: [P.herbe, P.dehors, P.rire],
   mentions: [P.ordi],
 };
-export const photoPensee = (src: string, alt = 'Race Élue Disanka'): HeroPhoto[] => {
-  const base = Object.values(P).find((p) => p.src === src);
-  return [base ?? { src, alt, pos: '50% 35%' }];
+export const photoPensee = (
+  p: { photo: string; photoUrl?: string; photoW?: number; photoH?: number; photoAlt?: string; position?: string },
+  alt = 'Race Élue Disanka',
+): HeroPhoto[] => {
+  if (p.photoUrl) return [{ src: '', url: p.photoUrl, w: p.photoW, h: p.photoH, alt: p.photoAlt ?? alt, pos: p.position, posMobile: p.position }];
+  const base = Object.values(P).find((x) => x.src === p.photo);
+  return [base ?? { src: p.photo, alt, pos: '50% 35%' }];
 };

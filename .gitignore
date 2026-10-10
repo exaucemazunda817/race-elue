@@ -7,3 +7,6 @@ dist/
 .DS_Store
 .vercel
 _photos-a-integrer/
+studio/dist/
+studio/.sanity/
+studio-install.log
