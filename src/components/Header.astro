@@ -55,22 +55,22 @@ const contactActive = active.startsWith('/contact');
     </div>
     <nav aria-label="Navigation principale (mobile)">
       <ul>
-        <li><a href="/">Accueil{active === '/' && <span class="star"> ✦</span>}</a></li>
-        {NAV.map((item) => (
-          <li>
+        <li style="--i:0"><a href="/">Accueil{active === '/' && <span class="star"> ✦</span>}</a></li>
+        {NAV.map((item, i) => (
+          <li style={`--i:${i + 1}`}>
             <a href={item.href} class:list={{ active: isActive(item.match) }} aria-current={isActive(item.match) ? 'page' : undefined}>
               {item.labelLong ?? item.label}{isActive(item.match) && <span class="star"> ✦</span>}
             </a>
           </li>
         ))}
-        <li>
+        <li style={`--i:${NAV.length + 1}`}>
           <a href="/contact" class:list={{ active: contactActive }} aria-current={contactActive ? 'page' : undefined}>
             Contact et invitations{contactActive && <span class="star"> ✦</span>}
           </a>
         </li>
       </ul>
     </nav>
-    <div class="menu-social">
+    <div class="menu-social" style={`--i:${NAV.length + 2}`}>
       {RESEAUX.map((r) => (
         <a href={r.url} target="_blank" rel="noopener noreferrer" aria-label={r.nom}><Icon name={r.icon} size={24} /></a>
       ))}
@@ -94,7 +94,14 @@ const contactActive = active.startsWith('/contact');
       document.documentElement.style.overflow = '';
       if (refocus) openBtn.focus();
     };
-    const close = () => { if (dialog.open) dialog.close(); cleanup(); };
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Fermeture en fondu (220 ms) avant de refermer réellement la boîte de dialogue.
+    const close = () => {
+      if (!dialog.open) return cleanup();
+      if (reduce) { dialog.close(); return cleanup(); }
+      dialog.dataset.state = 'closing';
+      setTimeout(() => { delete dialog.dataset.state; if (dialog.open) dialog.close(); cleanup(); }, 200);
+    };
     closeBtn?.addEventListener('click', close);
     dialog.addEventListener('cancel', () => cleanup()); // touche Échap
     dialog.addEventListener('close', () => cleanup());

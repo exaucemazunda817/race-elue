@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
+import BackLink from '../components/BackLink.astro';
 import { PUBLIES } from '../data/temoignages';
 import { wa, MSG } from '../data/site';
 
@@ -20,6 +21,7 @@ const tone = (i: number) => (i === 0 ? 'arche' : i === 3 ? 'pale' : 'sable') as 
     <p class="lead only-mobile">Publiés avec l'accord de chaque personne.</p>
   </section>
 
+  <BackLink />
   <section class="wrap mur-sec">
     {PUBLIES.length === 0 ? (
       <p class="vide">Les premiers témoignages seront publiés ici, chacun avec l'accord de la personne qui l'a confié.</p>

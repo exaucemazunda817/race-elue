@@ -37,6 +37,26 @@ et diaspora. Mazunda est prestataire ; il pilote sans coder.
 `public/sw.js` : pages en « réseau d'abord » mises en cache, ressources en « cache d'abord », PDF jamais mis en cache d'office.
 Page de repli `/hors-ligne`. Le service worker n'est enregistré qu'en production.
 
+## Effets et animations (10/10/2026)
+Identité propre au site (arche, rameau, étoile ✦, vert et or), esprit repris de One Love / SUN Market, sans copier leur design.
+- `src/styles/motion.css` : tout le mouvement. `src/scripts/motion-inline.js` : moteur d'apparitions, inséré en ligne
+  à la fin du `<body>` (avant le premier affichage). Script du `<head>` (Base.astro) : `html.js`, `save-data`, `is-scrolling`,
+  décision de l'intro.
+- **Intro d'entrée** (`Intro.astro`, classe `.entree`, jamais `.intro` : déjà pris par un bloc du magazine) : arche dorée
+  qui se dessine, ✦, nom qui s'écrit, rameau, rideau qui se lève. À l'arrivée sur le site ou à l'actualisation, jamais
+  entre deux pages du site (site multi-pages : sinon elle se jouerait à chaque clic). Retirée par CSS à 2,35 s + 0,9 s.
+- **Apparitions rejouées à chaque retour** (règle de Mazunda). Remise en attente seulement à plus de 100 px hors de
+  l'écran (sinon un bloc au bord clignote en boucle, son décalage de 28 px le faisant entrer et sortir). Révélé dès 12 %
+  visible, ou 120 px visibles, ou s'il dépasse déjà en haut (bloc à moitié passé en bas d'une page courte).
+  Le bandeau de haut de page (`main > section` en premier enfant) a son entrée en CSS pur, sans attendre le JS (LCP).
+- Effets : transitions entre pages (View Transitions natives), photo qui se dévoile en arche, filet doré qui se trace,
+  zoom lent, Border Beam doré (formulaires), Shiny Button, Spotlight (cartes), titres flou → net, citations mot à mot
+  avec trait d'or (QuoteBand `trait`), rameau qui se trace (`Rameau.astro`, une fois par page), couverture qui s'incline
+  au survol, pages du magazine qui glissent, menu mobile en cascade, ✦ du logo qui scintille.
+- « Réduire les animations » = aucun mouvement ; économie de données / 2G = boucles coupées. Jamais de lissage du
+  défilement (Lenis exclu, cf. Gospel Nation).
+- Test anti-contenu-invisible : script `reveal-test.mjs` (défilement lent, saut en bas, milieu, retour en haut).
+
 ## Pièges rencontrés
 - `img { display:block }` écrasait l'attribut `hidden` : règle globale `[hidden] { display:none !important }` indispensable.
 - Événement `close` de `<dialog>` peu fiable dans certains navigateurs intégrés : le menu mobile fait son nettoyage directement.

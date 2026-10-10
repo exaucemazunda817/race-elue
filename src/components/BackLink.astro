@@ -1,0 +1,35 @@
+---
+// Bouton « Retour » des pages absentes du menu (correctif commun repris de One Love, 07/10/2026) :
+// posé sous le bandeau, jamais sur une photo. Il ramène à la page précédente du site ; si le visiteur
+// est arrivé directement (Google, lien partagé), il mène à la page de repli.
+import Icon from './Icon.astro';
+interface Props { fallback?: string; tone?: 'clair' | 'sombre' }
+const { fallback = '/', tone = 'clair' } = Astro.props;
+---
+<div class="back-wrap wrap">
+  <a class:list={['back', tone]} href={fallback} data-back><Icon name="arrow-left" size={18} />Retour</a>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-back]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      let interne = false;
+      try { interne = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch {}
+      if (interne && history.length > 1) { e.preventDefault(); history.back(); }
+    });
+  });
+</script>
+
+<style>
+  .back-wrap { padding-top: 24px; }
+  .back {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px;
+    font: 700 15px var(--sans); text-decoration: none; transition: border-color 0.18s, color 0.18s, background-color 0.18s;
+  }
+  .clair { background: #fff; color: var(--encre); box-shadow: inset 0 0 0 1px var(--bordure); }
+  .clair:hover { color: var(--cuivre-hover); box-shadow: inset 0 0 0 1.5px var(--cuivre); }
+  .sombre { color: var(--creme); box-shadow: inset 0 0 0 1px var(--filet-vert-2); }
+  .sombre:hover { color: var(--or-hover); box-shadow: inset 0 0 0 1.5px var(--or); }
+  @media (min-width: 960px) { .back-wrap { padding-top: 32px; } }
+</style>

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import BackLink from '../components/BackLink.astro';
 import { SITE } from '../data/site';
 
 // Contenus juridiques : à compléter avec l'autrice (adresse, e-mail de contact) avant la mise en ligne publique.
@@ -38,6 +39,7 @@ const sections = [
   active="/mentions-legales"
   footerMention=""
 >
+  <BackLink />
   <section class="wrap page">
     <nav class="toc only-desktop" aria-label="Sur cette page">
       <span class="toc-k">Sur cette page</span>

@@ -1,8 +1,11 @@
 ---
 import '../styles/global.css';
+import '../styles/motion.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
+import Intro from '../components/Intro.astro';
+import motionSrc from '../scripts/motion-inline.js?raw';
 import { SITE, wa } from '../data/site';
 
 interface Props {
@@ -36,6 +39,32 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
+    <script is:inline>
+      // Avant le premier affichage : autorise les apparitions (html.js), repère l'économie de données,
+      // signale le défilement en cours, et décide de l'intro d'entrée : arrivée sur le site ou
+      // actualisation de la page, jamais en passant d'une page du site à une autre.
+      (function () {
+        var h = document.documentElement;
+        h.classList.add('js');
+        try { var c = navigator.connection; if (c && (c.saveData || /2g/.test(c.effectiveType || ''))) h.classList.add('save-data'); } catch (e) {}
+        var t = 0;
+        addEventListener('scroll', function () {
+          if (!t) h.classList.add('is-scrolling');
+          clearTimeout(t);
+          t = setTimeout(function () { h.classList.remove('is-scrolling'); t = 0; }, 150);
+        }, { passive: true });
+        try {
+          if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          var nav = performance.getEntriesByType('navigation')[0];
+          var interne = false;
+          try { interne = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (e) {}
+          if ((nav && nav.type === 'reload') || !interne) {
+            h.setAttribute('data-intro', '');
+            setTimeout(function () { h.removeAttribute('data-intro'); }, 3300);
+          }
+        } catch (e) {}
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -60,6 +89,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <slot name="head" />
   </head>
   <body class={bodyClass}>
+    <Intro />
     <a class="skip-link" href="#contenu">Aller au contenu</a>
     <div class="offline-banner" role="status" hidden data-offline-banner>
       <Icon name="wifi-slash" size={22} />
@@ -80,6 +110,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
       </a>
     )}
     <slot name="sticky" />
+    <script is:inline set:html={motionSrc} />
 
     <script>
       // Bandeau hors connexion

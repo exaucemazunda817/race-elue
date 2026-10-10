@@ -8,20 +8,23 @@ interface Props {
   size?: number; // taille desktop du texte
   pad?: 'sec' | 'sec-2';
   class?: string;
+  trait?: boolean; // trait d'or tracé à la main sous la citation (signature)
 }
-const { texte, source, sourceMobile, note, size = 52, pad = 'sec-2', class: className } = Astro.props;
+const { texte, source, sourceMobile, note, size = 52, pad = 'sec-2', class: className, trait = false } = Astro.props;
+const mots = texte.split(' ');
 ---
-<section class:list={['quote-band bg-vert on-vert wrap', pad, className]} style={`--qd:${size}px`}>
+<section class:list={['quote-band bg-vert on-vert wrap', pad, className]} style={`--qd:${size}px;--n:${mots.length}`}>
   <span class="big-q" aria-hidden="true">“</span>
-  <blockquote><p>{texte}</p></blockquote>
-  {note && <p class="note only-desktop">{note}</p>}
+  <blockquote><p class="ink"><span class="sr-only">{texte}</span>{mots.map((m, i) => <><span class="w" aria-hidden="true" style={`--i:${i}`}>{m}</span>{i < mots.length - 1 ? ' ' : ''}</>)}</p></blockquote>
+  {trait && <svg class="trait" viewBox="0 0 300 18" aria-hidden="true"><path pathLength="1" d="M4 12 C70 4 150 2 296 9 M60 15 C130 11 200 11 250 13" /></svg>}
+  {note && <p class="note only-desktop ink-after">{note}</p>}
   {source && (
     sourceMobile !== undefined ? (
       <>
-        <span class="kicker or only-desktop">{source}</span>
-        {sourceMobile && <span class="kicker or only-mobile">{sourceMobile}</span>}
+        <span class="kicker or only-desktop ink-after">{source}</span>
+        {sourceMobile && <span class="kicker or only-mobile ink-after">{sourceMobile}</span>}
       </>
-    ) : <span class="kicker or">{source}</span>
+    ) : <span class="kicker or ink-after">{source}</span>
   )}
 </section>
 

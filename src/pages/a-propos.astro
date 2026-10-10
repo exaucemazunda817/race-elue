@@ -4,6 +4,7 @@ import Icon from '../components/Icon.astro';
 import Photo from '../components/Photo.astro';
 import QuoteBand from '../components/QuoteBand.astro';
 import StickyBar from '../components/StickyBar.astro';
+import Rameau from '../components/Rameau.astro';
 import { RESEAUX, SITE } from '../data/site';
 
 const mission = [
@@ -54,6 +55,7 @@ const jsonLd = {
       <p>Je ne prétends pas être totalement guérie de tout. Mais chaque fois que j'ai fait l'expérience de la guérison, c'est Dieu qui a agi.<span class="suite-mobile"> C'est ce chemin que je partage dans mes écrits, sur mes réseaux et au sein du ministère Guérie et Épanouie.</span></p>
       <div class="more-wrap" data-more-wrap>
         <p>Avec RED Éditions, je publie des ressources simples et accessibles : un ebook, un magazine de la foi, des pensées et des méditations, pour que tu puisses avancer à ton rythme, où que tu sois.</p>
+        <Rameau class="histoire-rameau" />
         <span class="sign">Race Élue</span>
       </div>
       <button type="button" class="link read-more only-mobile" data-read-more aria-expanded="false">Lire la suite <Icon name="caret-down" /></button>
@@ -144,6 +146,7 @@ const jsonLd = {
   .col .drop::first-letter { font-size: 70px; margin: 6px 10px 0 0; line-height: 0.8; }
   .more-wrap { display: flex; flex-direction: column; gap: 16px; }
   .sign { font: italic 500 28px var(--serif); color: var(--cuivre); margin-top: 8px; }
+  .col :global(.histoire-rameau) { margin: 8px 0 0; }
   .read-more { background: none; border: 0; padding: 0; cursor: pointer; align-self: flex-start; }
   @media (max-width: 959.98px) { :global(.js-collapsed) { display: none !important; } }
   @media (min-width: 960px) {

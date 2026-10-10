@@ -33,6 +33,11 @@ const faq = [
   { q: 'Peux-tu intervenir dans mon église ?', r: 'Oui, en présentiel ou en ligne.', lien: { href: '/contact?onglet=invitation', label: "Envoyer une demande d'intervention" } },
 ];
 const temoignages = premiers(3);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+};
 ---
 <Base
   title="Guérie et Épanouie"
@@ -40,6 +45,7 @@ const temoignages = premiers(3);
   ogImage="/og/guerie.jpg"
   active="/guerie-et-epanouie"
   stickyBar
+  jsonLd={jsonLd}
 >
   <section class="hero bg-vert on-vert wrap">
     <div class="hero-txt">
@@ -115,7 +121,7 @@ const temoignages = premiers(3);
     </div>
   </section>
 
-  <QuoteBand texte="Je suis guérie et épanouie !" note="La déclaration que chaque membre est invitée à faire sienne, un jour après l'autre." size={64} />
+  <QuoteBand trait texte="Je suis guérie et épanouie !" note="La déclaration que chaque membre est invitée à faire sienne, un jour après l'autre." size={64} />
 
   {temoignages.length > 0 && (
   <section class="wrap sec-2 bg-sable elles">

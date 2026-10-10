@@ -1,0 +1,17 @@
+---
+// Intro d'entrée : l'arche dorée se dessine, l'étoile ✦ apparaît, le nom s'écrit, le rameau se trace,
+// puis le volet vert s'ouvre en arche sur le site. Piloté en CSS (motion.css, html[data-intro]) :
+// la page n'est jamais bloquée. Jouée à l'arrivée sur le site et à chaque actualisation,
+// jamais en passant d'une page du site à une autre (script dans le <head> de Base.astro).
+import Rameau from './Rameau.astro';
+---
+<div class="entree" aria-hidden="true">
+  <div class="entree-arche">
+    <svg viewBox="0 0 132 176"><path pathLength="1" d="M8 174V66a58 58 0 0 1 116 0v108" /></svg>
+    <span class="entree-etoile">✦</span>
+  </div>
+  <span class="entree-nom">Race Élue Disanka</span>
+  <Rameau />
+  <span class="entree-tag">Foi · Créativité · Guérison intérieure</span>
+  <button type="button" class="entree-skip" tabindex="-1" onclick="document.documentElement.removeAttribute('data-intro')">Passer l'intro</button>
+</div>

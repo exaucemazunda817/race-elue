@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Photo from '../components/Photo.astro';
 import PubCards from '../components/PubCards.astro';
+import Rameau from '../components/Rameau.astro';
 import QuoteBand from '../components/QuoteBand.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import NewsletterBand from '../components/NewsletterBand.astro';
@@ -36,7 +37,7 @@ const jsonLd = {
         <a class="btn btn-gold btn-lg" href={`/publications/${EBOOK.slug}#recevoir`}>Recevoir l'ebook gratuit</a>
         <a class="btn btn-ghost-light btn-lg" href={`/publications/${MAGAZINE.slug}`}>Lire le magazine</a>
       </div>
-      <span class="signature only-desktop">« Je suis guérie et épanouie ! »</span>
+      <span class="signature only-desktop">« Je suis guérie et épanouie ! »<svg class="trait" viewBox="0 0 300 18" aria-hidden="true"><path pathLength="1" d="M4 12 C70 4 150 2 296 9 M60 15 C130 11 200 11 250 13" /></svg></span>
     </div>
     <div class="hero-photo">
       <div class="arche-line" aria-hidden="true"></div>
@@ -55,6 +56,7 @@ const jsonLd = {
     </div>
     <PubCards />
     <span class="small only-mobile">Publié par RED Éditions</span>
+    <Rameau class="pubs-rameau" />
   </section>
 
   <!-- Trois portes -->
@@ -169,6 +171,8 @@ const jsonLd = {
 
 <style>
   .gap14 { gap: 14px; }
+  .pubs :global(.pubs-rameau) { margin-top: 16px; }
+  @media (min-width: 960px) { .pubs :global(.pubs-rameau) { margin-top: 8px; } }
 
   /* Héros */
   .hero { padding-top: 20px; padding-bottom: 64px; display: flex; flex-direction: column-reverse; gap: 22px; }
@@ -177,7 +181,7 @@ const jsonLd = {
   .hero .lead { color: var(--texte-vert); max-width: 520px; }
   .btns { display: flex; flex-direction: column; gap: 12px; }
   .btns .btn { min-height: 52px; }
-  .signature { font: italic 500 24px var(--serif); color: var(--or); margin-top: 8px; }
+  .signature { font: italic 500 24px var(--serif); color: var(--or); margin-top: 8px; display: inline-block; align-self: flex-start; }
   .hero-photo { position: relative; width: 250px; height: 310px; align-self: center; margin: 8px 0 6px; }
   .arche-line { position: absolute; inset: -10px -10px 10px 10px; border: 1.5px solid var(--or); border-radius: 999px 999px 6px 6px; }
   .hero-photo :global(img), .ministere-photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 999px 999px 6px 6px; }

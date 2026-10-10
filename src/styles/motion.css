@@ -1,0 +1,269 @@
+/* ==========================================================================
+   Mouvement du site Race Élue Disanka (10/10/2026)
+   Effets propres au site, construits sur ses motifs : l'arche, le rameau, l'étoile ✦,
+   le vert profond et l'or. Esprit repris des sites One Love et SUN Market (effets
+   Magic UI / React Bits réécrits en CSS natif, sans bibliothèque) avec les règles
+   communes à tous les sites de Mazunda :
+   - rien n'est masqué sans JavaScript (masquage seulement sous html.js) ;
+   - les apparitions se rejouent à chaque retour dans l'écran ;
+   - un contenu en attente se révèle seul au bout de 4 s si le script échoue ;
+   - « Réduire les animations » = état final immédiat, sans aucun mouvement ;
+   - le défilement n'est jamais détourné (pas de lissage façon Lenis) ;
+   - pas de mode allégé déclenché par la 3G (seulement économie de données).
+   ========================================================================== */
+
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ---------- Transitions entre les pages (API View Transitions du navigateur) ----------
+   Fondu enchaîné d'une page à l'autre ; l'en-tête reste en place. Aucun JavaScript :
+   les navigateurs qui ne la connaissent pas changent de page normalement. */
+@view-transition { navigation: auto; }
+.site-header { view-transition-name: entete; }
+::view-transition-old(root) { animation: vt-out 220ms var(--ease-io) both; }
+::view-transition-new(root) { animation: vt-in 380ms var(--ease-out) both; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
+
+/* ---------- Apparitions au défilement (moteur : script en bas de Base.astro) ---------- */
+html.js [data-reveal='waiting'] {
+  opacity: 0;
+  transform: translateY(28px);
+  animation: rv-failsafe 0.01s 4s forwards;
+}
+[data-reveal='shown'] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 760ms var(--ease-out) var(--rd, 0ms),
+    transform 760ms var(--ease-out) var(--rd, 0ms),
+    filter 900ms var(--ease-out) var(--rd, 0ms),
+    clip-path 1100ms var(--ease-io) var(--rd, 0ms);
+}
+@keyframes rv-failsafe { to { opacity: 1; transform: none; filter: none; clip-path: none; } }
+
+/* Variante « arche » : la photo se dévoile depuis le bas en forme d'arche, passe du flou au net
+   et se dézoome — l'arche est la signature visuelle du site. */
+html.js [data-reveal='waiting'][data-rv='arche'] {
+  transform: scale(1.06);
+  clip-path: inset(38% 10% 0 10% round 999px 999px 8px 8px);
+  filter: blur(6px);
+}
+[data-reveal='shown'][data-rv='arche'] { clip-path: inset(0 0 0 0 round 0); }
+
+/* Variante « douce » : petits éléments (lignes de sommaire, étapes). */
+html.js [data-reveal='waiting'][data-rv='doux'] { transform: translateY(14px); }
+
+/* Blur Text : les titres de section passent du flou au net en apparaissant. */
+html.js [data-reveal='waiting'] :is(h2, .h2),
+html.js :is(h2, .h2)[data-reveal='waiting'] { filter: blur(8px); }
+[data-reveal='shown'] :is(h2, .h2) { transition: filter 900ms var(--ease-out) var(--rd, 0ms); }
+
+/* ---------- Bandeaux de haut de page : entrée jouée en CSS pur ----------
+   Visibles sans attendre le JavaScript (le titre du bandeau fixe le premier affichage, LCP). */
+@keyframes hero-in { from { opacity: 0.001; transform: translateY(24px); } }
+:is(.hero-txt, .head, .nf, .merci .txt, .content, .stack.head) > *,
+.hero > :is(.kicker, .h1, .lead, .btn, .hero-social),
+.crumb {
+  animation: hero-in 820ms var(--ease-out) both;
+}
+:is(.hero-txt, .head, .nf, .merci .txt, .content, .stack.head) > :nth-child(2),
+.hero > :nth-child(2) { animation-delay: 90ms; }
+:is(.hero-txt, .head, .nf, .merci .txt, .content, .stack.head) > :nth-child(3),
+.hero > :nth-child(3) { animation-delay: 180ms; }
+:is(.hero-txt, .head, .nf, .merci .txt, .content, .stack.head) > :nth-child(4),
+.hero > :nth-child(4) { animation-delay: 270ms; }
+:is(.hero-txt, .head, .nf, .merci .txt, .content, .stack.head) > :nth-child(n + 5),
+.hero > :nth-child(n + 5) { animation-delay: 360ms; }
+
+/* Photo du bandeau dans son arche : elle se dévoile depuis le bas, puis respire (zoom lent). */
+.hero-photo picture {
+  position: absolute; inset: 0; display: block; overflow: hidden;
+  border-radius: 999px 999px 6px 6px;
+  animation: arche-in 1200ms var(--ease-io) 120ms both;
+}
+@media (min-width: 640px) { .hero-photo picture { border-radius: var(--arche); } }
+@media (min-width: 960px) { .hero-photo picture { box-shadow: var(--ombre-lg); } }
+@keyframes arche-in {
+  from { clip-path: inset(100% 0 0 0 round 999px 999px 8px 8px); }
+  to { clip-path: inset(0 0 0 0 round 0); }
+}
+/* Le filet doré autour de l'arche se trace de bas en haut, comme dessiné à la main. */
+.arche-line { animation: filet-in 1400ms var(--ease-io) 600ms both; }
+@keyframes filet-in {
+  from { clip-path: inset(100% 0 0 0); opacity: 0.2; }
+  to { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+/* Couvertures des publications : elles se posent, puis s'inclinent au survol comme un livre. */
+.cover-wrap { perspective: 1200px; }
+.cover-wrap .cover { animation: livre-in 1000ms var(--ease-out) 150ms both; transition: transform 500ms var(--ease-out); transform-origin: 30% 60%; }
+.cover-arche { animation: halo-in 1100ms var(--ease-out) both; }
+@keyframes livre-in { from { opacity: 0; transform: translateY(40px) rotate(-3deg); } }
+@keyframes halo-in { from { opacity: 0; transform: scale(0.86); } }
+@media (hover: hover) {
+  .cover-wrap:hover .cover { transform: rotateY(-12deg) rotateX(4deg) translateY(-6px); }
+}
+
+/* ---------- Zoom lent (Ken Burns) sur les grandes photos ---------- */
+@keyframes kb { from { transform: scale(1); } to { transform: scale(1.09) translate3d(-1.5%, -1.5%, 0); } }
+:is(.hero-photo, .histoire-photo, .autrice-photo, .themes-photo, .une-img, .hero-img, .ministere-photo, .merci .photo) img {
+  animation: kb 18s ease-in-out 1.2s infinite alternate;
+  will-change: transform;
+}
+.ministere-photo picture { position: absolute; left: 24px; bottom: 0; width: 340px; height: 460px; overflow: hidden; border-radius: var(--arche); display: block; }
+@media (max-width: 959.98px) { .ministere-photo picture { inset: 0; width: auto; height: auto; left: 0; border-radius: 999px 999px 6px 6px; } }
+@media (min-width: 960px) and (max-width: 1199.98px) { .ministere-photo picture { width: 290px; height: 400px; } }
+
+/* ---------- Effets Magic UI / React Bits réécrits en CSS natif ---------- */
+
+/* Border Beam : un trait d'or fait le tour des formulaires, comme une lumière qui veille. */
+@property --beam-a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+.fx-beam { position: relative; isolation: isolate; }
+@media (max-width: 959.98px) { .form-card.fx-beam::after { display: none; } }
+.fx-beam::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 2;
+  background: conic-gradient(from var(--beam-a), transparent 0deg 245deg, rgba(201, 162, 75, 0.15) 278deg, #c9a24b 318deg, #94522a 334deg, transparent 350deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: beam 7s linear infinite;
+}
+@keyframes beam { to { --beam-a: 360deg; } }
+
+/* Shiny Button : un reflet balaie les boutons principaux de temps en temps. */
+.btn-primary, .btn-gold, .btn-wa { position: relative; overflow: hidden; isolation: isolate; }
+.btn-primary::after, .btn-gold::after, .btn-wa::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.5) 48%, rgba(255, 255, 255, 0.08) 56%, transparent 70%);
+  transform: translateX(-130%);
+  animation: shine 6.5s var(--ease-io) 2.4s infinite;
+}
+.btn-gold::after { background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.65) 48%, rgba(255, 255, 255, 0.1) 56%, transparent 70%); }
+@keyframes shine { 0% { transform: translateX(-130%); } 20%, 100% { transform: translateX(130%); } }
+
+/* Spotlight Card : une lueur dorée suit la souris sur les cartes (ordinateur uniquement). */
+.fx-spot { position: relative; }
+.fx-spot::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 1;
+  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%), rgba(201, 162, 75, 0.2), transparent 55%);
+  opacity: 0; transition: opacity 280ms var(--ease-out);
+}
+@media (hover: hover) {
+  .fx-spot:hover::before { opacity: 1; }
+}
+html.is-scrolling .fx-spot::before { opacity: 0 !important; }
+
+/* Photo de carte : léger zoom et reflet lumineux au survol. */
+@media (hover: hover) {
+  .fx-photo { overflow: hidden; }
+  .fx-photo img { transition: transform 700ms var(--ease-out); }
+  :is(a, .fx-photo):hover .fx-photo img, .fx-photo:hover img { transform: scale(1.07); }
+  .fx-photo::after {
+    content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.32) 50%, transparent 70%);
+    transform: translateX(-120%);
+  }
+  :is(a:hover) .fx-photo::after, .fx-photo:hover::after { transform: translateX(120%); transition: transform 900ms var(--ease-out); }
+}
+
+/* ---------- Citations qui s'écrivent mot à mot (encre) ---------- */
+.ink .w { display: inline-block; }
+html.js [data-reveal='waiting'][data-rv='fixe'] { opacity: 1; transform: none; animation: none; }
+html.js [data-reveal='waiting'] .ink .w { opacity: 0; filter: blur(6px); transform: translateY(10px); }
+[data-reveal='shown'] .ink .w {
+  transition: opacity 600ms var(--ease-out), filter 700ms var(--ease-out), transform 700ms var(--ease-out);
+  transition-delay: calc(var(--i) * 65ms + 150ms);
+}
+html.js [data-reveal='waiting'] .ink-after { opacity: 0; transform: translateY(8px); }
+[data-reveal='shown'] .ink-after { transition: opacity 700ms ease-out calc(var(--n, 8) * 65ms + 300ms), transform 700ms var(--ease-out) calc(var(--n, 8) * 65ms + 300ms); }
+/* Trait d'or tracé à la main sous une signature (« Je suis guérie et épanouie ! »). */
+.trait { display: block; width: min(320px, 70%); height: 18px; margin: 4px auto 0; overflow: visible; }
+.trait path { fill: none; stroke: var(--or); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+html.js [data-reveal='waiting'] .trait path { stroke-dashoffset: 1; }
+[data-reveal='shown'] .trait path { transition: stroke-dashoffset 1300ms var(--ease-io) calc(var(--n, 6) * 65ms + 450ms); }
+.signature .trait { margin: 2px 0 0; width: 260px; }
+.signature .trait path { animation: trait-in 1300ms var(--ease-io) 1100ms both; }
+@keyframes trait-in { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* ---------- Rameau + étoile : séparateur signature, qui se trace ---------- */
+.rameau { display: block; margin: 0 auto; width: 170px; height: 28px; overflow: visible; }
+.rameau path { fill: none; stroke: var(--sauge); stroke-width: 1.2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.rameau text { fill: var(--cuivre); transform-origin: 85px 14px; }
+html.js [data-reveal='waiting'] .rameau path, html.js .rameau[data-reveal='waiting'] path { stroke-dashoffset: 1; }
+html.js [data-reveal='waiting'] .rameau text, html.js .rameau[data-reveal='waiting'] text { opacity: 0; transform: scale(0.3) rotate(-60deg); }
+[data-reveal='shown'] .rameau path, .rameau[data-reveal='shown'] path { transition: stroke-dashoffset 1400ms var(--ease-io) 200ms; }
+[data-reveal='shown'] .rameau text, .rameau[data-reveal='shown'] text { transition: opacity 500ms ease-out 900ms, transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1) 900ms; }
+
+/* L'étoile ✦ du logo scintille doucement. */
+.site-header .star, .site-footer .star { display: inline-block; animation: scintille 4.5s ease-in-out infinite; }
+@keyframes scintille { 0%, 82%, 100% { transform: scale(1) rotate(0); opacity: 1; } 88% { transform: scale(1.45) rotate(45deg); opacity: 0.75; } 94% { transform: scale(0.9) rotate(90deg); opacity: 1; } }
+
+/* Guillemet doré : il « tombe » en place quand la citation apparaît. */
+html.js [data-reveal='waiting'] .big-q { opacity: 0; transform: translateY(-20px) scale(1.4); }
+[data-reveal='shown'] .big-q { transition: opacity 600ms ease-out, transform 900ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+/* ---------- Intro d'entrée : l'arche s'ouvre sur le site ----------
+   Jouée à l'arrivée sur le site et à chaque actualisation, jamais entre deux pages du site.
+   Pilotée en CSS : le volet se retire seul à 2,6 s, la page n'est jamais bloquée. */
+.entree { display: none; }
+html[data-intro] .entree {
+  position: fixed; inset: 0; z-index: 300; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  background: radial-gradient(circle at 50% 42%, #284a3b 0%, var(--vert) 62%);
+  color: var(--creme); text-align: center; padding: 24px;
+  animation: entree-out 900ms var(--ease-io) 2350ms forwards;
+}
+.entree-arche { position: relative; width: 132px; height: 176px; }
+@media (min-width: 960px) { .entree-arche { width: 176px; height: 234px; } .entree .rameau { width: 220px; height: 36px; } .entree-tag { font-size: 13px !important; } }
+.entree-arche svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.entree-arche path { fill: none; stroke: var(--or); stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 1; animation: trait-in 1300ms var(--ease-io) 150ms forwards; }
+.entree-etoile { position: absolute; left: 50%; top: 54%; font-size: 30px; color: var(--or); transform: translate(-50%, -50%) scale(0) rotate(-90deg); animation: etoile-in 800ms cubic-bezier(0.34, 1.56, 0.64, 1) 900ms forwards, scintille 2.2s ease-in-out 1.7s infinite; }
+@keyframes etoile-in { to { transform: translate(-50%, -50%) scale(1) rotate(0); } }
+.entree-nom { font: italic 600 clamp(32px, 4.6vw, 64px)/1.1 var(--serif); color: var(--creme); clip-path: inset(0 100% 0 0); animation: ecrire 1200ms var(--ease-io) 600ms forwards; }
+@keyframes ecrire { to { clip-path: inset(0 0 0 0); } }
+.entree .rameau path { stroke: var(--or-couv); stroke-dashoffset: 1; animation: trait-in 1100ms var(--ease-io) 1200ms forwards; }
+.entree .rameau text { fill: var(--or); opacity: 0; animation: fade-in 500ms ease-out 1700ms forwards; }
+.entree-tag { font: 800 11px/1.4 var(--sans); letter-spacing: 0.24em; text-transform: uppercase; color: var(--or); opacity: 0; transform: translateY(8px); animation: fade-in 700ms var(--ease-out) 1500ms forwards; }
+@keyframes fade-in { to { opacity: 1; transform: none; } }
+.entree-skip {
+  position: absolute; right: clamp(16px, 4vw, 40px); bottom: clamp(16px, 4vw, 40px); min-height: 44px; padding: 0 18px;
+  border: 1.5px solid rgba(251, 247, 241, 0.4); border-radius: 999px; background: transparent; color: var(--creme);
+  font: 600 14px/1 var(--sans); cursor: pointer;
+}
+/* Sortie : le rideau vert se lève, son bord inférieur arrondi comme le bas d'une arche. */
+@keyframes entree-out {
+  from { clip-path: inset(0 0 0 0 round 0 0 0 0); }
+  to { clip-path: inset(0 0 100% 0 round 0 0 50% 50%); visibility: hidden; }
+}
+
+/* ---------- Menu mobile : il glisse en fondu, puis les rubriques arrivent une à une ---------- */
+.menu[open] .menu-inner { animation: menu-in 380ms cubic-bezier(0.22, 0.9, 0.24, 1) both; }
+.menu[open] li, .menu[open] .menu-social { animation: menu-item 420ms cubic-bezier(0.22, 0.9, 0.24, 1) both; animation-delay: calc(90ms + var(--i, 0) * 45ms); }
+.menu[data-state='closing'] .menu-inner { animation: menu-out 220ms cubic-bezier(0.4, 0, 1, 1) both; }
+.menu[data-state='closing'] li, .menu[data-state='closing'] .menu-social { animation: none; }
+@keyframes menu-in { from { opacity: 0; transform: translateY(-14px) scale(0.985); } }
+@keyframes menu-out { to { opacity: 0; transform: translateY(-10px); } }
+@keyframes menu-item { from { opacity: 0; transform: translateY(14px); } }
+
+/* ---------- Lecteur du magazine : la page glisse quand on la tourne ---------- */
+[data-pages].turn-next .page:not([hidden]) { animation: page-next 420ms var(--ease-out) both; }
+[data-pages].turn-prev .page:not([hidden]) { animation: page-prev 420ms var(--ease-out) both; }
+[data-pages].turn-next .page[data-slot='1'], [data-pages].turn-prev .page[data-slot='1'] { animation-delay: 60ms; }
+@keyframes page-next { from { opacity: 0.2; transform: translateX(36px) rotateY(-8deg); } }
+@keyframes page-prev { from { opacity: 0.2; transform: translateX(-36px) rotateY(8deg); } }
+[data-pages] { perspective: 1600px; }
+
+/* ---------- Réduire les animations : état final immédiat, aucun mouvement ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal], html.js [data-reveal] * { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; transition: none !important; }
+  .trait path, .rameau path { stroke-dashoffset: 0 !important; }
+  .rameau text { opacity: 1 !important; transform: none !important; }
+  *, *::before, *::after { animation: none !important; }
+  .fx-beam::after, .btn-primary::after, .btn-gold::after, .btn-wa::after { display: none; }
+  html[data-intro] .entree { display: none; }
+  @view-transition { navigation: none; }
+}
+/* Économie de données : on garde les apparitions, on coupe les boucles infinies. */
+html.save-data .fx-beam::after, html.save-data .btn-primary::after, html.save-data .btn-gold::after, html.save-data .btn-wa::after { animation: none; display: none; }
+html.save-data :is(.hero-photo, .histoire-photo, .autrice-photo, .themes-photo, .une-img, .hero-img, .ministere-photo, .merci .photo) img { animation: none; }

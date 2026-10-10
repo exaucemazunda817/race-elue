@@ -59,6 +59,7 @@ const total = MAGAZINE.pages;
     const mq = matchMedia('(min-width: 960px)');
     const src = (n: number) => `${base}p${String(n).padStart(2, '0')}.webp`;
     let page = 1; // première page affichée
+    const stage = root.querySelector<HTMLElement>('[data-pages]')!;
 
     // Sur ordinateur : la couverture seule, puis des doubles pages 2–3, 4–5…
     const spreadStart = (n: number) => (mq.matches ? (n <= 1 ? 1 : n % 2 === 0 ? n : n - 1) : n);
@@ -88,10 +89,17 @@ const total = MAGAZINE.pages;
       visible(nextStart).forEach((n) => { if (n <= total) new Image().src = src(n); });
     }
     const go = (n: number) => { page = Math.min(Math.max(1, n), total); render(); };
+    const turn = (dir: 1 | -1) => {
+      stage.classList.remove('turn-next', 'turn-prev');
+      void stage.offsetWidth; // relance l'animation
+      stage.classList.add(dir > 0 ? 'turn-next' : 'turn-prev');
+    };
     const step = (dir: 1 | -1) => {
       const pages = visible(page);
+      const avant = page;
       if (dir > 0) go(pages[pages.length - 1] + 1);
       else go(mq.matches ? (page <= 3 ? 1 : page - 2) : page - 1);
+      if (page !== avant) turn(dir);
     };
 
     root.querySelectorAll('[data-prev]').forEach((b) => b.addEventListener('click', () => step(-1)));
@@ -102,7 +110,6 @@ const total = MAGAZINE.pages;
       if (e.key === 'Escape' && root.classList.contains('is-full')) setFull(false);
     });
     let x0: number | null = null;
-    const stage = root.querySelector<HTMLElement>('[data-pages]')!;
     stage.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
     stage.addEventListener('touchend', (e) => {
       if (x0 === null) return;

@@ -2,9 +2,11 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Photo from '../components/Photo.astro';
+import BackLink from '../components/BackLink.astro';
 import { EBOOK, wa, MSG } from '../data/site';
 ---
 <Base title="Merci" description="Ton ebook « Comment Dieu guérit les cœurs brisés » est prêt." active="/merci" noindex>
+  <BackLink />
   <section class="wrap merci">
     <div class="txt">
       <span class="pastille"><Icon name="envelope-simple-open" /></span>

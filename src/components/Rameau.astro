@@ -1,0 +1,15 @@
+---
+// Rameau + étoile ✦ : le séparateur signature du design system (maquette 1b), tracé à l'apparition.
+// Règle de la maquette : une fois par page au maximum.
+interface Props { class?: string }
+const { class: className } = Astro.props;
+---
+<svg class:list={['rameau', className]} viewBox="0 0 170 28" aria-hidden="true" focusable="false">
+  <path pathLength="1" d="M4 14H70" />
+  <path pathLength="1" d="M100 14H166" />
+  <path pathLength="1" d="M40 14c4-7 10-9 16-8-3 6-9 8-16 8z" />
+  <path pathLength="1" d="M54 14c4 7 10 9 16 8-3-6-9-8-16-8z" />
+  <path pathLength="1" d="M116 14c4-7 10-9 16-8-3 6-9 8-16 8z" />
+  <path pathLength="1" d="M130 14c4 7 10 9 16 8-3-6-9-8-16-8z" />
+  <text x="85" y="19" text-anchor="middle" font-size="14">✦</text>
+</svg>
