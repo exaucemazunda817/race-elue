@@ -36,6 +36,7 @@ import { photoPensee } from '../../data/hero';
   title={titre}
   description={p.resume}
   ogType="article"
+  ogImage={`/og/pensees/${p.slug}.jpg`}
   active="/pensees"
   headerVariant="article"
   footerMention=""
@@ -164,16 +165,16 @@ import { photoPensee } from '../../data/hero';
   .hero-img { height: 250px; border-radius: 999px 999px 8px 8px; overflow: hidden; }
   .hero-img :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .corps { display: flex; flex-direction: column; gap: 18px; }
-  .corps > p { font-size: 17px; line-height: 1.75; }
+  .corps > p { font-size: 17px; line-height: 1.75; max-width: 30em; }
   .corps > p.source { font-size: 14px; line-height: 1.55; color: var(--secondaire); }
   .corps .drop::first-letter { font-size: 76px; margin: 8px 10px 0 0; line-height: 0.8; }
   .corps h2 { font-size: 28px; line-height: 1.1; margin-top: 8px; }
   .verset { margin: 0; background: var(--vert); border-radius: 999px 999px 10px 10px; padding: 72px 36px 32px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
   .verset p { font: italic 500 25px/1.25 var(--serif); color: var(--creme); }
-  .verset cite { font: 800 11px var(--sans); font-style: normal; letter-spacing: 0.22em; text-transform: uppercase; color: var(--or); }
+  .verset cite { font: 800 12px var(--sans); font-style: normal; letter-spacing: 0.22em; text-transform: uppercase; color: var(--or); }
   .vq { font: 500 80px/0.5 var(--serif); color: var(--or); padding-top: 28px; }
   .priere { background: var(--vert-pale); border-radius: var(--r-carte); padding: 24px 22px; display: flex; flex-direction: column; gap: 10px; }
-  .priere-k { display: flex; gap: 8px; align-items: center; font: 800 11px var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--vert); }
+  .priere-k { display: flex; gap: 8px; align-items: center; font: 800 12px var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--vert); }
   .priere-k :global(.icon) { color: var(--cuivre); }
   .priere p { font: italic 500 21px/1.45 var(--serif); color: var(--encre); }
 
@@ -189,7 +190,7 @@ import { photoPensee } from '../../data/hero';
     .corps h2 { font-size: 38px; margin-top: 16px; }
     .verset { margin: 16px 0; padding: 40px 48px; border-radius: 999px 999px 12px 12px; gap: 12px; }
     .verset p { font-size: 32px; }
-    .verset cite { font-size: 11px; }
+    .verset cite { font-size: 12px; }
     .priere { padding: 36px 40px; gap: 14px; margin-top: 12px; }
     .priere-k { font-size: 12px; }
     .priere p { font-size: 25px; }
@@ -197,7 +198,7 @@ import { photoPensee } from '../../data/hero';
 
   /* Partage (colonne gauche, ordinateur) */
   .share-side { grid-column: 1; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding: 8px 48px 0 0; position: sticky; top: 24px; align-self: start; }
-  .share-k { font: 800 11px var(--sans); letter-spacing: 0.2em; color: var(--secondaire); text-transform: uppercase; }
+  .share-k { font: 800 12px var(--sans); letter-spacing: 0.2em; color: var(--secondaire); text-transform: uppercase; }
   .share-btn { width: 48px; height: 48px; border-radius: 999px; border: 0; background: none; box-shadow: inset 0 0 0 1px var(--bordure); display: flex; align-items: center; justify-content: center; color: var(--vert); cursor: pointer; }
   .share-btn.wa { color: var(--whatsapp); }
   .share-btn:hover { background: var(--sable); }
@@ -219,7 +220,7 @@ import { photoPensee } from '../../data/hero';
     .suite-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
     .next { flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 10px; padding: 26px; background: #fff; border-radius: var(--r-carte); box-shadow: var(--ombre-md); transition: transform 0.18s ease-out; }
     .next:hover { transform: translateY(-3px); color: inherit; }
-    .next .k { display: block; font: 800 11px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--vert); }
+    .next .k { display: block; font: 800 12px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--vert); }
     .next .k.cuivre { color: var(--cuivre); }
     .next .t { font-size: 26px; line-height: 1.12; }
     .next .small-t { font-size: 22px; }

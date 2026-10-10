@@ -69,6 +69,14 @@ Identité propre au site (arche, rameau, étoile ✦, vert et or), esprit repris
   selfie porte). Écartées : Silikin Village (logo d'une autre entreprise), selfie sérieux, capture WhatsApp.
 - Bouton « Accueil » ajouté au menu ordinateur (menu resserré entre 1100 et 1280 px).
 
+## Audit design (10/10/2026, skill audit-design-site)
+Rapport : `~/Documents/Mazunda/08-Divers/Race-Elue-Disanka/audit-design-2026-10-10.md`. Note 8/10 → 9/10.
+- Image de partage propre à chaque pensée : `public/og/pensees/<slug>.jpg` (1200×630, gabarit vert/or/arche,
+  thème + titre + photo de l'article). **Toute nouvelle pensée doit avoir la sienne**, sinon l'aperçu WhatsApp casse (404).
+- Longueur de lecture : paragraphes d'article et d'extrait `max-width: 30em` (≈ 72 caractères en Cormorant),
+  chapô des bandeaux 32em. Ne jamais élargir la colonne de texte au-delà.
+- Jamais de texte sous 12 px (les surtitres étaient à 11 px). Ombres : jetons `--ombre-survol`, `--ombre-carte`.
+
 ## Pièges rencontrés
 - `img { display:block }` écrasait l'attribut `hidden` : règle globale `[hidden] { display:none !important }` indispensable.
 - Événement `close` de `<dialog>` peu fiable dans certains navigateurs intégrés : le menu mobile fait son nettoyage directement.

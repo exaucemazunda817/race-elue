@@ -293,7 +293,7 @@ import { HERO } from '../data/hero';
     .main { margin-top: -136px; padding-top: 0; padding-bottom: var(--sec); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr); gap: 32px; align-items: start; }
   }
   .side { display: flex; flex-direction: column; gap: 20px; }
-  .wa-card { background: var(--creme); padding: 32px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 1px 2px rgba(74, 42, 26, 0.06), 0 12px 32px rgba(74, 42, 26, 0.12); }
+  .wa-card { background: var(--creme); padding: 32px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--ombre-carte); }
   .wa-head { display: flex; gap: 14px; align-items: center; }
   .wa-ico { width: 52px; height: 52px; border-radius: 999px; background: var(--vert-pale); display: flex; align-items: center; justify-content: center; color: var(--whatsapp); }
   .wa-head strong { font: 700 18px var(--sans); color: var(--encre); }
@@ -310,7 +310,7 @@ import { HERO } from '../data/hero';
 
   .form-card { display: flex; flex-direction: column; gap: 20px; }
   @media (min-width: 960px) {
-    .form-card { background: var(--creme); border-radius: var(--r-carte); padding: 44px 48px; gap: 26px; box-shadow: 0 1px 2px rgba(74, 42, 26, 0.06), 0 12px 32px rgba(74, 42, 26, 0.12); }
+    .form-card { background: var(--creme); border-radius: var(--r-carte); padding: 44px 48px; gap: 26px; box-shadow: var(--ombre-carte); }
   }
   .tabs { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; border-radius: 999px; background: var(--sable); gap: 4px; }
   .tabs button {

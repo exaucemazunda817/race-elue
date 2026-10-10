@@ -224,7 +224,7 @@ html[data-intro] .entree {
 @keyframes ecrire { to { clip-path: inset(0 0 0 0); } }
 .entree .rameau path { stroke: var(--or-couv); stroke-dashoffset: 1; animation: trait-in 1100ms var(--ease-io) 1200ms forwards; }
 .entree .rameau text { fill: var(--or); opacity: 0; animation: fade-in 500ms ease-out 1700ms forwards; }
-.entree-tag { font: 800 11px/1.4 var(--sans); letter-spacing: 0.24em; text-transform: uppercase; color: var(--or); opacity: 0; transform: translateY(8px); animation: fade-in 700ms var(--ease-out) 1500ms forwards; }
+.entree-tag { font: 800 12px/1.4 var(--sans); letter-spacing: 0.24em; text-transform: uppercase; color: var(--or); opacity: 0; transform: translateY(8px); animation: fade-in 700ms var(--ease-out) 1500ms forwards; }
 @keyframes fade-in { to { opacity: 1; transform: none; } }
 .entree-skip {
   position: absolute; right: clamp(16px, 4vw, 40px); bottom: clamp(16px, 4vw, 40px); min-height: 44px; padding: 0 18px;
