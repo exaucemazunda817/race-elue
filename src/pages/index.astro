@@ -30,7 +30,7 @@ const jsonLd = {
 ---
 <Base title={SITE.nom} footer="full" jsonLd={jsonLd}>
   <!-- Héros : photo pleine largeur, les photos se succèdent (PageHero) -->
-  <PageHero size="accueil" photos={heroPhotos}>
+  <PageHero size="accueil" photos={heroPhotos} cote="droite">
     <span class="kicker or"><span class="only-desktop">Foi · Créativité · Guérison intérieure</span><span class="only-mobile">Foi · Créativité · Guérison</span></span>
     <h1 class="h1 home-h1">Ton cœur peut guérir. <em>Dieu n'a pas fini avec toi.</em></h1>
     <p class="lead only-desktop">Je suis Race Élue. J'écris pour celles qui portent des blessures en silence, et je partage ce que Dieu fait dans les cœurs brisés, pour que tu avances à ton rythme vers la guérison.</p>
@@ -41,6 +41,28 @@ const jsonLd = {
     </div>
     <span class="signature only-desktop">« Je suis guérie et épanouie ! »<svg class="trait" viewBox="0 0 300 18" aria-hidden="true"><path pathLength="1" d="M4 12 C70 4 150 2 296 9 M60 15 C130 11 200 11 250 13" /></svg></span>
   </PageHero>
+
+  <!-- Bande de mots qui défile (décorative : les mêmes mots se répètent pour une boucle sans à-coup) -->
+  <div class="mots" aria-hidden="true">
+    <div class="mots-piste">
+      <span>Foi<i aria-hidden="true">✦</i></span>
+      <span>Créativité<i aria-hidden="true">✦</i></span>
+      <span>Guérison intérieure<i aria-hidden="true">✦</i></span>
+      <span>Prière<i aria-hidden="true">✦</i></span>
+      <span>Espérance<i aria-hidden="true">✦</i></span>
+      <span>Guérie et Épanouie<i aria-hidden="true">✦</i></span>
+      <span>Devenu une légende<i aria-hidden="true">✦</i></span>
+      <span>RED Éditions<i aria-hidden="true">✦</i></span>
+      <span>Foi<i aria-hidden="true">✦</i></span>
+      <span>Créativité<i aria-hidden="true">✦</i></span>
+      <span>Guérison intérieure<i aria-hidden="true">✦</i></span>
+      <span>Prière<i aria-hidden="true">✦</i></span>
+      <span>Espérance<i aria-hidden="true">✦</i></span>
+      <span>Guérie et Épanouie<i aria-hidden="true">✦</i></span>
+      <span>Devenu une légende<i aria-hidden="true">✦</i></span>
+      <span>RED Éditions<i aria-hidden="true">✦</i></span>
+    </div>
+  </div>
 
   <!-- Publications -->
   <section class="wrap sec pubs">

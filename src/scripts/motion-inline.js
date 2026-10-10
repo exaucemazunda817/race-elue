@@ -67,11 +67,53 @@
     leave.observe(el);
   });
 
+  // Titre du bandeau mot par mot (les balises internes, comme <em>, sont conservées).
+  if (hero) {
+    var h1 = hero.querySelector('h1');
+    if (h1 && !h1.classList.contains('is-split')) {
+      var wi = 0;
+      var walk = function (node) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (c) {
+          if (c.nodeType === 3) {
+            var frag = d.createDocumentFragment();
+            c.textContent.split(/(\s+)/).forEach(function (part) {
+              if (!part) return;
+              if (/^\s+$/.test(part)) { frag.appendChild(d.createTextNode(part)); return; }
+              var w = d.createElement('span');
+              w.className = 'hw';
+              w.style.setProperty('--wi', wi++);
+              w.textContent = part;
+              frag.appendChild(w);
+            });
+            c.parentNode.replaceChild(frag, c);
+          } else if (c.nodeType === 1 && !c.matches('svg, br')) walk(c);
+        });
+      };
+      walk(h1);
+      h1.classList.add('is-split');
+    }
+  }
+
   // Effets Magic UI / React Bits (CSS natif, motion.css)
   var tag = function (sel, cls) { d.querySelectorAll(sel).forEach(function (el) { el.classList.add(cls); }); };
   tag('.get, .nl, .partage, .form-card', 'fx-beam');
   tag('.pub, .porte, .pcard, .act, .reseau, .aussi-card, .next, .wa-card, .une, .tcard, .invit', 'fx-spot');
   tag('.pcard .img, .une-img, .pub-cover', 'fx-photo');
+
+  // Boutons aimantés : ils suivent légèrement la souris (propriété `translate`, distincte du
+  // `transform` des effets de survol, donc aucun conflit). Ordinateurs uniquement.
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    d.querySelectorAll('.btn-gold, .btn-primary, .btn-ghost-light, .btn-outline, .nav-pill, .fab').forEach(function (b) {
+      b.classList.add('fx-aimant');
+      b.addEventListener('pointermove', function (e) {
+        var r = b.getBoundingClientRect();
+        var x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+        var y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+        b.style.translate = (x * 6).toFixed(1) + 'px ' + (y * 5).toFixed(1) + 'px';
+      });
+      b.addEventListener('pointerleave', function () { b.style.translate = ''; });
+    });
+  }
 
   // Spotlight : une seule écoute pour tout le site, ordinateurs uniquement.
   if (matchMedia('(hover: hover)').matches) {

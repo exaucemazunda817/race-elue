@@ -17,12 +17,13 @@ const P = {
   herbe: { src: 'grass.jpg', alt: "Race Élue assise dans l'herbe, regardant au loin", pos: '50% 45%', posMobile: '45% 40%' },
   herbeSourire: { src: 'herbe-sourire.jpg', alt: 'Race Élue sourit, dans un jardin', pos: '50% 62%', posMobile: '50% 55%' },
   porte: { src: 'porte-sourire.jpg', alt: 'Race Élue sourit, devant une porte en bois', pos: '60% 42%', posMobile: '55% 35%' },
-  dehors: { src: 'laugh-outdoor.jpg', alt: 'Race Élue éclate de rire en extérieur', pos: '60% 35%', posMobile: '38% 30%' },
+  dehors: { src: 'laugh-outdoor.jpg', alt: 'Race Élue éclate de rire en extérieur', pos: '45% 38%', posMobile: '44% 30%' },
   pupitre: { src: 'stage.jpg', alt: "Race Élue au pupitre, micro en main, lors d'un culte", pos: '55% 35%', posMobile: '40% 35%' },
 } satisfies Record<string, HeroPhoto>;
 
 export const HERO = {
-  accueil: [P.arches, P.dehors, P.posee, P.pupitre, P.ordi],
+  // Accueil : une seule photo, en format paysage (elle remplit l'écran sans être trop agrandie).
+  accueil: [P.dehors],
   publications: [P.studio, P.ordi, P.ordiNb],
   ebook: [P.studio, P.rire, P.nb],
   magazine: [P.pupitre, P.serieuse, P.ordiNb],

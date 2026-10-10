@@ -1,5 +1,6 @@
 ---
-// Bandeau photo pleine largeur, d'un bord à l'autre (demande de Mazunda du 10/10/2026, « comme One Love »),
+// Bandeau photo pleine largeur, d'un bord à l'autre et sous l'en-tête flottant (demandes de Mazunda du
+// 10/10/2026, « comme One Love », puis « l'image doit prendre toute la place, pas seulement une partie »),
 // avec un site vivant : les photos se succèdent en fondu, chacune avec un zoom lent.
 // - 1re photo chargée tout de suite (c'est elle que le visiteur voit en premier) ; les suivantes sont
 //   ajoutées après le chargement de la page, jamais en économie de données (3G : on ne télécharge pas
@@ -20,8 +21,11 @@ interface Props {
   align?: 'gauche' | 'centre';
   id?: string;
   chevauchement?: boolean; // le contenu suivant remonte sur le bas du bandeau (cartes de Contact)
+  cote?: 'gauche' | 'droite'; // côté du texte sur ordinateur (droite : le visage est à gauche de la photo)
 }
-const { photos, size = 'page', align = 'gauche', id, chevauchement = false } = Astro.props;
+const { photos, size = 'page', align = 'gauche', id, chevauchement = false, cote = 'gauche' } = Astro.props;
+// Photo paysage : elle couvre tout le bandeau sur ordinateur ; portrait : taille réelle à droite + fond flou.
+const paysage = (src: string) => img(src).width > img(src).height;
 const img = (src: string) => {
   const m = all[`../assets/photos/${src}`];
   if (!m) throw new Error(`Photo introuvable : ${src}`);
@@ -32,12 +36,19 @@ const widths = (src: string) => {
   return [480, 800, 1200, 1600].filter((x) => x < w).concat(w);
 };
 const [premiere, ...suivantes] = photos;
-// Sur ordinateur la photo nette occupe ~56 % de la largeur : on ne télécharge pas plus grand que nécessaire.
-const SIZES = '(min-width: 960px) 56vw, 100vw';
+// Photos actuelles : exports WhatsApp de 607 à 1080 px. Pour ne pas les agrandir (perte de qualité,
+// décision de Mazunda du 10/10/2026), sur ordinateur la photo nette garde sa taille réelle à droite et
+// une version légèrement floutée remplit le reste ; sur téléphone la photo est pleine largeur.
+const SIZES = '(min-width: 960px) 60vw, 100vw';
+// Étoiles ✦ qui scintillent dans le bandeau (positions fixes : même rendu à chaque visite).
+const ETOILES = [
+  { x: 62, y: 18, t: 14, d: 0 }, { x: 78, y: 30, t: 10, d: 1.2 }, { x: 90, y: 14, t: 18, d: 2.1 },
+  { x: 70, y: 62, t: 11, d: 0.6 }, { x: 86, y: 74, t: 15, d: 2.8 }, { x: 54, y: 82, t: 9, d: 1.7 }, { x: 95, y: 48, t: 12, d: 3.4 },
+];
 ---
-<section class:list={['page-hero on-vert', `ph-${size}`, `ph-${align}`, { 'ph-chevauche': chevauchement }]} id={id} data-hero-photos={photos.length}>
+<section class:list={['page-hero on-vert', `ph-${size}`, `ph-${align}`, `ph-cote-${cote}`, { 'ph-chevauche': chevauchement }]} id={id} data-hero-photos={photos.length}>
   <div class="ph-slides" aria-hidden="true">
-    <div class="ph-slide is-on">
+    <div class:list={['ph-slide is-on', { 'ph-paysage': paysage(premiere.src) }]}>
       <div class="ph-fond"><Picture src={img(premiere.src)} alt="" widths={widths(premiere.src)} sizes={SIZES} formats={['webp']} fallbackFormat="jpg" quality={74} loading="eager" /></div>
       <div class="ph-photo"><Picture
         src={img(premiere.src)} alt="" widths={widths(premiere.src)} sizes={SIZES} formats={['webp']} fallbackFormat="jpg"
@@ -47,7 +58,7 @@ const SIZES = '(min-width: 960px) 56vw, 100vw';
     </div>
     {suivantes.map((p) => (
       <template data-slide>
-        <div class="ph-slide">
+        <div class:list={['ph-slide', { 'ph-paysage': paysage(p.src) }]}>
           <div class="ph-fond"><Picture src={img(p.src)} alt="" widths={widths(p.src)} sizes={SIZES} formats={['webp']} fallbackFormat="jpg" quality={74} loading="lazy" /></div>
           <div class="ph-photo"><Picture
             src={img(p.src)} alt="" widths={widths(p.src)} sizes={SIZES} formats={['webp']} fallbackFormat="jpg"
@@ -59,6 +70,9 @@ const SIZES = '(min-width: 960px) 56vw, 100vw';
     ))}
   </div>
   <div class="ph-scrim" aria-hidden="true"></div>
+  <div class="ph-stars" aria-hidden="true">
+    {ETOILES.map((e) => <span style={`--x:${e.x}%;--y:${e.y}%;--t:${e.t}px;--d:${e.d}s`}>✦</span>)}
+  </div>
   <p class="sr-only">{photos.map((p) => p.alt).join(' · ')}</p>
   <div class="ph-inner wrap">
     <div class="hero-txt ph-txt">
@@ -134,82 +148,126 @@ const SIZES = '(min-width: 960px) 56vw, 100vw';
 
 <style>
   .page-hero { position: relative; isolation: isolate; overflow: hidden; background: var(--vert); color: var(--texte-vert); display: flex; }
-  .ph-accueil { min-height: min(92vh, 760px); min-height: min(92svh, 760px); }
-  .ph-page { min-height: min(72vh, 560px); min-height: min(72svh, 560px); }
+  .ph-accueil { min-height: min(100vh, 880px); min-height: min(100svh, 880px); }
+  .ph-page { min-height: min(80vh, 640px); min-height: min(80svh, 640px); }
   .ph-slides { position: absolute; inset: 0; z-index: -2; }
   .ph-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1400ms ease-in-out; }
   .ph-slide.is-on { opacity: 1; }
-  .ph-fond, .ph-photo { position: absolute; inset: 0; }
+  .ph-fond, .ph-photo { position: absolute; inset: 0; overflow: hidden; }
+  .ph-fond { display: none; }
   .ph-slide :global(picture), .ph-slide :global(img) { display: block; width: 100%; height: 100%; }
   .ph-slide :global(img) { object-fit: cover; }
-  .ph-fond { display: none; }
   .ph-photo :global(img) {
     object-position: var(--pos-m);
     animation: ph-kb 20s ease-in-out infinite alternate; will-change: transform;
   }
-  /* Ordinateur : la photo floutée remplit toute la largeur ; la photo nette, à sa taille réelle,
-     occupe la droite et se fond vers la gauche (pas d'agrandissement : pas de flou). */
+  /* Ordinateur : fond = même photo, peu floutée ; photo nette à sa taille réelle sur la droite (60 %). */
   @media (min-width: 960px) {
-    .ph-fond { display: block; overflow: hidden; }
-    .ph-fond :global(img) { filter: blur(26px) saturate(1.15); transform: scale(1.2); opacity: 0.85; }
-    .ph-photo { left: auto; width: 56%; overflow: hidden;
-      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 42%); mask-image: linear-gradient(90deg, transparent 0%, #000 42%); }
+    .ph-fond { display: block; }
+    .ph-fond :global(img) { filter: blur(10px) saturate(1.1); transform: scale(1.06); object-position: var(--pos, center); }
+    .ph-photo { left: auto; width: 60%;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 28%); mask-image: linear-gradient(90deg, transparent 0%, #000 28%); }
     .ph-photo :global(img) { object-position: var(--pos); }
+    .ph-paysage .ph-fond { display: none; }
+    .ph-paysage .ph-photo { left: 0; width: 100%; -webkit-mask-image: none; mask-image: none; }
   }
   .is-paused .ph-photo :global(img) { animation-play-state: paused; }
-  @keyframes ph-kb { from { transform: scale(1.02); } to { transform: scale(1.12) translate3d(-1.5%, -1%, 0); } }
+  .ph-paysage .ph-photo :global(img) { animation-name: ph-kb-doux; }
+  @keyframes ph-kb-doux { from { transform: scale(1); } to { transform: scale(1.06) translate3d(-1%, -0.5%, 0); } }
+  @keyframes ph-kb { from { transform: scale(1.04); } to { transform: scale(1.14) translate3d(-1.5%, -1%, 0); } }
 
-  /* Voile : en bas sur téléphone (le texte y est posé), à gauche sur ordinateur. */
+  /* Voiles (10/10/2026, « on ne voit quasiment pas l'image ») : sur le bandeau entier, seulement un léger
+     assombrissement en haut (sous l'en-tête) et un fondu en bas. La partie floue et teintée suit le bloc de
+     texte (.ph-txt::before, plus bas) : le reste de la photo reste net et visible. */
   .ph-scrim {
     position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(180deg, rgba(30, 59, 47, 0.2) 0%, rgba(30, 59, 47, 0.55) 18%, rgba(30, 59, 47, 0.9) 30%, rgba(30, 59, 47, 0.96) 46%, #1e3b2f 100%);
-  }
-  @media (max-width: 959.98px) {
-    .ph-centre .ph-scrim { background: linear-gradient(180deg, rgba(30, 59, 47, 0.35) 0%, rgba(30, 59, 47, 0.6) 22%, rgba(30, 59, 47, 0.92) 38%, #1e3b2f 100%); }
-  }
-  @media (min-width: 960px) {
-    .ph-scrim {
-      background:
-        linear-gradient(90deg, rgba(30, 59, 47, 0.96) 0%, rgba(30, 59, 47, 0.92) 48%, rgba(30, 59, 47, 0.5) 64%, rgba(30, 59, 47, 0.12) 80%, rgba(30, 59, 47, 0.04) 100%),
-        linear-gradient(0deg, rgba(30, 59, 47, 0.55) 0%, rgba(30, 59, 47, 0) 30%);
-    }
+    background:
+      linear-gradient(180deg, rgba(20, 40, 32, 0.45) 0%, rgba(20, 40, 32, 0) 18%),
+      linear-gradient(0deg, rgba(30, 59, 47, 0.5) 0%, rgba(30, 59, 47, 0) 22%);
   }
 
-  .ph-inner { position: relative; width: 100%; display: flex; align-items: flex-end; padding-top: 120px; padding-bottom: 48px; }
-  .ph-txt { display: flex; flex-direction: column; gap: 18px; max-width: 640px; }
+  @media (min-width: 960px) {
+    .ph-cote-droite .ph-inner { justify-content: flex-end; }
+    .ph-cote-droite .ph-txt { max-width: 500px; }
+    .ph-cote-droite .ph-stars span { left: auto; right: var(--x); }
+  }
+
+  /* Étoiles ✦ */
+  .ph-stars { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .ph-stars span {
+    position: absolute; left: var(--x); top: var(--y); font-size: var(--t); line-height: 1; color: var(--or-couv);
+    text-shadow: 0 0 12px rgba(226, 194, 122, 0.8); opacity: 0;
+    animation: ph-star 4.8s ease-in-out var(--d) infinite;
+  }
+  @keyframes ph-star {
+    0%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
+    45% { opacity: 0.95; transform: scale(1) rotate(45deg); }
+    70% { opacity: 0.4; transform: scale(0.8) rotate(70deg); }
+  }
+  @media (max-width: 959.98px) { .ph-stars span:nth-child(n + 5) { display: none; } .ph-stars span { top: calc(var(--y) * 0.5); } }
+
+  .ph-inner { position: relative; width: 100%; display: flex; align-items: flex-end; padding-top: 140px; padding-bottom: 48px; }
+  .ph-txt { position: relative; display: flex; flex-direction: column; gap: 18px; max-width: 640px; }
+  /* Partie floue + teinte verte, uniquement derrière le texte (contraste mesuré ≥ 4,5:1). */
+  .ph-txt::before {
+    content: ''; position: absolute; z-index: -1; pointer-events: none;
+    left: calc(50% - 50vw); right: calc(50% - 50vw); top: -120px; bottom: -400px;
+    background: linear-gradient(180deg, rgba(30, 59, 47, 0) 0, rgba(30, 59, 47, 0.84) 96px, rgba(30, 59, 47, 0.92) 150px, rgba(30, 59, 47, 0.95) 100%);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 100px); mask-image: linear-gradient(180deg, transparent 0, #000 100px);
+  }
   .ph-txt :global(.lead) { color: var(--texte-vert); max-width: 32em; }
   /* Sur photo, l'or de la maquette (#C9A24B) manque de contraste : or clair, plus une ombre douce. */
   .ph-txt :global(.kicker.or), .ph-txt :global(.crumb a), .ph-txt :global(.signature) { color: var(--or-couv); }
   .ph-txt :global(.kicker), .ph-txt :global(.crumb), .ph-txt :global(.lead), .ph-txt :global(.byline) { text-shadow: 0 1px 12px rgba(20, 40, 32, 0.6); }
   .ph-txt :global(.crumb) { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font: 600 13px var(--sans); color: var(--discret-vert); }
-  .ph-txt :global(.crumb a) { color: var(--or); }
   .ph-txt :global(.crumb .back) { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; font-size: 12px; padding: 0 16px; border-radius: 999px; background: rgba(30, 59, 47, 0.92); box-shadow: inset 0 0 0 1px rgba(226, 194, 122, 0.45); }
-  /* Texte centré sur téléphone seulement : sur ordinateur, la photo nette occupe la droite. */
+  .ph-txt :global(h1) { text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3); }
   @media (max-width: 959.98px) {
     .ph-centre .ph-inner { justify-content: center; text-align: center; }
     .ph-centre .ph-txt { align-items: center; margin-inline: auto; }
   }
   @media (min-width: 960px) {
-    .ph-inner { align-items: center; padding-top: 72px; padding-bottom: 88px; }
-    .ph-accueil .ph-inner { padding-bottom: 112px; }
+    .ph-inner { align-items: center; padding-top: 140px; padding-bottom: 96px; }
+    .ph-accueil .ph-inner { padding-bottom: 120px; }
     .ph-chevauche .ph-inner { padding-bottom: 200px; }
     .ph-txt { gap: 24px; max-width: 580px; }
-    .ph-txt :global(h1) { text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25); }
+    .ph-txt::before {
+      top: -600px; bottom: -600px; left: -100vw; right: -160px;
+      background: linear-gradient(90deg, rgba(30, 59, 47, 0.9) 0, rgba(30, 59, 47, 0.88) calc(100% - 160px), rgba(30, 59, 47, 0.5) calc(100% - 80px), rgba(30, 59, 47, 0) 100%);
+      -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 140px), transparent 100%); mask-image: linear-gradient(90deg, #000 calc(100% - 140px), transparent 100%);
+    }
+    .ph-cote-droite .ph-txt::before {
+      left: -160px; right: -100vw;
+      background: linear-gradient(270deg, rgba(30, 59, 47, 0.9) 0, rgba(30, 59, 47, 0.88) calc(100% - 160px), rgba(30, 59, 47, 0.5) calc(100% - 80px), rgba(30, 59, 47, 0) 100%);
+      -webkit-mask-image: linear-gradient(270deg, #000 calc(100% - 140px), transparent 100%); mask-image: linear-gradient(270deg, #000 calc(100% - 140px), transparent 100%);
+    }
+  }
+
+  /* Parallaxe au défilement (navigateurs récents ; ailleurs, la photo reste simplement fixe) */
+  @supports (animation-timeline: scroll()) {
+    .ph-slides { animation: ph-para linear both; animation-timeline: scroll(root); animation-range: 0 100vh; }
+    .ph-inner { animation: ph-fuite linear both; animation-timeline: scroll(root); animation-range: 0 70vh; }
+    @keyframes ph-para { to { transform: translate3d(0, 22%, 0); } }
+    @keyframes ph-fuite { to { transform: translate3d(0, -56px, 0); } }
   }
 
   .ph-pause {
-    position: absolute; right: var(--gutter); top: 20px; z-index: 2; width: 44px; height: 44px; border-radius: 999px;
+    position: absolute; right: var(--gutter); top: 88px; z-index: 2; width: 44px; height: 44px; border-radius: 999px;
     border: 1px solid rgba(251, 247, 241, 0.45); background: rgba(30, 59, 47, 0.55); color: var(--creme);
     display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(4px);
   }
+  @media (min-width: 1100px) { .ph-pause { top: 104px; right: 48px; } }
   .ph-pause:hover { border-color: var(--or); color: var(--or-hover); }
   .ph-pause :global(.i-play) { display: none; }
   .ph-pause[aria-pressed='true'] :global(.i-play) { display: inline-block; }
   .ph-pause[aria-pressed='true'] :global(.i-pause) { display: none; }
-  @media (max-width: 959.98px) { .ph-pause { top: 16px; } }
+  .is-paused .ph-stars span { animation-play-state: paused; }
 
   @media (prefers-reduced-motion: reduce) {
-    .ph-photo :global(img) { animation: none; }
+    .ph-photo :global(img), .ph-stars span, .ph-slides, .ph-inner { animation: none !important; }
+    .ph-stars { display: none; }
     .ph-slide { transition: none; }
   }
+  :global(html.save-data) .ph-stars { display: none; }
 </style>

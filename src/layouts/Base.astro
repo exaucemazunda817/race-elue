@@ -96,6 +96,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
       <span>Tu es hors connexion.<span class="only-desktop"> Tu peux encore lire les pages déjà ouvertes.</span></span>
       <button type="button" data-retry>Réessayer</button>
     </div>
+    <div class="scroll-line" aria-hidden="true"></div>
     <slot name="top" />
     <Header active={active} variant={headerVariant} />
     <main id="contenu">
@@ -129,6 +130,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
     <style>
       .offline-banner {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 35;
         background: var(--cacao); color: var(--creme); padding: 14px var(--gutter);
         display: flex; gap: 10px; align-items: center; font: 600 13px/1.4 var(--sans);
       }
@@ -148,6 +150,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
         transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
       }
       .fab :global(.icon) { width: 32px; height: 32px; }
+      .offline-banner:not([hidden]) ~ .fab { bottom: 92px; }
       .fab:hover { color: #fff; transform: translateY(-2px); }
       .fab-txt { display: none; }
       @media (max-width: 959.98px) { .fab-desktop-only { display: none; } }

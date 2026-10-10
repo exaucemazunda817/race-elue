@@ -255,6 +255,38 @@ html[data-intro] .entree {
 [data-pages] { perspective: 1600px; }
 
 /* ---------- Réduire les animations : état final immédiat, aucun mouvement ---------- */
+/* ---------- Effets ajoutés le 10/10/2026 (« le site est encore trop statique ») ---------- */
+/* Titre du bandeau qui apparaît mot par mot (flou → net) */
+.page-hero h1.is-split { animation: none !important; }
+.page-hero h1 .hw { display: inline-block; animation: hw-in 900ms var(--ease-out) both; animation-delay: calc(160ms + var(--wi) * 70ms); }
+@keyframes hw-in { from { opacity: 0; transform: translateY(0.45em); filter: blur(8px); } }
+
+/* Boutons aimantés : retour en douceur */
+.fx-aimant { transition-property: background-color, color, box-shadow, transform, translate; transition-duration: 0.18s, 0.18s, 0.18s, 0.18s, 0.35s; transition-timing-function: ease-out; }
+
+/* Fil d'or de progression du défilement, en haut de l'écran (pas sur les articles, qui ont leur barre de lecture) */
+.scroll-line { display: none; }
+@supports (animation-timeline: scroll()) {
+  .scroll-line {
+    display: block; position: fixed; left: 0; right: 0; top: 0; z-index: 50; height: 3px; pointer-events: none;
+    background: linear-gradient(90deg, var(--or), var(--or-couv));
+    transform-origin: left; transform: scaleX(0);
+    animation: scroll-line linear both; animation-timeline: scroll(root);
+  }
+  @keyframes scroll-line { to { transform: scaleX(1); } }
+  body:has(.progress) .scroll-line { display: none; }
+}
+
+/* Bande de mots qui défile (accueil) */
+.mots { overflow: hidden; background: var(--vert); border-block: 1px solid var(--filet-vert); padding: 18px 0; }
+.mots-piste { display: flex; width: max-content; gap: 0; animation: mots 38s linear infinite; }
+.mots:hover .mots-piste { animation-play-state: paused; }
+.mots-piste span { display: inline-flex; align-items: center; gap: 28px; padding-right: 28px; white-space: nowrap; font: italic 500 22px/1 var(--serif); color: var(--creme); }
+.mots-piste i { font-style: normal; color: var(--or); font-size: 14px; }
+@keyframes mots { to { transform: translateX(-50%); } }
+@media (min-width: 960px) { .mots { padding: 24px 0; } .mots-piste span { font-size: 29px; gap: 40px; padding-right: 40px; } }
+html.save-data .mots-piste { animation: none; }
+
 @media (prefers-reduced-motion: reduce) {
   html.js [data-reveal], html.js [data-reveal] * { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; transition: none !important; }
   .trait path, .rameau path { stroke-dashoffset: 0 !important; }

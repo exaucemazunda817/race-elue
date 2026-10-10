@@ -77,6 +77,22 @@ Rapport : `~/Documents/Mazunda/08-Divers/Race-Elue-Disanka/audit-design-2026-10-
   chapô des bandeaux 32em. Ne jamais élargir la colonne de texte au-delà.
 - Jamais de texte sous 12 px (les surtitres étaient à 11 px). Ombres : jetons `--ombre-survol`, `--ombre-carte`.
 
+## En-tête flottant, bandeaux et effets (10/10/2026, 2e passe)
+- **En-tête = pilule de verre flottante** (comme One Love, aux couleurs du site) : fixe, `top: 12/16px`, fond vert 78 %
+  + flou, plus opaque après 40 px de défilement. Menu mobile plein écran en verre, liens en cartes avec flèche.
+  Les pages sans bandeau (merci, 404, hors ligne) ont `bodyClass="sans-bandeau"` (espace pour l'en-tête).
+- **Bandeaux** : photos jamais agrandies au-delà du raisonnable (décision de Mazunda). Photo **paysage** = couvre tout
+  le bandeau ; **portrait** = taille réelle à droite (60 %) + même photo peu floutée (10 px) à gauche. Le voile n'est
+  plus sur tout le bandeau : la partie **floue et teintée suit le bloc de texte** (`.ph-txt::before`), le reste de
+  la photo reste net. Contraste mesuré ≥ 5:1 sur toutes les pages (`contrast-hero3.mjs`, qui masque `.ph-txt > *`).
+- **Accueil** : une seule photo (paysage, rire en extérieur), sans défilement, texte à droite sur ordinateur
+  (`cote="droite"`). Seules 2 photos paysage existent (rire, pupitre), en 1080 px : originaux HD toujours souhaités.
+- **Effets ajoutés** : titre du bandeau mot par mot, étoiles ✦ qui scintillent, parallaxe de la photo et texte qui
+  remonte au défilement (`animation-timeline: scroll()`, ignoré par les vieux navigateurs), boutons aimantés
+  (propriété `translate`, ordinateur), fil d'or de progression en haut, bande de mots qui défile sous le bandeau
+  de l'accueil, soulignement glissant du menu. Ne jamais animer l'opacité de `.ph-inner` : un parent à opacité
+  animée empêche le flou d'arrière-plan du texte de voir la photo.
+
 ## Pièges rencontrés
 - `img { display:block }` écrasait l'attribut `hidden` : règle globale `[hidden] { display:none !important }` indispensable.
 - Événement `close` de `<dialog>` peu fiable dans certains navigateurs intégrés : le menu mobile fait son nettoyage directement.
