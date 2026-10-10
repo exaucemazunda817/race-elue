@@ -44,6 +44,8 @@ import { EBOOK, MAGAZINE } from '../data/site';
   .pub-txt .kicker { font-size: 11px; letter-spacing: 0.2em; }
   .pub h3 { font-size: 22px; line-height: 1.08; }
   .pub h3 a { color: inherit; }
+  /* Zone tactile portée à 44 px sans changer la mise en page (marge négative compensée) */
+  .pub h3 a { display: inline-block; padding-block: 11px; margin-block: -11px; }
   .pub.vert h3 a { color: var(--creme); }
   .pub p { font-size: 16px; line-height: 1.6; }
   .pub.vert p { color: var(--texte-vert); }
