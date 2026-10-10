@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Photo from '../components/Photo.astro';
 import PubCards from '../components/PubCards.astro';
+import PageHero from '../components/PageHero.astro';
+import { HERO } from '../data/hero';
 import Rameau from '../components/Rameau.astro';
 import QuoteBand from '../components/QuoteBand.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
@@ -11,6 +13,7 @@ import { RESEAUX, EBOOK, MAGAZINE, SITE, wa, MSG } from '../data/site';
 import { premiers } from '../data/temoignages';
 
 const temoignages = premiers(3);
+const heroPhotos = HERO.accueil;
 const portes = [
   { icon: 'heart', titre: 'Guérir', texte: 'Mettre des mots sur tes blessures et laisser Dieu les soigner.', court: 'Laisser Dieu soigner tes blessures', href: `/publications/${EBOOK.slug}` },
   { icon: 'sun-horizon', titre: 'Croire', texte: 'Des histoires bibliques et des témoignages pour fortifier ta foi.', court: 'Fortifier ta foi', href: `/publications/${MAGAZINE.slug}` },
@@ -26,24 +29,18 @@ const jsonLd = {
 };
 ---
 <Base title={SITE.nom} footer="full" jsonLd={jsonLd}>
-  <!-- Héros -->
-  <section class="hero bg-vert on-vert wrap">
-    <div class="hero-txt">
-      <span class="kicker or"><span class="only-desktop">Foi · Créativité · Guérison intérieure</span><span class="only-mobile">Foi · Créativité · Guérison</span></span>
-      <h1 class="h1">Ton cœur peut guérir. <em>Dieu n'a pas fini avec toi.</em></h1>
-      <p class="lead only-desktop">Je suis Race Élue. J'écris pour celles qui portent des blessures en silence, et je partage ce que Dieu fait dans les cœurs brisés, pour que tu avances à ton rythme vers la guérison.</p>
-      <p class="lead only-mobile">Je suis Race Élue. Je partage ce que Dieu fait dans les cœurs brisés, pour que tu avances à ton rythme vers la guérison.</p>
-      <div class="btns">
-        <a class="btn btn-gold btn-lg" href={`/publications/${EBOOK.slug}#recevoir`}>Recevoir l'ebook gratuit</a>
-        <a class="btn btn-ghost-light btn-lg" href={`/publications/${MAGAZINE.slug}`}>Lire le magazine</a>
-      </div>
-      <span class="signature only-desktop">« Je suis guérie et épanouie ! »<svg class="trait" viewBox="0 0 300 18" aria-hidden="true"><path pathLength="1" d="M4 12 C70 4 150 2 296 9 M60 15 C130 11 200 11 250 13" /></svg></span>
+  <!-- Héros : photo pleine largeur, les photos se succèdent (PageHero) -->
+  <PageHero size="accueil" photos={heroPhotos}>
+    <span class="kicker or"><span class="only-desktop">Foi · Créativité · Guérison intérieure</span><span class="only-mobile">Foi · Créativité · Guérison</span></span>
+    <h1 class="h1 home-h1">Ton cœur peut guérir. <em>Dieu n'a pas fini avec toi.</em></h1>
+    <p class="lead only-desktop">Je suis Race Élue. J'écris pour celles qui portent des blessures en silence, et je partage ce que Dieu fait dans les cœurs brisés, pour que tu avances à ton rythme vers la guérison.</p>
+    <p class="lead only-mobile">Je suis Race Élue. Je partage ce que Dieu fait dans les cœurs brisés, pour que tu avances à ton rythme vers la guérison.</p>
+    <div class="btns">
+      <a class="btn btn-gold btn-lg" href={`/publications/${EBOOK.slug}#recevoir`}>Recevoir l'ebook gratuit</a>
+      <a class="btn btn-ghost-light btn-lg" href={`/publications/${MAGAZINE.slug}`}>Lire le magazine</a>
     </div>
-    <div class="hero-photo">
-      <div class="arche-line" aria-hidden="true"></div>
-      <Photo src="portrait-arches.jpg" alt="Race Élue Disanka, souriante, en blazer crème devant des arches éclairées" position="center 18%" priority sizes="(min-width: 960px) 440px, 250px" class="arche-img" />
-    </div>
-  </section>
+    <span class="signature only-desktop">« Je suis guérie et épanouie ! »<svg class="trait" viewBox="0 0 300 18" aria-hidden="true"><path pathLength="1" d="M4 12 C70 4 150 2 296 9 M60 15 C130 11 200 11 250 13" /></svg></span>
+  </PageHero>
 
   <!-- Publications -->
   <section class="wrap sec pubs">
@@ -174,25 +171,15 @@ const jsonLd = {
   .pubs :global(.pubs-rameau) { margin-top: 16px; }
   @media (min-width: 960px) { .pubs :global(.pubs-rameau) { margin-top: 8px; } }
 
-  /* Héros */
-  .hero { padding-top: 20px; padding-bottom: 64px; display: flex; flex-direction: column-reverse; gap: 22px; }
-  .hero-txt { display: flex; flex-direction: column; gap: 22px; }
-  .hero h1 { --h1-m: 42px; line-height: 1.02; }
-  .hero .lead { color: var(--texte-vert); max-width: 520px; }
+  /* Héros (texte posé sur la photo) */
+  .home-h1 { --h1-m: 42px; line-height: 1.02; max-width: 640px; }
   .btns { display: flex; flex-direction: column; gap: 12px; }
   .btns .btn { min-height: 52px; }
   .signature { font: italic 500 24px var(--serif); color: var(--or); margin-top: 8px; display: inline-block; align-self: flex-start; }
-  .hero-photo { position: relative; width: 250px; height: 310px; align-self: center; margin: 8px 0 6px; }
-  .arche-line { position: absolute; inset: -10px -10px 10px 10px; border: 1.5px solid var(--or); border-radius: 999px 999px 6px 6px; }
-  .hero-photo :global(img), .ministere-photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 999px 999px 6px 6px; }
+  .ministere-photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 999px 999px 6px 6px; }
   @media (min-width: 960px) {
-    .hero { padding-top: 56px; padding-bottom: 120px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 80px; align-items: center; }
-    .hero-txt { gap: 28px; }
     .btns { flex-direction: row; gap: 16px; }
     .btns .btn { min-height: 56px; }
-    .hero-photo { width: min(440px, 100%); height: auto; aspect-ratio: 440 / 580; justify-self: center; margin: 14px 14px 0 0; }
-    .arche-line { inset: -14px -14px 14px 14px; border-radius: var(--arche); }
-    .hero-photo :global(img) { border-radius: var(--arche); box-shadow: var(--ombre-lg); }
   }
 
   /* En-têtes de section */

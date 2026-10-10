@@ -15,17 +15,19 @@ const filtres: { key: string; label: string; court: string; icon?: boolean }[] =
   ...(PENSEES.some((x) => x.video) ? [{ key: 'video', label: 'Vidéos', court: 'Vidéos', icon: true }] : []),
 ];
 const PAR_PAGE = 6;
+import PageHero from '../../components/PageHero.astro';
+import { HERO } from '../../data/hero';
 ---
 <Base
   title="Pensées et méditations"
   description="Des textes courts de Race Élue Disanka à lire en quelques minutes, chacun suivi d'une prière : guérison intérieure, identité, prière, créativité."
   active="/pensees"
 >
-  <section class="wrap head">
-    <span class="kicker">Pensées et méditations</span>
+  <PageHero photos={HERO.pensees} align="centre">
+    <span class="kicker or">Pensées et méditations</span>
     <h1 class="h1">Une pensée pour <em>aujourd'hui</em></h1>
     <p class="lead only-desktop">Des textes courts à lire en quelques minutes, chacun suivi d'une prière. Choisis un thème, ou laisse-toi surprendre.</p>
-  </section>
+  </PageHero>
 
   <div class="filters-wrap">
     <div class="filters wrap" role="group" aria-label="Filtrer par thème" data-filters>
@@ -126,7 +128,7 @@ const PAR_PAGE = 6;
   .head { padding-top: 36px; padding-bottom: 20px; display: flex; flex-direction: column; gap: 14px; }
   .head h1 { line-height: 1.02; }
   .lead { max-width: 620px; }
-  .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 24px; scrollbar-width: none; }
+  .filters { display: flex; gap: 8px; overflow-x: auto; padding-top: 24px; padding-bottom: 24px; scrollbar-width: none; }
   .filters::-webkit-scrollbar { display: none; }
   .pill {
     flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 999px;

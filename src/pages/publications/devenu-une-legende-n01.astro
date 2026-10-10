@@ -20,6 +20,8 @@ const jsonLd = {
   inLanguage: 'fr',
   isPartOf: { '@type': 'Periodical', name: `${MAGAZINE.titre}, magazine de la foi` },
 };
+import PageHero from '../../components/PageHero.astro';
+import { HERO } from '../../data/hero';
 ---
 <Base
   title={`${MAGAZINE.titre}, ${MAGAZINE.numero}`}
@@ -29,34 +31,30 @@ const jsonLd = {
   footerMention=""
   jsonLd={jsonLd}
 >
-  <section class="hero bg-vert on-vert wrap">
+  <PageHero photos={HERO.magazine}>
     <nav class="crumb" aria-label="Fil d'Ariane">
       <a href="/publications" class="only-desktop">Publications</a>
       <Icon name="caret-right" size={14} class="only-desktop" />
       <span class="only-desktop" aria-current="page">{MAGAZINE.titre} · {MAGAZINE.numero}</span>
       <a href="/publications" class="only-mobile back"><Icon name="arrow-left" size={18} />Publications</a>
     </nav>
-    <div class="hero-grid">
-      <div class="cover-wrap"><Cover kind="magazine" width={380} sizes="(min-width: 960px) 380px, 210px" priority shadow="lg" /></div>
-      <div class="hero-txt">
-        <span class="kicker or"><span class="only-desktop">Magazine de la foi · {MAGAZINE.numero} · {MAGAZINE.date}</span><span class="only-mobile">Magazine · {MAGAZINE.numero} · {MAGAZINE.date}</span></span>
-        <h1 class="h1" style="--h1-m:44px;--h1-vw:5.3vw">Devenu <em>une légende</em></h1>
-        <p class="lead only-desktop">Des histoires bibliques, des récits inspirants et des témoignages pour te rappeler que Dieu écrit encore des histoires de victoire. Tu deviendras aussi une légende.</p>
-        <p class="lead only-mobile">Histoires bibliques, récits inspirants et témoignages pour nourrir ta foi.</p>
-        <div class="btns">
-          <a class="btn btn-gold btn-lg" href="#lecteur" data-open-page="1"><Icon name="book-open-text" />Lire en ligne</a>
-          <a class="btn btn-ghost-light btn-lg" href={MAGAZINE.pdf} download><Icon name="download-simple" /><span class="only-desktop">Télécharger le PDF</span><span class="only-mobile">{MAGAZINE.poids}</span></a>
-        </div>
-        <span class="small only-desktop">{MAGAZINE.poids} · {MAGAZINE.pages} pages · Gratuit · Publié par RED Éditions</span>
-      </div>
+    <span class="kicker or"><span class="only-desktop">Magazine de la foi · {MAGAZINE.numero} · {MAGAZINE.date}</span><span class="only-mobile">Magazine · {MAGAZINE.numero} · {MAGAZINE.date}</span></span>
+    <h1 class="h1" style="--h1-m:44px;--h1-vw:5.3vw">Devenu <em>une légende</em></h1>
+    <p class="lead only-desktop">Des histoires bibliques, des récits inspirants et des témoignages pour te rappeler que Dieu écrit encore des histoires de victoire. Tu deviendras aussi une légende.</p>
+    <p class="lead only-mobile">Histoires bibliques, récits inspirants et témoignages pour nourrir ta foi.</p>
+    <div class="btns">
+      <a class="btn btn-gold btn-lg" href="#lecteur" data-open-page="1"><Icon name="book-open-text" />Lire en ligne</a>
+      <a class="btn btn-ghost-light btn-lg" href={MAGAZINE.pdf} download><Icon name="download-simple" /><span class="only-desktop">Télécharger le PDF</span><span class="only-mobile">{MAGAZINE.poids}</span></a>
     </div>
-  </section>
+    <span class="small only-desktop">{MAGAZINE.poids} · {MAGAZINE.pages} pages · Gratuit · Publié par RED Éditions</span>
+  </PageHero>
 
   <section class="wrap sec sommaire">
     <div class="stack intro">
       <span class="kicker only-desktop">Au sommaire</span>
       <h2 class="h2" style="--h2-m:30px">Dans ce numéro</h2>
       <p class="only-desktop">Chaque rubrique s'ouvre directement dans le lecteur en ligne, à la bonne page.</p>
+      <a class="mag-cover cover-wrap" href="#lecteur" data-open-page="1" aria-label="Ouvrir le magazine à la première page"><Cover kind="magazine" width={300} sizes="(min-width: 960px) 300px, 180px" shadow="lg" /></a>
     </div>
     <ol class="toc">
       {SOMMAIRE_N01.map((s) => (
@@ -99,6 +97,8 @@ const jsonLd = {
 </Base>
 
 <style>
+  .mag-cover { display: block; width: 180px; margin: 20px 0 8px; }
+  @media (min-width: 960px) { .mag-cover { width: min(300px, 80%); margin-top: 16px; } }
   .hero { padding-top: 12px; padding-bottom: 48px; display: flex; flex-direction: column; gap: 18px; }
   .crumb { display: flex; gap: 10px; align-items: center; font: 600 14px var(--sans); color: var(--discret-vert); }
   .crumb a { color: var(--or); }

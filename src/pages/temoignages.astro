@@ -8,18 +8,20 @@ import { wa, MSG } from '../data/site';
 
 // Variation des cartes comme dans la maquette : 1re en arche verte, 4e sur vert pâle, les autres sur sable.
 const tone = (i: number) => (i === 0 ? 'arche' : i === 3 ? 'pale' : 'sable') as 'arche' | 'pale' | 'sable';
+import PageHero from '../components/PageHero.astro';
+import { HERO } from '../data/hero';
 ---
 <Base
   title="Témoignages"
   description="Ce que Dieu a fait dans leur cœur : témoignages de lectrices et de membres de la communauté Guérie et Épanouie, publiés avec leur accord."
   active="/temoignages"
 >
-  <section class="hero bg-vert on-vert wrap">
+  <PageHero photos={HERO.temoignages} align="centre">
     <span class="kicker or">Témoignages</span>
     <h1 class="h1">Ce que Dieu a fait <em>dans leur cœur</em></h1>
     <p class="lead only-desktop">Chaque témoignage est publié avec l'accord de la personne. Les prénoms peuvent être abrégés pour protéger son intimité.</p>
     <p class="lead only-mobile">Publiés avec l'accord de chaque personne.</p>
-  </section>
+  </PageHero>
 
   <BackLink />
   <section class="wrap mur-sec">
@@ -53,12 +55,7 @@ const tone = (i: number) => (i === 0 ? 'arche' : i === 3 ? 'pale' : 'sable') as 
 </Base>
 
 <style>
-  .hero { padding-top: 28px; padding-bottom: 48px; display: flex; flex-direction: column; gap: 14px; }
-  .hero h1 { line-height: 1.02; }
-  .hero .lead { color: var(--texte-vert); max-width: 600px; }
   @media (min-width: 960px) {
-    .hero { padding-top: 72px; padding-bottom: var(--sec-2); align-items: center; text-align: center; gap: 22px; }
-    .hero h1 { max-width: 900px; }
   }
   .mur-sec { padding-top: 36px; padding-bottom: 36px; }
   .vide { font: italic 500 22px/1.4 var(--serif); color: var(--cacao); text-align: center; margin-inline: auto; }

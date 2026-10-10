@@ -34,6 +34,8 @@ const jsonLd = {
   isAccessibleForFree: true,
   offers: { '@type': 'Offer', price: 0, priceCurrency: 'CDF', availability: 'https://schema.org/InStock' },
 };
+import PageHero from '../../../components/PageHero.astro';
+import { HERO } from '../../../data/hero';
 ---
 <Base
   title={EBOOK.titre}
@@ -44,28 +46,35 @@ const jsonLd = {
   stickyBar
   jsonLd={jsonLd}
 >
-  <section class="hero bg-sable wrap">
+  <PageHero photos={HERO.ebook}>
     <nav class="crumb" aria-label="Fil d'Ariane">
       <a href="/publications" class="only-desktop">Publications</a>
       <Icon name="caret-right" size={14} class="only-desktop" />
       <span class="only-desktop" aria-current="page">{EBOOK.titre}</span>
       <a href="/publications" class="only-mobile back"><Icon name="arrow-left" size={18} />Publications</a>
     </nav>
+    <span class="kicker or"><span class="only-desktop">Ebook · Guide de guérison intérieure</span><span class="only-mobile">Ebook · gratuit</span></span>
+    <h1 class="h1" style="--h1-d:68px;--h1-m:40px;--h1-vw:4.7vw">Comment Dieu guérit <em>les cœurs brisés</em></h1>
+    <p class="lead only-desktop">Si Dieu nous aime tant, pourquoi permet-il que nous soyons blessées ? Et surtout, comment guérit-il ? En cinq pensées, je te partage ce que j'ai appris, avec douceur et sans jugement.</p>
+    <p class="lead only-mobile">En cinq pensées, je te partage ce que j'ai appris sur la guérison intérieure, avec douceur et sans jugement.</p>
+    <ul class="meta">
+      <li><Icon name="book-open" size={20} />{EBOOK.pages} pages</li>
+      <li><Icon name="file-pdf" size={20} />{EBOOK.poids}</li>
+      <li><Icon name="clock" size={20} />{EBOOK.lecture}</li>
+    </ul>
+    <div class="hero-btns">
+      <a class="btn btn-gold btn-lg" href="#recevoir">Recevoir l'ebook gratuit</a>
+      <a class="btn btn-ghost-light btn-lg" href={`/publications/${EBOOK.slug}/extrait`}>Lire un extrait</a>
+    </div>
+  </PageHero>
+
+  <section class="recevoir bg-sable wrap">
     <div class="hero-grid">
       <div class="cover-wrap">
         <div class="cover-arche" aria-hidden="true"></div>
-        <Cover kind="ebook" width={380} sizes="(min-width: 960px) 380px, 200px" priority shadow="lg" />
+        <Cover kind="ebook" width={380} sizes="(min-width: 960px) 380px, 200px" shadow="lg" />
       </div>
-      <div class="hero-txt">
-        <span class="kicker"><span class="only-desktop">Ebook · Guide de guérison intérieure</span><span class="only-mobile">Ebook · gratuit</span></span>
-        <h1 class="h1" style="--h1-d:68px;--h1-m:40px;--h1-vw:4.7vw">Comment Dieu guérit <em>les cœurs brisés</em></h1>
-        <p class="lead only-desktop">Si Dieu nous aime tant, pourquoi permet-il que nous soyons blessées ? Et surtout, comment guérit-il ? En cinq pensées, je te partage ce que j'ai appris, avec douceur et sans jugement.</p>
-        <p class="lead only-mobile">En cinq pensées, je te partage ce que j'ai appris sur la guérison intérieure, avec douceur et sans jugement.</p>
-        <ul class="meta">
-          <li><Icon name="book-open" size={20} />{EBOOK.pages} pages</li>
-          <li><Icon name="file-pdf" size={20} />{EBOOK.poids}</li>
-          <li><Icon name="clock" size={20} />{EBOOK.lecture}</li>
-        </ul>
+      <div class="get-col">
         <div class="get card" id="recevoir">
           <div class="get-head">
             <h2>Reçois-le gratuitement</h2>
@@ -159,7 +168,9 @@ const jsonLd = {
 </Base>
 
 <style>
-  .hero { padding-top: 20px; padding-bottom: 48px; display: flex; flex-direction: column; gap: 20px; }
+  .recevoir { padding-top: 48px; padding-bottom: 48px; }
+  .hero-btns { display: flex; flex-direction: column; gap: 12px; }
+  .hero-btns .btn { min-height: 52px; }
   .crumb { display: flex; gap: 10px; align-items: center; font: 600 14px var(--sans); color: var(--secondaire); flex-wrap: wrap; }
   .crumb a { color: var(--cuivre); }
   .back { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; font-size: 13px; }
@@ -167,20 +178,23 @@ const jsonLd = {
   .cover-wrap { position: relative; width: 200px; align-self: center; margin: 12px 0; }
   .cover-arche { position: absolute; inset: -16px -28px -16px -28px; border-radius: 999px 999px 10px 10px; background: var(--vert-pale); }
   .cover-wrap :global(.cover) { position: relative; }
-  .hero-txt { display: flex; flex-direction: column; gap: 20px; max-width: 600px; }
+  .get-col { display: flex; flex-direction: column; gap: 14px; max-width: 600px; }
   .meta { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 18px; font: 600 13px var(--sans); color: var(--secondaire); }
   .meta li { display: flex; gap: 8px; align-items: center; }
-  .meta :global(.icon) { color: var(--vert); display: none; }
+  .meta { color: var(--texte-vert); }
+  .meta :global(.icon) { color: var(--or); display: none; }
   .get { background: var(--creme); padding: 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: none; scroll-margin-top: 24px; }
   .get-head { display: flex; justify-content: space-between; align-items: baseline; }
   .get h2 { font: 700 17px var(--sans); color: var(--encre); }
   .prix { font: 500 30px var(--serif); color: var(--vert); }
   @media (min-width: 960px) {
-    .hero { padding-top: 40px; padding-bottom: 112px; gap: 48px; }
+    .recevoir { padding-top: 96px; padding-bottom: 112px; }
+    .hero-btns { flex-direction: row; gap: 16px; }
+    .hero-btns .btn { min-height: 56px; }
     .hero-grid { display: grid; grid-template-columns: minmax(300px, 420px) minmax(0, 1fr); gap: clamp(48px, 6.6vw, 96px); align-items: center; }
     .cover-wrap { width: min(380px, 100%); margin: 28px 40px; justify-self: center; }
     .cover-arche { inset: -28px -40px; border-radius: 999px 999px 12px 12px; }
-    .hero-txt { gap: 24px; }
+    .get-col { gap: 16px; align-self: center; }
     .meta { gap: 28px; font-size: 14px; }
     .meta :global(.icon) { display: inline-block; }
     .get { padding: 28px; gap: 16px; box-shadow: var(--ombre-md); }

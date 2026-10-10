@@ -25,6 +25,7 @@ const contactActive = active.startsWith('/contact');
     {variant === 'article' && <span class="article-title only-mobile-nav" aria-hidden="true">{backLabel}</span>}
 
     <nav class="nav-desktop" aria-label="Navigation principale">
+      <a href="/" class:list={['nav-link', { active: active === '/' }]} aria-current={active === '/' ? 'page' : undefined}>Accueil</a>
       {NAV.map((item) => (
         <a href={item.href} class:list={['nav-link', { active: isActive(item.match) }]} aria-current={isActive(item.match) ? 'page' : undefined}>
           {item.label}
@@ -159,6 +160,11 @@ const contactActive = active.startsWith('/contact');
     }
     .nav-pill:hover { background: var(--vert-foret); color: var(--creme); }
     .nav-pill.active { background: var(--or); color: var(--vert); }
+  }
+  /* Entre 1100 et 1280 px, le menu (6 entrées + Contact) doit tenir sur une ligne */
+  @media (min-width: 1100px) and (max-width: 1279.98px) {
+    .nav-desktop { gap: 22px; }
+    .logo-txt { font-size: 25px; }
   }
 
   /* Menu mobile plein écran */

@@ -57,11 +57,27 @@ Identité propre au site (arche, rameau, étoile ✦, vert et or), esprit repris
   défilement (Lenis exclu, cf. Gospel Nation).
 - Test anti-contenu-invisible : script `reveal-test.mjs` (défilement lent, saut en bas, milieu, retour en haut).
 
+## Bandeaux photo pleine largeur (10/10/2026, demande de Mazunda « comme One Love »)
+- `PageHero.astro` sur toutes les pages (sauf merci, 404, hors ligne) ; photos par page dans `src/data/hero.ts`.
+- Site vivant : les photos se succèdent en fondu (6,5 s, ordre tiré au hasard), zoom lent, bouton pause en haut à droite
+  (WCAG 2.2.2 ; en bas il recouvrait « M'écrire »). Photos suivantes chargées après la page, jamais en économie de données.
+- Photos petites (805 px pour les portraits, exports WhatsApp) : sur ordinateur, la même photo floutée remplit toute la
+  largeur et la photo nette, à sa taille réelle, occupe la droite (56 %) en se fondant vers la gauche ; sur téléphone, photo
+  pleine. Contraste mesuré sur le pixel le plus clair sous chaque texte : surtitres en or clair (#E2C27A) sur photo, voile
+  dense côté texte ; tout ≥ 4,5:1 (lien « Publications » sur pastille : 5,57:1 même sur fond blanc pur).
+- 5 photos ajoutées depuis Téléchargements (studio noir et blanc, studio posée, ordinateur noir et blanc, selfie herbe,
+  selfie porte). Écartées : Silikin Village (logo d'une autre entreprise), selfie sérieux, capture WhatsApp.
+- Bouton « Accueil » ajouté au menu ordinateur (menu resserré entre 1100 et 1280 px).
+
 ## Pièges rencontrés
 - `img { display:block }` écrasait l'attribut `hidden` : règle globale `[hidden] { display:none !important }` indispensable.
 - Événement `close` de `<dialog>` peu fiable dans certains navigateurs intégrés : le menu mobile fait son nettoyage directement.
 - Captures : `--headless --screenshot` de Chrome se bloque sur ce Mac ; utiliser le pilotage par protocole DevTools (script `cdp.mjs`).
 - En zsh, ne jamais nommer une variable `path` (elle écrase le PATH).
+- Scripts de test Chrome : un script interrompu laissait son Chrome ouvert (97 instances accumulées, tout ralentissait).
+  Ils ferment maintenant leur Chrome sur SIGALRM/SIGTERM. Nettoyer : `pkill -9 -f "/tmp/chrome-prof"` (jamais le Chrome de Mazunda).
+- Test de contraste sur photo : il cache le texte pour lire le fond ; un élément qui a son propre fond (pastille) se
+  calcule à part (pire cas sur blanc pur).
 
 ## Reste à faire
 Voir la fin du rapport de session : contenus de l'autrice, services d'e-mail, domaine, déploiement.

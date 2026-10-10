@@ -32,6 +32,8 @@ const sections = [
     html: "Ce site propose un accompagnement spirituel. Il ne remplace pas un suivi médical ou psychologique. Si tu traverses une détresse, parles-en aussi à un professionnel de santé.",
   },
 ];
+import PageHero from '../components/PageHero.astro';
+import { HERO } from '../data/hero';
 ---
 <Base
   title="Mentions légales et confidentialité"
@@ -39,6 +41,10 @@ const sections = [
   active="/mentions-legales"
   footerMention=""
 >
+  <PageHero photos={HERO.mentions}>
+    <span class="kicker or">Informations légales</span>
+    <h1 class="h1" style="--h1-d:64px;--h1-m:38px;--h1-vw:4.4vw">Mentions légales et confidentialité</h1>
+  </PageHero>
   <BackLink />
   <section class="wrap page">
     <nav class="toc only-desktop" aria-label="Sur cette page">
@@ -46,8 +52,6 @@ const sections = [
       {sections.map((s, i) => <a href={`#${s.id}`} class:list={{ on: i === 0 }} data-toc-link>{s.titre}</a>)}
     </nav>
     <div class="content">
-      <span class="kicker">Informations légales</span>
-      <h1 class="h1" style="--h1-d:64px;--h1-m:38px;--h1-vw:4.4vw">Mentions légales et confidentialité</h1>
 
       <div class="desktop-sections only-desktop">
         {sections.map((s) => (
@@ -112,7 +116,7 @@ const sections = [
   .encart :global(.icon) { color: var(--vert); }
   @media (min-width: 960px) {
     .page { padding-top: 80px; padding-bottom: var(--sec-2); display: grid; grid-template-columns: 260px minmax(0, 720px); gap: clamp(48px, 6.6vw, 96px); }
-    .toc { display: flex; flex-direction: column; gap: 4px; padding-top: 120px; font: 600 15px var(--sans); color: var(--secondaire); position: sticky; top: 24px; align-self: start; }
+    .toc { display: flex; flex-direction: column; gap: 4px; padding-top: 12px; font: 600 15px var(--sans); color: var(--secondaire); position: sticky; top: 24px; align-self: start; }
     .toc-k { font: 800 11px var(--sans); letter-spacing: 0.22em; color: var(--cuivre); margin-bottom: 12px; text-transform: uppercase; }
     .toc a { padding: 10px 0 10px 14px; box-shadow: inset 1px 0 0 var(--filet); color: var(--secondaire); }
     .toc a:hover { color: var(--encre); }
