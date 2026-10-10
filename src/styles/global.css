@@ -57,15 +57,15 @@
 
   /* Marges latérales : 20 px (mobile) → 40 px → contenu 1200 px max centré (120 px à 1440) */
   --gutter: 20px;
-  --sec: 64px;
-  --sec-2: 56px;
+  --sec: 48px;
+  --sec-2: 44px;
 }
 
 @media (min-width: 640px) {
-  :root { --gutter: 40px; --sec: 88px; --sec-2: 80px; }
+  :root { --gutter: 40px; --sec: 64px; --sec-2: 56px; }
 }
 @media (min-width: 1200px) {
-  :root { --gutter: max(40px, calc((100% - 1200px) / 2)); --sec: 128px; --sec-2: 112px; }
+  :root { --gutter: max(40px, calc((100% - 1200px) / 2)); --sec: 80px; --sec-2: 72px; }
 }
 
 *, *::before, *::after { box-sizing: border-box; }

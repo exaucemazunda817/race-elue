@@ -1,31 +1,30 @@
 ---
-// Bandeau photo pleine largeur, d'un bord à l'autre et sous l'en-tête flottant (demandes de Mazunda du
-// 10/10/2026, « comme One Love », puis « l'image doit prendre toute la place, pas seulement une partie »),
-// avec un site vivant : les photos se succèdent en fondu, chacune avec un zoom lent.
-// - 1re photo chargée tout de suite (c'est elle que le visiteur voit en premier) ; les suivantes sont
-//   ajoutées après le chargement de la page, jamais en économie de données (3G : on ne télécharge pas
-//   ce que personne n'a encore demandé).
-// - Bouton pause obligatoire (WCAG 2.2.2 : tout mouvement automatique de plus de 5 s doit pouvoir s'arrêter).
-// - Rotation arrêtée si l'onglet est masqué ou le bandeau hors écran ; aucune si « Réduire les animations ».
-// - Voile vert dense du côté du texte (lisibilité mesurée), plus léger du côté de la photo.
-import { Picture } from 'astro:assets';
+// Bandeau photo des pages, sur le modèle des bandeaux de One Love (demande de Mazunda du 10/10/2026) :
+// la photo couvre tout le bandeau, un simple dégradé vert assombrit le côté du texte, rien d'autre
+// (plus de panneau flou : il cachait les visages).
+// - Ordinateur : photos PAYSAGE (les seules qui remplissent un écran large sans être trop agrandies).
+// - Téléphone : photos PORTRAIT de la page (elles remplissent l'écran à leur taille réelle, donc nettes).
+//   Même principe que One Love (version panoramique pour l'ordinateur, version verticale pour le téléphone).
+// - Les photos se succèdent en fondu avec un zoom lent ; 1re photo chargée tout de suite, les suivantes après
+//   le chargement de la page, jamais en économie de données. Bouton pause (WCAG 2.2.2).
+import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Icon from './Icon.astro';
+import { PAYSAGES } from '../data/hero';
 
 const all = import.meta.glob<{ default: ImageMetadata }>('../assets/photos/*.{jpg,jpeg,png,webp}', { eager: true });
 
 export type HeroPhoto = { src: string; alt: string; pos?: string; posMobile?: string };
 interface Props {
-  photos: HeroPhoto[];
+  photos: HeroPhoto[]; // photos du téléphone (portraits de la page)
+  paysages?: HeroPhoto[]; // photos de l'ordinateur (paysage) ; par défaut les photos paysage du site
   size?: 'accueil' | 'page';
   align?: 'gauche' | 'centre';
   id?: string;
   chevauchement?: boolean; // le contenu suivant remonte sur le bas du bandeau (cartes de Contact)
-  cote?: 'gauche' | 'droite'; // côté du texte sur ordinateur (droite : le visage est à gauche de la photo)
+  cote?: 'gauche' | 'droite'; // côté du texte sur ordinateur (droite : les visages sont à gauche des photos)
 }
-const { photos, size = 'page', align = 'gauche', id, chevauchement = false, cote = 'gauche' } = Astro.props;
-// Photo paysage : elle couvre tout le bandeau sur ordinateur ; portrait : taille réelle à droite + fond flou.
-const paysage = (src: string) => img(src).width > img(src).height;
+const { photos, paysages, size = 'page', align = 'gauche', id, chevauchement = false, cote = 'droite' } = Astro.props;
 const img = (src: string) => {
   const m = all[`../assets/photos/${src}`];
   if (!m) throw new Error(`Photo introuvable : ${src}`);
@@ -35,37 +34,49 @@ const widths = (src: string) => {
   const w = img(src).width;
   return [480, 800, 1200, 1600].filter((x) => x < w).concat(w);
 };
-const [premiere, ...suivantes] = photos;
-// Photos actuelles : exports WhatsApp de 607 à 1080 px. Pour ne pas les agrandir (perte de qualité,
-// décision de Mazunda du 10/10/2026), sur ordinateur la photo nette garde sa taille réelle à droite et
-// une version légèrement floutée remplit le reste ; sur téléphone la photo est pleine largeur.
-const SIZES = '(min-width: 960px) 60vw, 100vw';
+const srcset = async (src: string) => {
+  const ws = widths(src);
+  const out = await Promise.all(ws.map((w) => getImage({ src: img(src), width: w, format: 'webp', quality: 74 })));
+  return { set: out.map((r, i) => `${r.src} ${ws[i]}w`).join(', '), src: out[out.length - 1].src };
+};
+// Les pages ne commencent pas toutes par la même photo d'ordinateur.
+const decalage = Astro.url.pathname.length % 2;
+const desk = paysages ?? [...PAYSAGES.slice(decalage), ...PAYSAGES.slice(0, decalage)];
+const n = Math.max(photos.length, desk.length);
+const slides = await Promise.all(Array.from({ length: n }, async (_, i) => {
+  const m = photos[i % photos.length];
+  const d = desk[i % desk.length];
+  const [ms, ds] = await Promise.all([srcset(m.src), srcset(d.src)]);
+  return {
+    mob: ms, desk: ds, w: img(m.src).width, h: img(m.src).height,
+    style: `--pos-m:${m.posMobile ?? m.pos ?? 'center'};--pos:${d.pos ?? 'center'}`,
+  };
+}));
+const [premiere, ...suivantes] = slides;
+const alts = [...new Set([...photos, ...desk].map((p) => p.alt))];
 // Étoiles ✦ qui scintillent dans le bandeau (positions fixes : même rendu à chaque visite).
 const ETOILES = [
   { x: 62, y: 18, t: 14, d: 0 }, { x: 78, y: 30, t: 10, d: 1.2 }, { x: 90, y: 14, t: 18, d: 2.1 },
   { x: 70, y: 62, t: 11, d: 0.6 }, { x: 86, y: 74, t: 15, d: 2.8 }, { x: 54, y: 82, t: 9, d: 1.7 }, { x: 95, y: 48, t: 12, d: 3.4 },
 ];
 ---
-<section class:list={['page-hero on-vert', `ph-${size}`, `ph-${align}`, `ph-cote-${cote}`, { 'ph-chevauche': chevauchement }]} id={id} data-hero-photos={photos.length}>
+<section class:list={['page-hero on-vert', `ph-${size}`, `ph-${align}`, `ph-cote-${cote}`, { 'ph-chevauche': chevauchement }]} id={id} data-hero-photos={n}>
   <div class="ph-slides" aria-hidden="true">
-    <div class:list={['ph-slide is-on', { 'ph-paysage': paysage(premiere.src) }]}>
-      <div class="ph-fond"><Picture src={img(premiere.src)} alt="" widths={widths(premiere.src)} sizes={SIZES} formats={['webp']} fallbackFormat="jpg" quality={74} loading="eager" /></div>
-      <div class="ph-photo"><Picture
-        src={img(premiere.src)} alt="" widths={widths(premiere.src)} sizes={SIZES} formats={['webp']} fallbackFormat="jpg"
-        quality={74} loading="eager" fetchpriority="high"
-        style={`--pos:${premiere.pos ?? 'center'};--pos-m:${premiere.posMobile ?? premiere.pos ?? 'center'}`}
-      /></div>
-    </div>
-    {suivantes.map((p) => (
+    <div class="ph-slide is-on"><div class="ph-photo">
+      <picture>
+        <source media="(min-width: 960px)" srcset={premiere.desk.set} sizes="100vw" type="image/webp" />
+        <img src={premiere.mob.src} srcset={premiere.mob.set} sizes="100vw" alt="" width={premiere.w} height={premiere.h}
+          loading="eager" fetchpriority="high" decoding="async" style={premiere.style} />
+      </picture>
+    </div></div>
+    {suivantes.map((sl) => (
       <template data-slide>
-        <div class:list={['ph-slide', { 'ph-paysage': paysage(p.src) }]}>
-          <div class="ph-fond"><Picture src={img(p.src)} alt="" widths={widths(p.src)} sizes={SIZES} formats={['webp']} fallbackFormat="jpg" quality={74} loading="lazy" /></div>
-          <div class="ph-photo"><Picture
-            src={img(p.src)} alt="" widths={widths(p.src)} sizes={SIZES} formats={['webp']} fallbackFormat="jpg"
-            quality={74} loading="lazy"
-            style={`--pos:${p.pos ?? 'center'};--pos-m:${p.posMobile ?? p.pos ?? 'center'}`}
-          /></div>
-        </div>
+        <div class="ph-slide"><div class="ph-photo">
+          <picture>
+            <source media="(min-width: 960px)" srcset={sl.desk.set} sizes="100vw" type="image/webp" />
+            <img src={sl.mob.src} srcset={sl.mob.set} sizes="100vw" alt="" width={sl.w} height={sl.h} loading="lazy" decoding="async" style={sl.style} />
+          </picture>
+        </div></div>
       </template>
     ))}
   </div>
@@ -73,13 +84,13 @@ const ETOILES = [
   <div class="ph-stars" aria-hidden="true">
     {ETOILES.map((e) => <span style={`--x:${e.x}%;--y:${e.y}%;--t:${e.t}px;--d:${e.d}s`}>✦</span>)}
   </div>
-  <p class="sr-only">{photos.map((p) => p.alt).join(' · ')}</p>
+  <p class="sr-only">{alts.join(' · ')}</p>
   <div class="ph-inner wrap">
     <div class="hero-txt ph-txt">
       <slot />
     </div>
   </div>
-  {photos.length > 1 && (
+  {n > 1 && (
     <button type="button" class="ph-pause" data-pause aria-pressed="false" aria-label="Mettre en pause le défilement des photos" hidden>
       <Icon name="pause" class="i-pause" size={18} /><Icon name="play" class="i-play" size={18} />
     </button>
@@ -153,42 +164,39 @@ const ETOILES = [
   .ph-slides { position: absolute; inset: 0; z-index: -2; }
   .ph-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1400ms ease-in-out; }
   .ph-slide.is-on { opacity: 1; }
-  .ph-fond, .ph-photo { position: absolute; inset: 0; overflow: hidden; }
-  .ph-fond { display: none; }
+  .ph-photo { position: absolute; inset: 0; overflow: hidden; }
   .ph-slide :global(picture), .ph-slide :global(img) { display: block; width: 100%; height: 100%; }
   .ph-slide :global(img) { object-fit: cover; }
   .ph-photo :global(img) {
     object-position: var(--pos-m);
     animation: ph-kb 20s ease-in-out infinite alternate; will-change: transform;
   }
-  /* Ordinateur : fond = même photo, peu floutée ; photo nette à sa taille réelle sur la droite (60 %). */
-  @media (min-width: 960px) {
-    .ph-fond { display: block; }
-    .ph-fond :global(img) { filter: blur(10px) saturate(1.1); transform: scale(1.06); object-position: var(--pos, center); }
-    .ph-photo { left: auto; width: 60%;
-      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 28%); mask-image: linear-gradient(90deg, transparent 0%, #000 28%); }
-    .ph-photo :global(img) { object-position: var(--pos); }
-    .ph-paysage .ph-fond { display: none; }
-    .ph-paysage .ph-photo { left: 0; width: 100%; -webkit-mask-image: none; mask-image: none; }
-  }
+  @media (min-width: 960px) { .ph-photo :global(img) { object-position: var(--pos); animation-name: ph-kb-doux; } }
   .is-paused .ph-photo :global(img) { animation-play-state: paused; }
-  .ph-paysage .ph-photo :global(img) { animation-name: ph-kb-doux; }
+  @keyframes ph-kb { from { transform: scale(1.02); } to { transform: scale(1.1) translate3d(-1%, -1%, 0); } }
   @keyframes ph-kb-doux { from { transform: scale(1); } to { transform: scale(1.06) translate3d(-1%, -0.5%, 0); } }
-  @keyframes ph-kb { from { transform: scale(1.04); } to { transform: scale(1.14) translate3d(-1.5%, -1%, 0); } }
 
-  /* Voiles (10/10/2026, « on ne voit quasiment pas l'image ») : sur le bandeau entier, seulement un léger
-     assombrissement en haut (sous l'en-tête) et un fondu en bas. La partie floue et teintée suit le bloc de
-     texte (.ph-txt::before, plus bas) : le reste de la photo reste net et visible. */
+  /* Dégradé, comme les bandeaux de One Love : léger en haut (sous l'en-tête), dense seulement du côté du
+     texte ; aucun flou, la photo reste nette et les visages visibles. */
   .ph-scrim {
     position: absolute; inset: 0; z-index: -1;
     background:
-      linear-gradient(180deg, rgba(20, 40, 32, 0.45) 0%, rgba(20, 40, 32, 0) 18%),
-      linear-gradient(0deg, rgba(30, 59, 47, 0.5) 0%, rgba(30, 59, 47, 0) 22%);
+      linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 16%),
+      linear-gradient(180deg, rgba(30, 59, 47, 0) 34%, rgba(30, 59, 47, 0.55) 48%, rgba(30, 59, 47, 0.9) 62%, rgba(30, 59, 47, 0.94) 100%);
   }
-
   @media (min-width: 960px) {
+    .ph-scrim {
+      background:
+        linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 18%),
+        linear-gradient(90deg, rgba(30, 59, 47, 0.94) 0%, rgba(30, 59, 47, 0.9) 42%, rgba(30, 59, 47, 0.4) 58%, rgba(30, 59, 47, 0) 76%);
+    }
+    .ph-cote-droite .ph-scrim {
+      background:
+        linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 18%),
+        linear-gradient(270deg, rgba(30, 59, 47, 0.94) 0%, rgba(30, 59, 47, 0.9) 42%, rgba(30, 59, 47, 0.4) 58%, rgba(30, 59, 47, 0) 76%);
+    }
     .ph-cote-droite .ph-inner { justify-content: flex-end; }
-    .ph-cote-droite .ph-txt { max-width: 500px; }
+    .ph-cote-droite .ph-txt { max-width: 460px; }
     .ph-cote-droite .ph-stars span { left: auto; right: var(--x); }
   }
 
@@ -208,14 +216,6 @@ const ETOILES = [
 
   .ph-inner { position: relative; width: 100%; display: flex; align-items: flex-end; padding-top: 140px; padding-bottom: 48px; }
   .ph-txt { position: relative; display: flex; flex-direction: column; gap: 18px; max-width: 640px; }
-  /* Partie floue + teinte verte, uniquement derrière le texte (contraste mesuré ≥ 4,5:1). */
-  .ph-txt::before {
-    content: ''; position: absolute; z-index: -1; pointer-events: none;
-    left: calc(50% - 50vw); right: calc(50% - 50vw); top: -120px; bottom: -400px;
-    background: linear-gradient(180deg, rgba(30, 59, 47, 0) 0, rgba(30, 59, 47, 0.84) 96px, rgba(30, 59, 47, 0.92) 150px, rgba(30, 59, 47, 0.95) 100%);
-    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 100px); mask-image: linear-gradient(180deg, transparent 0, #000 100px);
-  }
   .ph-txt :global(.lead) { color: var(--texte-vert); max-width: 32em; }
   /* Sur photo, l'or de la maquette (#C9A24B) manque de contraste : or clair, plus une ombre douce. */
   .ph-txt :global(.kicker.or), .ph-txt :global(.crumb a), .ph-txt :global(.signature) { color: var(--or-couv); }
@@ -223,7 +223,15 @@ const ETOILES = [
   .ph-txt :global(.crumb) { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font: 600 13px var(--sans); color: var(--discret-vert); }
   .ph-txt :global(.crumb .back) { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; font-size: 12px; padding: 0 16px; border-radius: 999px; background: rgba(30, 59, 47, 0.92); box-shadow: inset 0 0 0 1px rgba(226, 194, 122, 0.45); }
   .ph-txt :global(h1) { text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3); }
+  /* Téléphone : le dégradé (sans flou) démarre juste au-dessus du texte, quelle que soit sa hauteur ;
+     le visage, au-dessus, reste net. */
   @media (max-width: 959.98px) {
+    .ph-txt { position: relative; }
+    .ph-txt::before {
+      content: ''; position: absolute; z-index: -1; pointer-events: none;
+      left: calc(50% - 50vw); right: calc(50% - 50vw); top: -90px; bottom: -200px;
+      background: linear-gradient(180deg, rgba(30, 59, 47, 0) 0, rgba(30, 59, 47, 0.82) 90px, rgba(30, 59, 47, 0.9) 100%);
+    }
     .ph-centre .ph-inner { justify-content: center; text-align: center; }
     .ph-centre .ph-txt { align-items: center; margin-inline: auto; }
   }
@@ -232,16 +240,6 @@ const ETOILES = [
     .ph-accueil .ph-inner { padding-bottom: 120px; }
     .ph-chevauche .ph-inner { padding-bottom: 200px; }
     .ph-txt { gap: 24px; max-width: 580px; }
-    .ph-txt::before {
-      top: -600px; bottom: -600px; left: -100vw; right: -160px;
-      background: linear-gradient(90deg, rgba(30, 59, 47, 0.9) 0, rgba(30, 59, 47, 0.88) calc(100% - 160px), rgba(30, 59, 47, 0.5) calc(100% - 80px), rgba(30, 59, 47, 0) 100%);
-      -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 140px), transparent 100%); mask-image: linear-gradient(90deg, #000 calc(100% - 140px), transparent 100%);
-    }
-    .ph-cote-droite .ph-txt::before {
-      left: -160px; right: -100vw;
-      background: linear-gradient(270deg, rgba(30, 59, 47, 0.9) 0, rgba(30, 59, 47, 0.88) calc(100% - 160px), rgba(30, 59, 47, 0.5) calc(100% - 80px), rgba(30, 59, 47, 0) 100%);
-      -webkit-mask-image: linear-gradient(270deg, #000 calc(100% - 140px), transparent 100%); mask-image: linear-gradient(270deg, #000 calc(100% - 140px), transparent 100%);
-    }
   }
 
   /* Parallaxe au défilement (navigateurs récents ; ailleurs, la photo reste simplement fixe) */

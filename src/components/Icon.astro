@@ -1,5 +1,7 @@
 ---
-// Icônes Phosphor (style duotone) insérées en SVG au moment de la construction :
+// Icônes Phosphor insérées en SVG au moment de la construction (10/10/2026 : fin du style « duotone »,
+// jugé trop « IA » par Mazunda) : logos des réseaux en version pleine, comme les marques officielles ;
+// petites flèches et commandes en trait normal (lisibles en petit) ; tout le reste en trait fin.
 // aucune police d'icônes à télécharger, seules les icônes utilisées sont dans la page.
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -14,7 +16,9 @@ interface Props {
 
 const { name, size = '1em', class: className, label, style } = Astro.props;
 const require = createRequire(import.meta.url);
-const file = require.resolve(`@phosphor-icons/core/assets/duotone/${name}-duotone.svg`);
+const COMMANDES = new Set(['caret-right', 'caret-left', 'caret-down', 'arrow-right', 'arrow-left', 'arrow-up-right', 'x', 'plus', 'minus', 'list', 'check', 'play', 'pause']);
+const weight = name.endsWith('-logo') ? 'fill' : COMMANDES.has(name) ? 'regular' : 'light';
+const file = require.resolve(`@phosphor-icons/core/assets/${weight}/${name}${weight === 'regular' ? '' : `-${weight}`}.svg`);
 const raw = readFileSync(file, 'utf8');
 const inner = raw.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
 const a11y = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true" focusable="false"';

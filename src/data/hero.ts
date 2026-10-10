@@ -17,9 +17,13 @@ const P = {
   herbe: { src: 'grass.jpg', alt: "Race Élue assise dans l'herbe, regardant au loin", pos: '50% 45%', posMobile: '45% 40%' },
   herbeSourire: { src: 'herbe-sourire.jpg', alt: 'Race Élue sourit, dans un jardin', pos: '50% 62%', posMobile: '50% 55%' },
   porte: { src: 'porte-sourire.jpg', alt: 'Race Élue sourit, devant une porte en bois', pos: '60% 42%', posMobile: '55% 35%' },
-  dehors: { src: 'laugh-outdoor.jpg', alt: 'Race Élue éclate de rire en extérieur', pos: '45% 38%', posMobile: '44% 30%' },
-  pupitre: { src: 'stage.jpg', alt: "Race Élue au pupitre, micro en main, lors d'un culte", pos: '55% 35%', posMobile: '40% 35%' },
+  dehors: { src: 'laugh-outdoor.jpg', alt: 'Race Élue éclate de rire en extérieur', pos: '45% 46%', posMobile: '44% 30%' },
+  pupitre: { src: 'stage.jpg', alt: "Race Élue au pupitre, micro en main, lors d'un culte", pos: '45% 34%', posMobile: '40% 35%' },
 } satisfies Record<string, HeroPhoto>;
+
+// Photos paysage (les seules qui remplissent un écran d'ordinateur sans être trop agrandies) : elles servent
+// de bandeau sur ordinateur pour toutes les pages ; les listes ci-dessous servent sur téléphone (portraits).
+export const PAYSAGES: HeroPhoto[] = [P.pupitre, P.dehors];
 
 export const HERO = {
   // Accueil : une seule photo, en format paysage (elle remplit l'écran sans être trop agrandie).

@@ -61,6 +61,7 @@ import { HERO } from '../data/hero';
   </PageHero>
 
   <section class="wrap sec pourquoi">
+    <div class="pq-fond" aria-hidden="true"><Photo src="studio-nb.jpg" alt="" sizes="100vw" position="50% 30%" /></div>
     <div class="stack gap18">
       <span class="kicker">Pourquoi ce ministère</span>
       <h2 class="h2" style="--h2-d:45px;--h2-m:27px">Beaucoup de femmes sourient <em>en portant des blessures</em></h2>
@@ -73,15 +74,19 @@ import { HERO } from '../data/hero';
     </div>
   </section>
 
-  <section class="wrap sec bg-pale activites">
+  <section class="wrap sec activites on-vert">
+    <!-- Photo en fond de la partie, les cartes posées par-dessus (demande de Mazunda du 10/10/2026) -->
+    <div class="act-fond" aria-hidden="true">
+      <Photo src="stage.jpg" alt="" sizes="100vw" position="45% 34%" />
+    </div>
     <div class="stack gap14">
-      <span class="kicker vert only-desktop">Ce que nous vivons ensemble</span>
+      <span class="kicker or only-desktop">Ce que nous vivons ensemble</span>
       <h2 class="h2" style="--h2-d:45px;--h2-m:27px"><span class="only-desktop">Quatre rendez-vous pour grandir</span><span class="only-mobile">Ce que nous vivons ensemble</span></h2>
     </div>
     <div class="act-grid">
-      {activites.map((a) => (
+      {activites.map((a, i) => (
         <div class="act">
-          <Icon name={a.icon} />
+          <span class="act-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
           <h3>{a.titre}</h3>
           <p class="only-desktop">{a.texte}</p>
         </div>
@@ -108,7 +113,7 @@ import { HERO } from '../data/hero';
     <div class="charte">
       <span class="kicker"><span class="only-desktop">Notre charte de bienveillance</span><span class="only-mobile">Charte de bienveillance</span></span>
       <ul class="only-desktop">
-        {charte.map((c) => <li><Icon name={c.icon} size={24} /><span><strong>{c.titre}</strong> {c.texte}</span></li>)}
+        {charte.map((c) => <li><Icon name={c.icon} size={22} /><span><strong>{c.titre}</strong> {c.texte}</span></li>)}
       </ul>
       <ul class="only-mobile">
         <li><Icon name="lock-key" size={20} /><span>Confidentialité, sans jugement, à ton rythme.</span></li>
@@ -117,7 +122,7 @@ import { HERO } from '../data/hero';
     </div>
   </section>
 
-  <QuoteBand trait texte="Je suis guérie et épanouie !" note="La déclaration que chaque membre est invitée à faire sienne, un jour après l'autre." size={64} />
+  <QuoteBand photo="herbe-sourire.jpg" position="50% 45%" trait texte="Je suis guérie et épanouie !" note="La déclaration que chaque membre est invitée à faire sienne, un jour après l'autre." size={64} />
 
   {temoignages.length > 0 && (
   <section class="wrap sec-2 bg-sable elles">
@@ -156,7 +161,11 @@ import { HERO } from '../data/hero';
     .btns .link { color: var(--creme); font-size: 14px; }
   }
 
-  .pourquoi { padding-block: 56px; display: flex; flex-direction: column; gap: 16px; }
+  .pourquoi { position: relative; isolation: isolate; overflow: hidden; padding-block: 56px; display: flex; flex-direction: column; gap: 16px; }
+  /* Portrait en filigrane sous un voile crème : de la matière sans gêner la lecture */
+  .pq-fond { position: absolute; inset: 0; z-index: -1; }
+  .pq-fond :global(picture), .pq-fond :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .pq-fond::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(251, 247, 241, 0.82) 0%, rgba(251, 247, 241, 0.9) 45%, rgba(251, 247, 241, 0.94) 100%); }
   .pourquoi-txt { gap: 20px; }
   .pourquoi-txt p { font-size: 14px; line-height: 1.7; }
   .sign { font: italic 500 23px var(--serif); color: var(--cuivre); }
@@ -166,18 +175,28 @@ import { HERO } from '../data/hero';
     .pourquoi-txt p { font-size: 17px; line-height: 1.75; }
   }
 
-  .activites { padding-block: 56px; display: flex; flex-direction: column; gap: 20px; }
+  .activites { position: relative; isolation: isolate; overflow: hidden; background: var(--vert); padding-block: 56px; display: flex; flex-direction: column; gap: 20px; }
+  .act-fond { position: absolute; inset: 0; z-index: -1; }
+  .act-fond :global(picture), .act-fond :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* Voile vert léger : la photo reste visible entre les cartes, le titre reste lisible. */
+  .act-fond::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(30, 59, 47, 0.82) 0%, rgba(30, 59, 47, 0.55) 45%, rgba(30, 59, 47, 0.7) 100%); }
+  .activites h2 { color: var(--creme); text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35); }
+  .activites .kicker.or { color: var(--or-couv); }
   .act-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   @media (max-width: 359.98px) { .act-grid { grid-template-columns: 1fr; } }
-  .act { background: var(--creme); border-radius: var(--r-carte); padding: 18px; display: flex; flex-direction: column; gap: 8px; }
-  .act :global(.icon) { font-size: 23px; color: var(--cuivre); }
+  .act { background: rgba(251, 247, 241, 0.94); border-radius: var(--r-carte); padding: 18px; display: flex; flex-direction: column; gap: 8px;
+    box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .act h3 { color: var(--cacao); }
+  .act p { color: var(--encre); }
+  .act-num { font: italic 500 28px/1 var(--serif); color: var(--cuivre); display: flex; align-items: center; gap: 12px; }
+  .act-num::after { content: ''; height: 1px; flex: 1; background: linear-gradient(90deg, var(--or), transparent); }
   .act h3 { font-size: 20px; line-height: 1.1; }
   .act p { font-size: 14px; line-height: 1.6; }
   @media (min-width: 960px) {
     .activites { padding-block: var(--sec); gap: 56px; }
     .act-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
     .act { padding: 32px 28px; gap: 14px; }
-    .act :global(.icon) { font-size: 27px; }
+    .act-num { font-size: 34px; }
     .act h3 { font-size: 25px; }
   }
 

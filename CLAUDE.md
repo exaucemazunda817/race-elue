@@ -93,6 +93,19 @@ Rapport : `~/Documents/Mazunda/08-Divers/Race-Elue-Disanka/audit-design-2026-10-
   de l'accueil, soulignement glissant du menu. Ne jamais animer l'opacité de `.ph-inner` : un parent à opacité
   animée empêche le flou d'arrière-plan du texte de voir la photo.
 
+## 3e passe (10/10/2026, soir) — modèle One Love appliqué, photos en fond, icônes
+- **Bandeaux = modèle One Love** : photo plein bandeau, un simple dégradé du côté du texte, **aucun flou** (il
+  cachait les visages). Ordinateur : les 2 photos paysage (`PAYSAGES` dans `data/hero.ts`) ; téléphone : les
+  portraits de la page (taille réelle, nets). Texte à droite sur ordinateur (visages à gauche des photos).
+  Sur téléphone, le dégradé suit le haut du bloc de texte (`.ph-txt::before`, sans flou). Contraste ≥ 4,5 partout.
+- **Photos en fond de parties** (contre la sensation de vide) : quatre rendez-vous (Guérie), trois portes (accueil,
+  une photo par case), bandes de citation et d'inscription (prop `photo`), réseaux (pastilles en verre comme la
+  bande Contact de One Love, + WhatsApp), Mon église (À propos), Pourquoi ce ministère (portrait en filigrane).
+- **Icônes** : fin du style duotone (« fait IA ») : logos des réseaux pleins, commandes en trait normal, le reste
+  en trait fin (`Icon.astro`). Plus d'icône posée en haut des cartes : numérotation 01, 02… en or.
+- **Espacements** : marges de section ramenées à 48/64/80 px (téléphone/tablette/ordinateur) au lieu de 64/88/128.
+- Bande défilante dorée (texte vert).
+
 ## Pièges rencontrés
 - `img { display:block }` écrasait l'attribut `hidden` : règle globale `[hidden] { display:none !important }` indispensable.
 - Événement `close` de `<dialog>` peu fiable dans certains navigateurs intégrés : le menu mobile fait son nettoyage directement.

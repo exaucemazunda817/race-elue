@@ -1,6 +1,10 @@
 ---
-// Citation plein écran sur fond vert (une seule par page).
+// Citation plein écran sur fond vert (une seule par page), avec une photo en fond sous un voile vert
+// (10/10/2026 : « des images en fond enlèvent la sensation d'espace vide »).
+import Photo from './Photo.astro';
 interface Props {
+  photo?: string; // photo de fond (src/assets/photos)
+  position?: string;
   texte: string;
   source?: string;
   sourceMobile?: string;
@@ -10,10 +14,11 @@ interface Props {
   class?: string;
   trait?: boolean; // trait d'or tracé à la main sous la citation (signature)
 }
-const { texte, source, sourceMobile, note, size = 52, pad = 'sec-2', class: className, trait = false } = Astro.props;
+const { photo = 'studio-nb.jpg', position = '50% 30%', texte, source, sourceMobile, note, size = 52, pad = 'sec-2', class: className, trait = false } = Astro.props;
 const mots = texte.split(' ');
 ---
 <section class:list={['quote-band bg-vert on-vert wrap', pad, className]} style={`--qd:${size}px;--n:${mots.length}`}>
+  <div class="qb-fond" aria-hidden="true"><Photo src={photo} alt="" sizes="100vw" position={position} /></div>
   <span class="big-q" aria-hidden="true">“</span>
   <blockquote><p class="ink"><span class="sr-only">{texte}</span>{mots.map((m, i) => <><span class="w" aria-hidden="true" style={`--i:${i}`}>{m}</span>{i < mots.length - 1 ? ' ' : ''}</>)}</p></blockquote>
   {trait && <svg class="trait" viewBox="0 0 300 18" aria-hidden="true"><path pathLength="1" d="M4 12 C70 4 150 2 296 9 M60 15 C130 11 200 11 250 13" /></svg>}
@@ -29,7 +34,13 @@ const mots = texte.split(' ');
 </section>
 
 <style>
-  .quote-band { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; padding-inline: max(24px, var(--gutter)); }
+  .quote-band { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; padding-inline: max(24px, var(--gutter)); }
+  .qb-fond { position: absolute; inset: 0; z-index: -1; }
+  .qb-fond :global(picture), .qb-fond :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .qb-fond :global(img) { animation: qb-kb 24s ease-in-out infinite alternate; }
+  .qb-fond::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(30, 59, 47, 0.86) 0%, rgba(30, 59, 47, 0.7) 70%, rgba(30, 59, 47, 0.6) 100%); }
+  @keyframes qb-kb { from { transform: scale(1.02); } to { transform: scale(1.1); } }
+  @media (prefers-reduced-motion: reduce) { .qb-fond :global(img) { animation: none; } }
   .big-q { font: 500 72px/0.5 var(--serif); color: var(--or); padding-top: 24px; }
   blockquote { margin: 0; }
   blockquote p { font: italic 500 27px/1.2 var(--serif); color: var(--creme); max-width: 920px; text-wrap: balance; }
