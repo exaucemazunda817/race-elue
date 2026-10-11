@@ -28,7 +28,9 @@ const html = (spans: Span[]) =>
 export const idYoutube = (url: string) =>
   url.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/)?.[1];
 
-const MOIS = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const JOUR = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+// Un extrait du magazine est daté au mois (comme le magazine), un article du blog au jour.
+const MOIS = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 const minutes = (corps: Bloc[], priere?: string) => {
   const txt = corps.map((b) => ('texte' in b ? b.texte : '')).join(' ') + ' ' + (priere ?? '');
@@ -57,8 +59,8 @@ const convertir = (d: DocSanity): Pensee => {
     titreEm: d.titreEm || undefined,
     theme: d.theme,
     duree: minutes(corps, d.priere),
-    date: MOIS.format(new Date(d.date)),
-    dateIso: d.date,
+    date: (typeof d.magazinePage === 'number' ? MOIS : JOUR).format(new Date(d.date)),
+    dateIso: typeof d.magazinePage === 'number' ? d.date.slice(0, 7) : d.date,
     photo: '',
     photoUrl: d.image?.url,
     photoW: d.image?.w,

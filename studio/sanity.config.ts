@@ -8,7 +8,7 @@ import { pensee } from './schemaTypes/pensee';
 export default defineConfig({
   name: 'race-elue',
   title: 'Race Élue · Blog',
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'a-remplacer',
+  projectId: 'ce2f34e7',
   dataset: process.env.SANITY_STUDIO_DATASET || 'production',
   plugins: [
     structureTool({

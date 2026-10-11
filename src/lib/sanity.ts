@@ -21,7 +21,7 @@ export const urlImage = (base: string, w: number, h?: number, fp?: { x: number; 
   return `${base}?${q}`;
 };
 
-export const REQUETE_PENSEES = `*[_type == "pensee" && defined(slug.current)] | order(date desc) {
+export const REQUETE_PENSEES = `*[_type == "pensee" && defined(slug.current)] | order(date desc, _createdAt asc) {
   "slug": slug.current, titre, titreEm, theme, date, resume, corps, priere, alaune, magazinePage, magazineRubrique,
   "image": { "url": image.asset->url, "w": image.asset->metadata.dimensions.width, "h": image.asset->metadata.dimensions.height, "alt": image.alt, "hotspot": image.hotspot }
 }`;
