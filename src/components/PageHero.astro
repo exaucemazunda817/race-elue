@@ -216,28 +216,28 @@ const ETOILES = [
     .ph-fond { display: block; position: absolute; inset: 0; overflow: hidden; }
     .ph-fond :global(img) { filter: blur(38px) saturate(1.15); transform: scale(1.25); object-position: var(--pos); }
     .ph-photo {
-      right: auto; width: min(46%, 640px);
-      -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent 100%); mask-image: linear-gradient(90deg, #000 82%, transparent 100%);
+      left: auto; right: 0; width: min(46%, 640px);
+      -webkit-mask-image: linear-gradient(270deg, #000 82%, transparent 100%); mask-image: linear-gradient(270deg, #000 82%, transparent 100%);
     }
     .ph-photo :global(img) { object-position: var(--pos); animation-name: ph-kb-doux; }
     .ph-scrim {
       background:
         linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 18%),
-        linear-gradient(270deg, rgba(24, 50, 39, 0.94) 0%, rgba(24, 50, 39, 0.88) 38%, rgba(24, 50, 39, 0.5) 54%, rgba(24, 50, 39, 0) 76%);
+        linear-gradient(90deg, rgba(24, 50, 39, 0.94) 0%, rgba(24, 50, 39, 0.88) 38%, rgba(24, 50, 39, 0.5) 54%, rgba(24, 50, 39, 0) 76%);
     }
     .ph-stars span { left: auto; right: var(--x); }
-    .ph-inner { align-items: center; padding-top: 140px; padding-bottom: 96px; }
+    .ph-inner { align-items: center; justify-content: flex-start; padding-top: 140px; padding-bottom: 96px; }
     .ph-accueil .ph-inner { padding-bottom: 120px; }
     .ph-chevauche .ph-inner { padding-bottom: 200px; }
-    .ph-txt { align-items: flex-end; text-align: right; gap: 22px; width: min(460px, 46%); }
-    .ph-txt :global(.crumb), .ph-txt :global(.byline), .ph-txt :global(.btns), .ph-txt :global(.hero-social) { justify-content: flex-end; }
+    .ph-txt { align-items: flex-start; text-align: left; gap: 22px; width: min(460px, 46%); }
+    .ph-txt :global(.crumb), .ph-txt :global(.byline), .ph-txt :global(.btns), .ph-txt :global(.hero-social) { justify-content: flex-start; }
     .ph-txt :global(.btns) { width: auto; }
   }
   @media (min-width: 1100px) {
     .ph-scrim {
       background:
         linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 18%),
-        linear-gradient(270deg, rgba(24, 50, 39, 0.94) 0%, rgba(24, 50, 39, 0.88) 34%, rgba(24, 50, 39, 0.5) 50%, rgba(24, 50, 39, 0) 70%);
+        linear-gradient(90deg, rgba(24, 50, 39, 0.94) 0%, rgba(24, 50, 39, 0.88) 34%, rgba(24, 50, 39, 0.5) 50%, rgba(24, 50, 39, 0) 70%);
     }
     .ph-txt { width: 500px; gap: 24px; }
   }
