@@ -7,5 +7,5 @@ export default defineCliConfig({
   },
   // Adresse de l'espace d'écriture : https://race-elue.sanity.studio
   studioHost: 'race-elue',
-  deployment: { autoUpdates: false },
+  deployment: { autoUpdates: false, appId: 'wiiroqiqk9ds8bdd4veshvoz' },
 });
