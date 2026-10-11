@@ -1,16 +1,16 @@
 ---
-// Bandeau photo des pages, sur le modèle des bandeaux de One Love (demande de Mazunda du 10/10/2026) :
-// la photo couvre tout le bandeau, un simple dégradé vert assombrit le côté du texte, rien d'autre
-// (plus de panneau flou : il cachait les visages).
-// - Ordinateur : photos PAYSAGE (les seules qui remplissent un écran large sans être trop agrandies).
-// - Téléphone : photos PORTRAIT de la page (elles remplissent l'écran à leur taille réelle, donc nettes).
-//   Même principe que One Love (version panoramique pour l'ordinateur, version verticale pour le téléphone).
+// Bandeau photo des pages (demandes de Mazunda des 10 et 11/10/2026, « comme One Love »).
+// - Photos : les 7 portraits de la séance photo (src/data/hero.ts). Ils sont petits (718 à 805 px de large) :
+//   * Ordinateur et tablette (≥ 700 px) : la photo NETTE garde sa taille réelle sur la gauche (jamais agrandie,
+//     le visage reste visible) ; la même photo, légèrement floutée, remplit le reste ; le TEXTE est À DROITE,
+//     sur un dégradé vert qui ne couvre que son côté.
+//   * Téléphone (< 700 px) : la photo remplit l'écran, le visage en haut ; le texte, à droite, est en bas sous un
+//     dégradé léger qui ne commence qu'au-dessus de lui.
 // - Les photos se succèdent en fondu avec un zoom lent ; 1re photo chargée tout de suite, les suivantes après
 //   le chargement de la page, jamais en économie de données. Bouton pause (WCAG 2.2.2).
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Icon from './Icon.astro';
-import { PAYSAGES } from '../data/hero';
 import { urlImage } from '../lib/sanity';
 
 const all = import.meta.glob<{ default: ImageMetadata }>('../assets/photos/*.{jpg,jpeg,png,webp}', { eager: true });
@@ -18,71 +18,62 @@ const all = import.meta.glob<{ default: ImageMetadata }>('../assets/photos/*.{jp
 // `url` : photo venue de Sanity (articles du blog) ; sinon `src` = fichier de src/assets/photos.
 export type HeroPhoto = { src: string; alt: string; pos?: string; posMobile?: string; url?: string; w?: number; h?: number };
 interface Props {
-  photos: HeroPhoto[]; // photos du téléphone (portraits de la page)
-  paysages?: HeroPhoto[]; // photos de l'ordinateur (paysage) ; par défaut les photos paysage du site
+  photos: HeroPhoto[];
   size?: 'accueil' | 'page';
-  align?: 'gauche' | 'centre';
+  align?: 'gauche' | 'centre'; // conservé pour les pages existantes : le texte est désormais toujours à droite
   id?: string;
   chevauchement?: boolean; // le contenu suivant remonte sur le bas du bandeau (cartes de Contact)
-  cote?: 'gauche' | 'droite'; // côté du texte sur ordinateur (droite : les visages sont à gauche des photos)
 }
-const { photos, paysages, size = 'page', align = 'gauche', id, chevauchement = false, cote = 'droite' } = Astro.props;
+const { photos, size = 'page', align = 'gauche', id, chevauchement = false } = Astro.props;
 const img = (src: string) => {
   const m = all[`../assets/photos/${src}`];
   if (!m) throw new Error(`Photo introuvable : ${src}`);
   return m.default;
 };
-const widths = (src: string) => {
-  const w = img(src).width;
-  return [480, 800, 1200, 1600].filter((x) => x < w).concat(w);
-};
-const srcset = async (src: string, p?: HeroPhoto) => {
-  if (p?.url) {
-    const ws = [480, 800, 1200, 1600].filter((w) => !p.w || w < p.w).concat(p.w && p.w < 1600 ? [p.w] : []);
-    return { set: ws.map((w) => `${urlImage(p.url!, w)} ${w}w`).join(', '), src: urlImage(p.url, 1200) };
+const largeurs = (w: number) => [480, 800, 1200].filter((x) => x < w).concat(w);
+const net = async (p: HeroPhoto) => {
+  if (p.url) {
+    const ws = largeurs(p.w ?? 1200);
+    return { set: ws.map((w) => `${urlImage(p.url!, w)} ${w}w`).join(', '), src: urlImage(p.url, 1200), w: p.w, h: p.h, fond: urlImage(p.url, 480) };
   }
-  const ws = widths(src);
-  const out = await Promise.all(ws.map((w) => getImage({ src: img(src), width: w, format: 'webp', quality: 74 })));
-  return { set: out.map((r, i) => `${r.src} ${ws[i]}w`).join(', '), src: out[out.length - 1].src };
+  const m = img(p.src);
+  const ws = largeurs(m.width);
+  const out = await Promise.all(ws.map((w) => getImage({ src: m, width: w, format: 'webp', quality: 86 })));
+  const petit = await getImage({ src: m, width: 480, format: 'webp', quality: 60 });
+  return { set: out.map((r, i) => `${r.src} ${ws[i]}w`).join(', '), src: out[out.length - 1].src, w: m.width, h: m.height, fond: petit.src };
 };
-// Les pages ne commencent pas toutes par la même photo d'ordinateur.
-const decalage = Astro.url.pathname.length % 2;
-const desk = paysages ?? [...PAYSAGES.slice(decalage), ...PAYSAGES.slice(0, decalage)];
-const n = Math.max(photos.length, desk.length);
-const slides = await Promise.all(Array.from({ length: n }, async (_, i) => {
-  const m = photos[i % photos.length];
-  const d = desk[i % desk.length];
-  const [ms, ds] = await Promise.all([srcset(m.src, m), srcset(d.src, d)]);
-  return {
-    mob: ms, desk: ds, w: m.url ? m.w : img(m.src).width, h: m.url ? m.h : img(m.src).height,
-    style: `--pos-m:${m.posMobile ?? m.pos ?? 'center'};--pos:${d.pos ?? 'center'}`,
-  };
-}));
+const slides = await Promise.all(photos.map(async (p) => ({ ...(await net(p)), style: `--pos:${p.pos ?? '50% 20%'};--pos-m:${p.posMobile ?? '50% 50%'}` })));
 const [premiere, ...suivantes] = slides;
-const alts = [...new Set([...photos, ...desk].map((p) => p.alt))];
+const n = slides.length;
+const alts = [...new Set(photos.map((p) => p.alt))];
+// Pixel transparent : sur téléphone le fond flou n'existe pas et ne télécharge rien.
+const VIDE = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+const SIZES = '(min-width: 700px) min(46vw, 640px), 100vw';
 // Étoiles ✦ qui scintillent dans le bandeau (positions fixes : même rendu à chaque visite).
 const ETOILES = [
   { x: 62, y: 18, t: 14, d: 0 }, { x: 78, y: 30, t: 10, d: 1.2 }, { x: 90, y: 14, t: 18, d: 2.1 },
   { x: 70, y: 62, t: 11, d: 0.6 }, { x: 86, y: 74, t: 15, d: 2.8 }, { x: 54, y: 82, t: 9, d: 1.7 }, { x: 95, y: 48, t: 12, d: 3.4 },
 ];
 ---
-<section class:list={['page-hero on-vert', `ph-${size}`, `ph-${align}`, `ph-cote-${cote}`, { 'ph-chevauche': chevauchement }]} id={id} data-hero-photos={n}>
+<section class:list={['page-hero on-vert', `ph-${size}`, `ph-${align}`, { 'ph-chevauche': chevauchement }]} id={id} data-hero-photos={n}>
   <div class="ph-slides" aria-hidden="true">
-    <div class="ph-slide is-on"><div class="ph-photo">
-      <picture>
-        <source media="(min-width: 960px)" srcset={premiere.desk.set} sizes="100vw" type="image/webp" />
-        <img src={premiere.mob.src} srcset={premiere.mob.set} sizes="100vw" alt="" width={premiere.w} height={premiere.h}
-          loading="eager" fetchpriority="high" decoding="async" style={premiere.style} />
-      </picture>
-    </div></div>
+    <div class="ph-slide is-on">
+      <div class="ph-fond"><picture>
+        <source media="(min-width: 700px)" srcset={premiere.fond} type="image/webp" />
+        <img src={VIDE} alt="" width="480" height="720" style={premiere.style} />
+      </picture></div>
+      <div class="ph-photo"><img src={premiere.src} srcset={premiere.set} sizes={SIZES} alt="" width={premiere.w} height={premiere.h}
+        loading="eager" fetchpriority="high" decoding="async" style={premiere.style} /></div>
+    </div>
     {suivantes.map((sl) => (
       <template data-slide>
-        <div class="ph-slide"><div class="ph-photo">
-          <picture>
-            <source media="(min-width: 960px)" srcset={sl.desk.set} sizes="100vw" type="image/webp" />
-            <img src={sl.mob.src} srcset={sl.mob.set} sizes="100vw" alt="" width={sl.w} height={sl.h} loading="lazy" decoding="async" style={sl.style} />
-          </picture>
-        </div></div>
+        <div class="ph-slide">
+          <div class="ph-fond"><picture>
+            <source media="(min-width: 700px)" srcset={sl.fond} type="image/webp" />
+            <img src={VIDE} alt="" width="480" height="720" style={sl.style} />
+          </picture></div>
+          <div class="ph-photo"><img src={sl.src} srcset={sl.set} sizes={SIZES} alt="" width={sl.w} height={sl.h} loading="lazy" decoding="async" style={sl.style} /></div>
+        </div>
       </template>
     ))}
   </div>
@@ -131,7 +122,7 @@ const ETOILES = [
     const tick = () => {
       if (paused || !visible || document.hidden) return;
       const n = next();
-      const img = slides[n].querySelector('img');
+      const img = slides[n].querySelector<HTMLImageElement>('.ph-photo img');
       const go = () => {
         slides[current].classList.remove('is-on');
         slides[n].classList.add('is-on');
@@ -165,11 +156,13 @@ const ETOILES = [
 
 <style>
   .page-hero { position: relative; isolation: isolate; overflow: hidden; background: var(--vert); color: var(--texte-vert); display: flex; }
-  .ph-accueil { min-height: min(100vh, 880px); min-height: min(100svh, 880px); }
-  .ph-page { min-height: min(80vh, 640px); min-height: min(80svh, 640px); }
+  .ph-accueil { min-height: min(88vh, 740px); min-height: min(88svh, 740px); }
+  @media (min-width: 700px) { .ph-accueil { min-height: min(100vh, 880px); min-height: min(100svh, 880px); } }
+  .ph-page { min-height: min(84vh, 720px); min-height: min(84svh, 720px); }
   .ph-slides { position: absolute; inset: 0; z-index: -2; }
   .ph-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1400ms ease-in-out; }
   .ph-slide.is-on { opacity: 1; }
+  .ph-fond { display: none; }
   .ph-photo { position: absolute; inset: 0; overflow: hidden; }
   .ph-slide :global(picture), .ph-slide :global(img) { display: block; width: 100%; height: 100%; }
   .ph-slide :global(img) { object-fit: cover; }
@@ -177,33 +170,17 @@ const ETOILES = [
     object-position: var(--pos-m);
     animation: ph-kb 20s ease-in-out infinite alternate; will-change: transform;
   }
-  @media (min-width: 960px) { .ph-photo :global(img) { object-position: var(--pos); animation-name: ph-kb-doux; } }
   .is-paused .ph-photo :global(img) { animation-play-state: paused; }
-  @keyframes ph-kb { from { transform: scale(1.02); } to { transform: scale(1.1) translate3d(-1%, -1%, 0); } }
-  @keyframes ph-kb-doux { from { transform: scale(1); } to { transform: scale(1.06) translate3d(-1%, -0.5%, 0); } }
+  @keyframes ph-kb { from { transform: scale(1); } to { transform: scale(1.03) translate3d(-0.3%, -0.4%, 0); } }
+  @keyframes ph-kb-doux { from { transform: scale(1); } to { transform: scale(1.025) translate3d(-0.3%, -0.2%, 0); } }
 
-  /* Dégradé, comme les bandeaux de One Love : léger en haut (sous l'en-tête), dense seulement du côté du
-     texte ; aucun flou, la photo reste nette et les visages visibles. */
+  /* Téléphone : la photo remplit l'écran. Dégradé léger : seulement un voile en haut (sous l'en-tête) et un fondu
+     qui ne démarre qu'au-dessus du texte ; le visage, en haut, reste net (demande de Mazunda, 11/10/2026). */
   .ph-scrim {
     position: absolute; inset: 0; z-index: -1;
     background:
       linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 16%),
-      linear-gradient(180deg, rgba(30, 59, 47, 0) 34%, rgba(30, 59, 47, 0.55) 48%, rgba(30, 59, 47, 0.9) 62%, rgba(30, 59, 47, 0.94) 100%);
-  }
-  @media (min-width: 960px) {
-    .ph-scrim {
-      background:
-        linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 18%),
-        linear-gradient(90deg, rgba(30, 59, 47, 0.94) 0%, rgba(30, 59, 47, 0.9) 42%, rgba(30, 59, 47, 0.4) 58%, rgba(30, 59, 47, 0) 76%);
-    }
-    .ph-cote-droite .ph-scrim {
-      background:
-        linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 18%),
-        linear-gradient(270deg, rgba(30, 59, 47, 0.94) 0%, rgba(30, 59, 47, 0.9) 42%, rgba(30, 59, 47, 0.4) 58%, rgba(30, 59, 47, 0) 76%);
-    }
-    .ph-cote-droite .ph-inner { justify-content: flex-end; }
-    .ph-cote-droite .ph-txt { max-width: 460px; }
-    .ph-cote-droite .ph-stars span { left: auto; right: var(--x); }
+      linear-gradient(180deg, rgba(30, 59, 47, 0) 55%, rgba(30, 59, 47, 0.22) 72%, rgba(30, 59, 47, 0.42) 100%);
   }
 
   /* Étoiles ✦ */
@@ -218,34 +195,63 @@ const ETOILES = [
     45% { opacity: 0.95; transform: scale(1) rotate(45deg); }
     70% { opacity: 0.4; transform: scale(0.8) rotate(70deg); }
   }
-  @media (max-width: 959.98px) { .ph-stars span:nth-child(n + 5) { display: none; } .ph-stars span { top: calc(var(--y) * 0.5); } }
+  @media (max-width: 699.98px) { .ph-stars span:nth-child(n + 5) { display: none; } .ph-stars span { top: calc(var(--y) * 0.5); } }
 
-  .ph-inner { position: relative; width: 100%; display: flex; align-items: flex-end; padding-top: 140px; padding-bottom: 48px; }
-  .ph-txt { position: relative; display: flex; flex-direction: column; gap: 18px; max-width: 640px; }
+  /* Texte : toujours à droite (demande de Mazunda). Sur téléphone, bloc en bas, texte aligné à droite. */
+  .ph-inner { position: relative; width: 100%; display: flex; align-items: flex-end; justify-content: flex-end; padding-top: 140px; padding-bottom: 40px; }
+  .ph-txt { position: relative; display: flex; flex-direction: column; align-items: flex-end; text-align: right; gap: 14px; width: 100%; }
   .ph-txt :global(.lead) { color: var(--texte-vert); max-width: 32em; }
   /* Sur photo, l'or de la maquette (#C9A24B) manque de contraste : or clair, plus une ombre douce. */
   .ph-txt :global(.kicker.or), .ph-txt :global(.crumb a), .ph-txt :global(.signature) { color: var(--or-couv); }
+  /* Petite pastille sombre derrière la ligne dorée du haut : elle porte seule son contraste, sans foncer la photo. */
+  .ph-txt :global(.kicker.or) { display: inline-block; padding: 5px 12px; border-radius: 999px; background: rgba(24, 50, 39, 0.9); }
   .ph-txt :global(.kicker), .ph-txt :global(.crumb), .ph-txt :global(.lead), .ph-txt :global(.byline) { text-shadow: 0 1px 12px rgba(20, 40, 32, 0.6); }
-  .ph-txt :global(.crumb) { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font: 600 13px var(--sans); color: var(--discret-vert); }
+  .ph-txt :global(.crumb) { display: flex; gap: 10px; align-items: center; justify-content: flex-end; flex-wrap: wrap; font: 600 13px var(--sans); color: var(--discret-vert); }
   .ph-txt :global(.crumb .back) { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; font-size: 12px; padding: 0 16px; border-radius: 999px; background: rgba(30, 59, 47, 0.92); box-shadow: inset 0 0 0 1px rgba(226, 194, 122, 0.45); }
   .ph-txt :global(h1) { text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3); }
-  /* Téléphone : le dégradé (sans flou) démarre juste au-dessus du texte, quelle que soit sa hauteur ;
-     le visage, au-dessus, reste net. */
-  @media (max-width: 959.98px) {
-    .ph-txt { position: relative; }
-    .ph-txt::before {
-      content: ''; position: absolute; z-index: -1; pointer-events: none;
-      left: calc(50% - 50vw); right: calc(50% - 50vw); top: -90px; bottom: -200px;
-      background: linear-gradient(180deg, rgba(30, 59, 47, 0) 0, rgba(30, 59, 47, 0.82) 90px, rgba(30, 59, 47, 0.9) 100%);
-    }
-    .ph-centre .ph-inner { justify-content: center; text-align: center; }
-    .ph-centre .ph-txt { align-items: center; margin-inline: auto; }
+  .ph-txt :global(.byline), .ph-txt :global(.btns), .ph-txt :global(.hero-social) { justify-content: flex-end; }
+  .ph-txt :global(.btns) { width: 100%; }
+  /* Nuage sombre et flou posé seulement derrière les lignes de texte (comme One Love et Gospel Nation, on voit la
+     photo à travers le dégradé : demande de Mazunda, 11/10/2026). Il porte le contraste du texte ; le reste du
+     bandeau n'est que très légèrement voilé. */
+  .ph-txt::before {
+    content: ''; position: absolute; z-index: -1; pointer-events: none; border-radius: 44px;
+    inset: -104px -28px -26px -28px; background: rgba(24, 50, 39, 0.66); filter: blur(24px);
   }
-  @media (min-width: 960px) {
+  .ph-accueil .ph-txt::before { background: rgba(24, 50, 39, 0.72); top: -118px; }
+
+  /* Ordinateur et tablette : photo nette à gauche (taille réelle, jamais agrandie), la même photo floutée en
+     fond (flou léger), texte à droite sur un dégradé qui ne couvre que son côté. */
+  @media (min-width: 700px) {
+    .ph-fond { display: block; position: absolute; inset: 0; overflow: hidden; }
+    .ph-fond :global(img) { filter: blur(38px) saturate(1.15); transform: scale(1.25); object-position: var(--pos); }
+    .ph-photo {
+      right: auto; width: min(46%, 640px);
+      -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent 100%); mask-image: linear-gradient(90deg, #000 82%, transparent 100%);
+    }
+    .ph-photo :global(img) { object-position: var(--pos); animation-name: ph-kb-doux; }
+    .ph-scrim {
+      background:
+        linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 18%),
+        linear-gradient(270deg, rgba(30, 59, 47, 0.34) 0%, rgba(30, 59, 47, 0.28) 40%, rgba(30, 59, 47, 0.1) 56%, rgba(30, 59, 47, 0) 70%);
+    }
+    .ph-stars span { left: auto; right: var(--x); }
+    .ph-txt::before { inset: -96px -64px -44px -60px; border-radius: 60px; filter: blur(36px); background: rgba(24, 50, 39, 0.72); }
+    .ph-accueil .ph-txt::before { background: rgba(24, 50, 39, 0.74); }
     .ph-inner { align-items: center; padding-top: 140px; padding-bottom: 96px; }
     .ph-accueil .ph-inner { padding-bottom: 120px; }
     .ph-chevauche .ph-inner { padding-bottom: 200px; }
-    .ph-txt { gap: 24px; max-width: 580px; }
+    .ph-txt { align-items: flex-start; text-align: left; gap: 22px; width: min(460px, 46%); }
+    .ph-txt :global(.crumb), .ph-txt :global(.byline), .ph-txt :global(.btns), .ph-txt :global(.hero-social) { justify-content: flex-start; }
+    .ph-txt :global(.btns) { width: auto; }
+  }
+  @media (min-width: 1100px) {
+    .ph-scrim {
+      background:
+        linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 18%),
+        linear-gradient(270deg, rgba(30, 59, 47, 0.34) 0%, rgba(30, 59, 47, 0.28) 36%, rgba(30, 59, 47, 0.1) 52%, rgba(30, 59, 47, 0) 66%);
+    }
+    .ph-txt { width: 500px; gap: 24px; }
   }
 
   /* Parallaxe au défilement (navigateurs récents ; ailleurs, la photo reste simplement fixe) */

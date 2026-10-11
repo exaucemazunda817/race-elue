@@ -116,6 +116,20 @@ Rapport : `~/Documents/Mazunda/08-Divers/Race-Elue-Disanka/audit-design-2026-10-
 - À propos, « Trois fils » : cartes à photo en arche (numéro, titre, texte), remplaçant les colonnes + rangée de
   photos ; rangée qui glisse sur téléphone, sans animation d'apparition (saccades, cf. One Love).
 
+## 5e passe (11/10/2026) : bandeaux de page, règle à ne pas défaire
+- **Une seule photo par page**, jamais de défilement : uniquement les 7 portraits de la séance « Ange Photo du Ciel »
+  (`src/data/hero.ts`, `HERO` page par page, `photoPensee()` pour les articles du blog). Plus la page a de texte,
+  plus le visage doit être haut dans la photo (vérifié sur téléphone, où le texte occupe le bas).
+- **Texte toujours à droite** (téléphone : bloc en bas, aligné à droite ; ordinateur : colonne de droite).
+- **Photo jamais agrandie** : portrait net à sa taille réelle à gauche sur ordinateur, même photo floutée (38 px) en
+  fond ; sur téléphone elle remplit l'écran (sources de 718 à 805 px : à remplacer par les originaux HD).
+- **Dégradé léger** : pas de gros dégradé sombre. Voile latéral à 34 % maximum et « nuage » vert flou (56 à 74 %)
+  seulement derrière les lignes de texte, pour qu'on voie la photo à travers (comme One Love / Gospel Nation).
+  La petite ligne dorée du haut (`.kicker.or`) a sa propre pastille sombre : c'est elle qui porte son contraste.
+- Même principe pour les bandes à photo de fond (citation, inscription, réseaux, trois portes, Mon église) : voile
+  épaissi pour la lisibilité du texte, photo visible autour.
+- Contraste remesuré le 11/10 : zéro échec à 390 et 1440 px sur les pages de bandeau.
+
 ## Pièges rencontrés
 - `img { display:block }` écrasait l'attribut `hidden` : règle globale `[hidden] { display:none !important }` indispensable.
 - Événement `close` de `<dialog>` peu fiable dans certains navigateurs intégrés : le menu mobile fait son nettoyage directement.

@@ -30,7 +30,7 @@ const jsonLd = {
 ---
 <Base title={SITE.nom} footer="full" jsonLd={jsonLd}>
   <!-- Héros : photo pleine largeur, les photos se succèdent (PageHero) -->
-  <PageHero size="accueil" photos={heroPhotos} paysages={heroPhotos}>
+  <PageHero size="accueil" photos={heroPhotos}>
     <span class="kicker or"><span class="only-desktop">Foi · Créativité · Guérison intérieure</span><span class="only-mobile">Foi · Créativité · Guérison</span></span>
     <h1 class="h1 home-h1">Ton cœur peut guérir. <em>Dieu n'a pas fini avec toi.</em></h1>
     <p class="lead only-desktop">Je suis Race Élue. J'écris pour celles qui portent des blessures en silence, et je partage ce que Dieu fait dans les cœurs brisés, pour que tu avances à ton rythme vers la guérison.</p>
@@ -207,7 +207,7 @@ const jsonLd = {
   /* Héros (texte posé sur la photo) */
   .home-h1 { --h1-m: 34px; line-height: 1.02; max-width: 640px; }
   /* Téléphone : bloc de texte plus compact pour laisser voir le visage (10/10/2026) */
-  @media (max-width: 959.98px) {
+  @media (max-width: 699.98px) {
     .home-h1 { line-height: 0.98; }
     :global(.ph-accueil .ph-txt) { gap: 10px !important; }
     :global(.ph-accueil .lead) { line-height: 1.45 !important; }
@@ -216,7 +216,7 @@ const jsonLd = {
   }
   .btns { display: flex; flex-direction: column; gap: 12px; }
   .btns .btn { min-height: 52px; }
-  .signature { font: italic 500 22px var(--serif); color: var(--or); margin-top: 8px; display: inline-block; align-self: flex-start; }
+  .signature { font: italic 500 22px var(--serif); color: var(--or); margin-top: 8px; display: inline-block; }
   .ministere-photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 999px 999px 6px 6px; }
   @media (min-width: 960px) {
     .btns { flex-direction: row; gap: 16px; }
@@ -248,7 +248,7 @@ const jsonLd = {
   .porte-fond { position: absolute; inset: 0; z-index: -1; }
   .porte-fond :global(picture), .porte-fond :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease-out; }
   .porte:hover .porte-fond :global(img) { transform: scale(1.06); }
-  .porte-fond::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(30, 59, 47, 0.9) 0%, rgba(30, 59, 47, 0.78) 60%, rgba(30, 59, 47, 0.6) 100%); }
+  .porte-fond::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(30, 59, 47, 0.94) 0%, rgba(30, 59, 47, 0.88) 60%, rgba(30, 59, 47, 0.8) 100%); }
   .porte-icon { width: 52px; height: 52px; flex: none; border-radius: 999px; background: rgba(251, 247, 241, 0.14); box-shadow: inset 0 0 0 1px rgba(226, 194, 122, 0.4); display: flex; align-items: center; justify-content: center; color: var(--or-couv); font: italic 500 20px/1 var(--serif); }
   .porte-body { display: flex; flex-direction: column; gap: 2px; }
   .porte-titre { font: 500 22px/1 var(--serif); color: var(--creme); }
@@ -264,7 +264,7 @@ const jsonLd = {
     .portes-grid { gap: 40px; }
     .porte-icon { width: auto; height: auto; background: none; box-shadow: none; font-size: 40px; }
     .porte-icon::after { content: ''; display: block; width: 40px; height: 1px; margin: 14px auto 0; background: var(--or-couv); }
-    .porte-fond::after { background: linear-gradient(180deg, rgba(30, 59, 47, 0.35) 0%, rgba(30, 59, 47, 0.78) 42%, rgba(30, 59, 47, 0.93) 100%); }
+    .porte-fond::after { background: linear-gradient(180deg, rgba(30, 59, 47, 0.62) 0%, rgba(30, 59, 47, 0.88) 42%, rgba(30, 59, 47, 0.95) 100%); }
     .porte-body { align-items: center; gap: 16px; }
     .porte-titre { font-size: 34px; }
     .porte-texte { font-size: 14px; line-height: 1.6; }
@@ -328,7 +328,7 @@ const jsonLd = {
   .reseaux { margin-top: 56px; position: relative; isolation: isolate; overflow: hidden; background: var(--vert); padding-block: 64px; display: flex; flex-direction: column; gap: 28px; }
   .reseaux-fond { position: absolute; inset: 0; z-index: -1; }
   .reseaux-fond :global(picture), .reseaux-fond :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .reseaux-fond::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(30, 59, 47, 0.72) 0%, rgba(30, 59, 47, 0.5) 50%, rgba(30, 59, 47, 0.78) 100%); }
+  .reseaux-fond::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(30, 59, 47, 0.88) 0%, rgba(30, 59, 47, 0.8) 50%, rgba(30, 59, 47, 0.9) 100%); }
   .reseaux-head h2 { color: var(--creme); text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35); }
   .reseaux-head .kicker.or { color: var(--or-couv); }
   .reseaux-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
