@@ -174,13 +174,13 @@ const ETOILES = [
   @keyframes ph-kb { from { transform: scale(1); } to { transform: scale(1.03) translate3d(-0.3%, -0.4%, 0); } }
   @keyframes ph-kb-doux { from { transform: scale(1); } to { transform: scale(1.025) translate3d(-0.3%, -0.2%, 0); } }
 
-  /* Téléphone : la photo remplit l'écran. Dégradé léger : seulement un voile en haut (sous l'en-tête) et un fondu
-     qui ne démarre qu'au-dessus du texte ; le visage, en haut, reste net (demande de Mazunda, 11/10/2026). */
+  /* Téléphone : la photo remplit l'écran, le visage est à gauche. Le dégradé n'est que du côté du texte (à droite)
+     et en bas : la photo reste visible à travers, et rien ne recouvre le visage (demande de Mazunda, 11/10/2026). */
   .ph-scrim {
     position: absolute; inset: 0; z-index: -1;
     background:
       linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 16%),
-      linear-gradient(180deg, rgba(30, 59, 47, 0) 55%, rgba(30, 59, 47, 0.22) 72%, rgba(30, 59, 47, 0.42) 100%);
+      linear-gradient(0deg, rgba(24, 50, 39, 0.94) 0%, rgba(24, 50, 39, 0.9) 32%, rgba(24, 50, 39, 0.76) 50%, rgba(24, 50, 39, 0.42) 63%, rgba(24, 50, 39, 0) 77%);
   }
 
   /* Étoiles ✦ */
@@ -199,27 +199,17 @@ const ETOILES = [
 
   /* Texte : toujours à droite (demande de Mazunda). Sur téléphone, bloc en bas, texte aligné à droite. */
   .ph-inner { position: relative; width: 100%; display: flex; align-items: flex-end; justify-content: flex-end; padding-top: 140px; padding-bottom: 40px; }
-  .ph-txt { position: relative; display: flex; flex-direction: column; align-items: flex-end; text-align: right; gap: 14px; width: 100%; }
+  .ph-txt { position: relative; display: flex; flex-direction: column; align-items: flex-end; text-align: right; gap: 14px; width: min(100%, 320px); }
   .ph-txt :global(.lead) { color: var(--texte-vert); max-width: 32em; }
   /* Sur photo, l'or de la maquette (#C9A24B) manque de contraste : or clair, plus une ombre douce. */
   .ph-txt :global(.kicker.or), .ph-txt :global(.crumb a), .ph-txt :global(.signature) { color: var(--or-couv); }
-  /* Petite pastille sombre derrière la ligne dorée du haut : elle porte seule son contraste, sans foncer la photo. */
-  .ph-txt :global(.kicker.or) { display: inline-block; padding: 5px 12px; border-radius: 999px; background: rgba(24, 50, 39, 0.9); }
+  @media (max-width: 699.98px) { .ph-txt :global(.kicker.or) { color: #FBF0CC; } }
   .ph-txt :global(.kicker), .ph-txt :global(.crumb), .ph-txt :global(.lead), .ph-txt :global(.byline) { text-shadow: 0 1px 12px rgba(20, 40, 32, 0.6); }
   .ph-txt :global(.crumb) { display: flex; gap: 10px; align-items: center; justify-content: flex-end; flex-wrap: wrap; font: 600 13px var(--sans); color: var(--discret-vert); }
   .ph-txt :global(.crumb .back) { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; font-size: 12px; padding: 0 16px; border-radius: 999px; background: rgba(30, 59, 47, 0.92); box-shadow: inset 0 0 0 1px rgba(226, 194, 122, 0.45); }
   .ph-txt :global(h1) { text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3); }
   .ph-txt :global(.byline), .ph-txt :global(.btns), .ph-txt :global(.hero-social) { justify-content: flex-end; }
   .ph-txt :global(.btns) { width: 100%; }
-  /* Nuage sombre et flou posé seulement derrière les lignes de texte (comme One Love et Gospel Nation, on voit la
-     photo à travers le dégradé : demande de Mazunda, 11/10/2026). Il porte le contraste du texte ; le reste du
-     bandeau n'est que très légèrement voilé. */
-  .ph-txt::before {
-    content: ''; position: absolute; z-index: -1; pointer-events: none; border-radius: 44px;
-    inset: -104px -28px -26px -28px; background: rgba(24, 50, 39, 0.66); filter: blur(24px);
-  }
-  .ph-accueil .ph-txt::before { background: rgba(24, 50, 39, 0.72); top: -118px; }
-
   /* Ordinateur et tablette : photo nette à gauche (taille réelle, jamais agrandie), la même photo floutée en
      fond (flou léger), texte à droite sur un dégradé qui ne couvre que son côté. */
   @media (min-width: 700px) {
@@ -233,11 +223,9 @@ const ETOILES = [
     .ph-scrim {
       background:
         linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 18%),
-        linear-gradient(270deg, rgba(30, 59, 47, 0.34) 0%, rgba(30, 59, 47, 0.28) 40%, rgba(30, 59, 47, 0.1) 56%, rgba(30, 59, 47, 0) 70%);
+        linear-gradient(270deg, rgba(24, 50, 39, 0.94) 0%, rgba(24, 50, 39, 0.88) 38%, rgba(24, 50, 39, 0.5) 54%, rgba(24, 50, 39, 0) 76%);
     }
     .ph-stars span { left: auto; right: var(--x); }
-    .ph-txt::before { inset: -96px -64px -44px -60px; border-radius: 60px; filter: blur(36px); background: rgba(24, 50, 39, 0.72); }
-    .ph-accueil .ph-txt::before { background: rgba(24, 50, 39, 0.74); }
     .ph-inner { align-items: center; padding-top: 140px; padding-bottom: 96px; }
     .ph-accueil .ph-inner { padding-bottom: 120px; }
     .ph-chevauche .ph-inner { padding-bottom: 200px; }
@@ -249,7 +237,7 @@ const ETOILES = [
     .ph-scrim {
       background:
         linear-gradient(180deg, rgba(20, 40, 32, 0.4) 0%, rgba(20, 40, 32, 0) 18%),
-        linear-gradient(270deg, rgba(30, 59, 47, 0.34) 0%, rgba(30, 59, 47, 0.28) 36%, rgba(30, 59, 47, 0.1) 52%, rgba(30, 59, 47, 0) 66%);
+        linear-gradient(270deg, rgba(24, 50, 39, 0.94) 0%, rgba(24, 50, 39, 0.88) 34%, rgba(24, 50, 39, 0.5) 50%, rgba(24, 50, 39, 0) 70%);
     }
     .ph-txt { width: 500px; gap: 24px; }
   }
